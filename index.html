@@ -15,11 +15,6 @@ body{
   position:relative;
 }
 
-/* ---------- TOP COLORS ---------- */
-.top1{color:#FFD700; text-shadow:0 0 5px #FFD700,0 0 10px #FFD700,0 0 15px #FFD700;}
-.top2{color:#C0C0C0;}
-.top3{color:#CD7F32;}
-
 /* ---------- MENU ---------- */
 .menu{
   position:fixed;
@@ -115,6 +110,16 @@ body{
   text-align:center;
   font-size:64px;
   margin-top:60px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+
+.title span{
+  display:inline-block;
+  transform:translateY(-100px);
+  opacity:0;
+  animation:slideDown 1s forwards;
 }
 
 .subtitle{
@@ -189,15 +194,19 @@ a{color:#00ffcc;text-decoration:none;}
   100%{opacity:0;transform:translateY(-20px);}
 }
 
-/* ---------- MINI REPRODUCTOR CUADRADO ---------- */
+@keyframes slideDown{
+  to{transform:translateY(0); opacity:1;}
+}
+
+/* ---------- MINI REPRODUCTOR HORIZONTAL ---------- */
 #miniPlayer{
   position:fixed;
   bottom:20px;
   right:20px;
   background:#111;
   border:4px solid white;
-  width:220px;
-  height:220px;
+  width:300px;
+  height:120px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -216,7 +225,7 @@ a{color:#00ffcc;text-decoration:none;}
 
 #miniPlayer .buttonsRow{
   display:flex;
-  flex-direction:row;
+  flex-direction:row; /* Horizontal */
   align-items:center;
   justify-content:center;
   gap:10px;
@@ -231,7 +240,7 @@ a{color:#00ffcc;text-decoration:none;}
   font-size:18px;
   cursor:pointer;
   padding:10px 14px;
-  width:70%;
+  width:80px;
   transition:0.2s;
 }
 
@@ -244,7 +253,7 @@ a{color:#00ffcc;text-decoration:none;}
 #warnMsg{
   position:fixed;
   bottom:20px;
-  left:260px;
+  left:340px;
   font-size:14px;
   color:#ff4444;
   width:300px;
@@ -263,7 +272,8 @@ a{color:#00ffcc;text-decoration:none;}
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
-<div class="title">PAPU SPEEDRUNS</div>
+<!-- TÍTULO ANIMADO -->
+<div class="title" id="mainTitle"></div>
 <div class="subtitle">Clasificación</div>
 
 <!-- BOTÓN CATEGORÍAS -->
@@ -322,23 +332,30 @@ frameborder="0" allow="autoplay" allowfullscreen></iframe>
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
-
 const lvl11=document.getElementById("lvl11");
 const any=document.getElementById("any");
 const warpless=document.getElementById("warpless");
-
 const importPanel=document.getElementById("importPanel");
 const rulesPanel=document.getElementById("rulesPanel");
-
 const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
 const currentSong=document.getElementById("currentSong");
+const mainTitle=document.getElementById("mainTitle");
 
 let ytPlayer;
 let musicOn=true;
 let stopActive=false;
 let playlistIndex=0;
 let playlistIds=['jwJ2vhjyAE0','4yV_gv299VM','2yVop7pZh-w','rWVJQH3VY-A','_L6HjwwcyCs'];
+
+// ---------- Animación Título ----------
+const titleText="PAPU SPEEDRUNS";
+titleText.split("").forEach((l,i)=>{
+  const span=document.createElement("span");
+  span.innerText=l;
+  span.style.animationDelay=(i*0.1)+"s";
+  mainTitle.appendChild(span);
+});
 
 function hideAll(){
   [lvl11,any,warpless].forEach(t=>t.style.display="none");
