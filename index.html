@@ -1,198 +1,212 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>PAPU Speedruns</title>
+<meta charset="UTF-8">
+<title>PAPU Speedruns</title>
 
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: monospace;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+@font-face {
+  font-family: "Snowbell";
+  src: url("fonts/snowbell.ttf") format("truetype");
+}
 
-    /* Menú hamburguesa */
-    .menu {
-      position: fixed;
-      top: 20px;
-      right: 30px;
-      font-size: 48px;
-      cursor: pointer;
-      user-select: none;
-    }
+body {
+  background-color: black;
+  color: white;
+  margin: 0;
+  font-family: Snowbell, monospace;
+}
 
-    .menu-panel {
-      display: none;
-      position: fixed;
-      top: 90px;
-      right: 30px;
-      background-color: #111;
-      border: 4px solid #fff;
-      padding: 20px;
-      width: 320px;
-    }
+/* ☰ menú */
+.menu {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  font-size: 48px;
+  cursor: pointer;
+}
 
-    .menu-panel button {
-      width: 100%;
-      margin-bottom: 15px;
-      padding: 12px;
-      font-size: 20px;
-      background-color: #000;
-      color: #fff;
-      border: 3px solid #fff;
-      cursor: pointer;
-    }
+.menu-panel {
+  display: none;
+  position: fixed;
+  top: 90px;
+  right: 30px;
+  background: #111;
+  border: 4px solid white;
+  padding: 20px;
+  width: 320px;
+}
 
-    /* Título */
-    .title {
-      text-align: center;
-      font-size: 80px;
-      margin-top: 60px;
-      letter-spacing: 12px;
-      font-weight: bold;
-    }
+.menu-panel button {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px;
+  font-size: 22px;
+  background: black;
+  color: white;
+  border: 3px solid white;
+  cursor: pointer;
+}
 
-    .subtitle {
-      margin-left: 40px;
-      margin-top: 40px;
-      font-size: 34px;
-    }
+/* panel categorías */
+.category-panel {
+  display: none;
+  position: fixed;
+  top: 90px;
+  right: 380px;
+  background: #111;
+  border: 4px solid white;
+  padding: 20px;
+  width: 260px;
+}
 
-    /* Categorías panel */
-    .category-panel {
-      display: none;
-      position: fixed;
-      top: 90px;
-      right: 380px;
-      background-color: #111;
-      border: 4px solid #fff;
-      padding: 20px;
-      width: 260px;
-    }
+.category-panel button {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px;
+  font-size: 22px;
+  background: black;
+  color: white;
+  border: 3px solid white;
+  cursor: pointer;
+}
 
-    .category-panel button {
-      width: 100%;
-      margin-bottom: 15px;
-      padding: 12px;
-      font-size: 20px;
-      background-color: #000;
-      color: #fff;
-      border: 3px solid #fff;
-      cursor: pointer;
-    }
+/* textos */
+.title {
+  text-align: center;
+  font-size: 90px;
+  margin-top: 60px;
+  letter-spacing: 10px;
+}
 
-    /* Tablas */
-    table {
-      width: 90%;
-      margin: 40px auto;
-      border-collapse: collapse;
-      font-size: 28px;
-      display: none;
-    }
+.subtitle {
+  margin-left: 40px;
+  margin-top: 40px;
+  font-size: 38px;
+}
 
-    th, td {
-      border: 4px solid #fff;
-      padding: 20px 30px;
-      text-align: center;
-    }
+/* tablas */
+table {
+  width: 95%;
+  margin: 50px auto;
+  border-collapse: collapse;
+  font-size: 28px;
+  display: none;
+}
 
-    th {
-      background-color: #222;
-    }
-  </style>
+th, td {
+  border: 4px solid white;
+  padding: 18px;
+  text-align: center;
+}
+
+th {
+  background: #222;
+}
+
+/* panel texto */
+.info-panel {
+  display: none;
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  border: 4px solid white;
+  padding: 25px;
+  width: 70%;
+  font-size: 26px;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- Menú -->
-  <div class="menu" onclick="toggleMenu()">☰</div>
+<div class="menu" onclick="toggleMenu()">☰</div>
 
-  <div class="menu-panel" id="menuPanel">
-    <button onclick="toggleCategories()">Categorías</button>
-  </div>
+<div class="menu-panel" id="menuPanel">
+  <button onclick="toggleCategories()">Categorías</button>
+  <button onclick="showImport()">Importar Speedruns</button>
+  <button onclick="showRules()">REGLAS</button>
+</div>
 
-  <!-- Categorías -->
-  <div class="category-panel" id="categoryPanel">
-    <button onclick="showCategory('lvl11')">1-1 Level</button>
-    <button onclick="showCategory('any')">Any%</button>
-    <button onclick="showCategory('warpless')">Warpless</button>
-  </div>
+<div class="category-panel" id="categoryPanel">
+  <button onclick="showCategory('lvl11')">1-1 Level</button>
+  <button onclick="showCategory('any')">Any%</button>
+  <button onclick="showCategory('warpless')">Warpless</button>
+</div>
 
-  <!-- Títulos -->
-  <div class="title">PAPU SPEEDRUNS</div>
-  <div class="subtitle">NES Speedruns</div>
+<div class="title">PAPU SPEEDRUNS</div>
+<div class="subtitle">NES Speedruns</div>
 
-  <!-- 1-1 Level -->
-  <table id="lvl11">
-    <tr>
-      <th>Puesto</th>
-      <th>Jugador</th>
-      <th>Tiempo</th>
-      <th>Plataforma</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>PAPU</td>
-      <td>18.59</td>
-      <td>NES / Emu</td>
-    </tr>
-  </table>
+<!-- 1-1 LEVEL -->
+<table id="lvl11">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th></tr>
+<tr><td>1</td><td>PAPU</td><td>18.59</td><td>NES / Emu</td></tr>
+</table>
 
-  <!-- Any% -->
-  <table id="any">
-    <tr>
-      <th>Puesto</th>
-      <th>Jugador</th>
-      <th>Tiempo</th>
-      <th>Plataforma</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>PAPU</td>
-      <td>---</td>
-      <td>NES</td>
-    </tr>
-  </table>
+<!-- ANY% -->
+<table id="any">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th></tr>
+<tr><td>1</td><td>PAPU</td><td>---</td><td>NES</td></tr>
+</table>
 
-  <!-- Warpless -->
-  <table id="warpless">
-    <tr>
-      <th>Puesto</th>
-      <th>Jugador</th>
-      <th>Tiempo</th>
-      <th>Plataforma</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>PAPU</td>
-      <td>---</td>
-      <td>NES</td>
-    </tr>
-  </table>
+<!-- WARPLESS -->
+<table id="warpless">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th></tr>
+<tr><td>1</td><td>PAPU</td><td>---</td><td>NES</td></tr>
+</table>
 
-  <script>
-    function toggleMenu() {
-      const m = document.getElementById("menuPanel");
-      m.style.display = m.style.display === "block" ? "none" : "block";
-    }
+<!-- IMPORTAR -->
+<div class="info-panel" id="importPanel">
+¿Querés que tus speedruns aparezcan acá?<br><br>
+Contactame a:<br>
+<b>elpapu3388@gmail.com</b><br><br>
+Mandame tu video, lo revisaré y si cumple las reglas lo agregaré sin duda 🙂
+</div>
 
-    function toggleCategories() {
-      const c = document.getElementById("categoryPanel");
-      c.style.display = c.style.display === "block" ? "none" : "block";
-    }
+<!-- REGLAS -->
+<div class="info-panel" id="rulesPanel">
+REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓<br><br>
+1) Mandar el video a <b>elpapu3388@gmail.com</b><br>
+2) El video no debe estar editado ni alterado (crudo)<br>
+3) Debe mostrar el inicio y el final
+</div>
 
-    function showCategory(id) {
-      document.getElementById("lvl11").style.display = "none";
-      document.getElementById("any").style.display = "none";
-      document.getElementById("warpless").style.display = "none";
-      document.getElementById(id).style.display = "table";
-    }
+<script>
+function toggleMenu() {
+  menuPanel.style.display = menuPanel.style.display === "block" ? "none" : "block";
+}
 
-    /* Mostrar 1-1 por defecto */
-    showCategory("lvl11");
-  </script>
+function toggleCategories() {
+  categoryPanel.style.display = categoryPanel.style.display === "block" ? "none" : "block";
+}
+
+function hideAll() {
+  lvl11.style.display = "none";
+  any.style.display = "none";
+  warpless.style.display = "none";
+  importPanel.style.display = "none";
+  rulesPanel.style.display = "none";
+}
+
+function showCategory(id) {
+  hideAll();
+  document.getElementById(id).style.display = "table";
+}
+
+function showImport() {
+  hideAll();
+  importPanel.style.display = "block";
+}
+
+function showRules() {
+  hideAll();
+  rulesPanel.style.display = "block";
+}
+
+showCategory("lvl11");
+</script>
 
 </body>
 </html>
