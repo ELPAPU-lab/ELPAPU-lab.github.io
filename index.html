@@ -65,53 +65,45 @@ body{
 #musicBtn.on{background:blue;color:white;}
 #musicBtn.off{background:red;color:white;}
 
-/* ---------- CATEGORY PANELS ---------- */
-.big-category{
+/* ---------- CATEGORY BUTTON ---------- */
+#categoryMainBtn{
   display:block;
-  margin:40px auto;
-  background:#111;
+  margin:20px auto;
+  background:red;
   border:4px solid white;
-  padding:30px;
-  width:85%;
-  text-align:center;
-  z-index:10;
-}
-
-.big-category button{
-  width:100%;
-  margin:14px 0;
-  padding:18px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  background:black;
   color:white;
-  border:4px solid white;
+  font-family:'Press Start 2P';
+  font-size:18px;
+  padding:14px;
+  width:200px;
   cursor:pointer;
+  text-align:center;
   transition:transform 0.15s, box-shadow 0.15s;
 }
 
-.big-category button:hover{
+#categoryMainBtn:hover{
   transform:scale(1.05);
-  box-shadow:0 0 15px white;
+  box-shadow:0 0 12px white;
 }
 
+/* CATEGORY PANEL */
 .category-panel{
   display:none;
-  position:fixed;
-  top:90px;
-  right:380px;
+  margin:20px auto;
+  text-align:center;
   background:#111;
   border:4px solid white;
   padding:20px;
-  width:260px;
+  width:300px;
   z-index:100;
 }
 
 .category-panel button{
-  width:100%;
-  margin-bottom:12px;
+  width:90%;
+  margin:10px 0;
   padding:12px;
-  font-family:'Press Start 2P', monospace;
+  font-family:'Press Start 2P';
+  font-size:14px;
   background:black;
   color:white;
   border:3px solid white;
@@ -240,6 +232,14 @@ a{color:#00ffcc;text-decoration:none;}
   text-align:center;
   min-width:150px;
 }
+
+/* ---------- ADVERTENCIA ---------- */
+#warnMsg{
+  text-align:center;
+  font-size:14px;
+  margin-bottom:10px;
+  color:#ff4444;
+}
 </style>
 </head>
 
@@ -248,33 +248,29 @@ a{color:#00ffcc;text-decoration:none;}
 <div class="menu" onclick="toggleMenu()">☰</div>
 
 <div class="menu-panel" id="menuPanel">
-  <button id="menuCatBtn" onclick="toggleCategories()" style="display:none">Categorías</button>
+  <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
   <button onclick="showImport()">Importar Speedruns</button>
   <button onclick="showRules()">REGLAS</button>
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
-<div class="category-panel" id="categoryPanel">
-  <button onclick="showCategory('lvl11')">1-1 Level</button>
-  <button onclick="showCategory('any')">Any%</button>
-  <button onclick="showCategory('warpless')">Warpless</button>
-</div>
+<!-- BOTÓN CATEGORÍAS ROJO -->
+<button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
 
-<div class="title">PAPU SPEEDRUNS</div>
-<div class="subtitle">NES Speedruns</div>
-
-<div class="big-category" id="bigCategory">
+<!-- PANEL BOTONES 1-1 / Any% / Warpless -->
+<div class="category-panel" id="bigCategory">
   <button onclick="firstCategory('lvl11')">1-1 Level</button>
   <button onclick="firstCategory('any')">Any%</button>
   <button onclick="firstCategory('warpless')">Warpless</button>
 </div>
 
+<div class="title">PAPU SPEEDRUNS</div>
+<div class="subtitle">Clasificación</div>
+
 <table id="lvl11">
 <tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-<tr>
-<td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
-<td><a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">VER</a></td>
-</tr>
+<tr><td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
+<td><a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">VER</a></td></tr>
 </table>
 
 <table id="any">
@@ -297,6 +293,10 @@ Mandá tu video a<br><b>elpapu3388@gmail.com</b>
 3) Inicio y final visibles
 </div>
 
+<div id="warnMsg">
+Advertencia: si no empieza la música trata de ir a las tres rayas y apretar el botón de On/Off dos veces
+</div>
+
 <div id="songName"></div>
 
 <div id="miniPlayer">
@@ -311,9 +311,9 @@ frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 const menuPanel=document.getElementById("menuPanel");
-const categoryPanel=document.getElementById("categoryPanel");
-const bigCategory=document.getElementById("bigCategory");
+const categoryPanel=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
+const bigCategory=document.getElementById("bigCategory");
 
 const lvl11=document.getElementById("lvl11");
 const any=document.getElementById("any");
@@ -324,26 +324,24 @@ const rulesPanel=document.getElementById("rulesPanel");
 
 const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
-
 const currentSong=document.getElementById("currentSong");
 
 let firstTime=true;
 let ytPlayer;
 let musicOn=true;
 let playlistIndex=0;
-let playlistIds=[
-  'jwJ2vhjyAE0',
-  '4yV_gv299VM',
-  '2yVop7pZh-w',
-  'rWVJQH3VY-A',
-  '_L6HjwwcyCs'
-];
+let playlistIds=['jwJ2vhjyAE0','4yV_gv299VM','2yVop7pZh-w','rWVJQH3VY-A','_L6HjwwcyCs'];
 
 function hideAll(){ [lvl11,any,warpless].forEach(t=>t.style.display="none"); importPanel.style.display="none"; rulesPanel.style.display="none"; }
-function toggleMenu(){ menuPanel.style.display=menuPanel.style.display==="block"?"none":"block"; if(menuPanel.style.display==="none"){categoryPanel.style.display="none";} }
+function toggleMenu(){ 
+  const open=menuPanel.style.display==="block";
+  if(open){menuPanel.style.display="none"; hideAll(); categoryPanel.style.display="none"; menuCatBtn.style.display="none";} 
+  else{menuPanel.style.display="block";} 
+}
 function toggleCategories(){ categoryPanel.style.display=categoryPanel.style.display==="block"?"none":"block"; }
+function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
 function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
-function showCategory(id){ hideAll(); document.getElementById(id).style.display="table"; sortTable(document.getElementById(id)); menuPanel.style.display="none"; categoryPanel.style.display="none"; window.scrollTo(0,300); }
+function showCategory(id){ hideAll(); document.getElementById(id).style.display="table"; sortTable(document.getElementById(id)); menuPanel.style.display="none"; categoryPanel.style.display="none"; window.scrollTo(0,300);}
 function showImport(){hideAll();importPanel.style.display="block";}
 function showRules(){hideAll();rulesPanel.style.display="block";}
 function closePanels(){importPanel.style.display="none"; rulesPanel.style.display="none";}
@@ -365,20 +363,15 @@ function sortTable(table){
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('ytPlayer',{
     events:{
-      'onReady':()=>{
-        ytPlayer.playVideo();
-        updateSongDisplay();
-      },
-      'onStateChange':()=>{
-        updateSongDisplay();
-      }
+      'onReady':()=>{ytPlayer.playVideo(); updateSongDisplay();},
+      'onStateChange':()=>{updateSongDisplay();}
     }
   });
 }
 
 function toggleMusic(){
-  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; }
-  else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on"; }
+  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off";}
+  else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on";}
 }
 
 function updateSongDisplay(){
@@ -401,5 +394,6 @@ function prevSong(){
 </script>
 
 <script src="https://www.youtube.com/iframe_api"></script>
+
 </body>
 </html>
