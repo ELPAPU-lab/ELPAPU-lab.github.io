@@ -66,14 +66,14 @@ body{
 /* ---------- CATEGORY BUTTON ---------- */
 #categoryMainBtn{
   display:block;
-  margin:10px auto 30px auto;
+  margin:20px auto 30px auto;
   background:black;
   border:4px solid white;
   color:red;
   font-family:'Press Start 2P';
-  font-size:18px;
-  padding:14px;
-  width:220px;
+  font-size:22px;
+  padding:18px;
+  width:90%;
   cursor:pointer;
   text-align:center;
   transition:transform 0.15s, box-shadow 0.15s;
@@ -98,9 +98,9 @@ body{
 .category-panel button{
   width:90%;
   margin:10px 0;
-  padding:12px;
+  padding:14px;
   font-family:'Press Start 2P';
-  font-size:14px;
+  font-size:16px;
   background:black;
   color:white;
   border:3px solid white;
@@ -179,7 +179,7 @@ a{color:#00ffcc;text-decoration:none;}
   font-size:16px;
   z-index:1000;
   opacity:0;
-  animation:fadeInOut 3s forwards;
+  animation:fadeInOut 5s forwards;
 }
 
 @keyframes fadeInOut{
@@ -207,35 +207,34 @@ a{color:#00ffcc;text-decoration:none;}
   padding:10px;
 }
 
-#miniPlayer .row{
-  display:flex;
-  width:100%;
-  justify-content:space-between;
-  align-items:center;
+#miniPlayer #currentSong{
+  color:#00ff00;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  text-align:center;
 }
 
-#miniPlayer button{
+#miniPlayer .buttonsRow{
+  display:flex;
+  width:100%;
+  justify-content:space-around;
+  margin-top:10px;
+}
+
+#miniPlayer .buttonsRow button{
   background:black;
   color:white;
   border:3px solid white;
   font-family:'Press Start 2P';
-  font-size:14px;
+  font-size:18px;
   cursor:pointer;
-  padding:6px 10px;
+  padding:10px 14px;
   transition:0.2s;
 }
 
-#miniPlayer button:hover{
+#miniPlayer .buttonsRow button:hover{
   transform:scale(1.1);
   box-shadow:0 0 10px white;
-}
-
-#currentSong{
-  color:#00ff00;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  text-align:center;
-  flex:1;
 }
 
 /* ---------- ADVERTENCIA ---------- */
@@ -264,7 +263,7 @@ a{color:#00ffcc;text-decoration:none;}
 <div class="title">PAPU SPEEDRUNS</div>
 <div class="subtitle">Clasificación</div>
 
-<!-- BOTÓN CATEGORÍAS ABAJO DE SUBTÍTULO -->
+<!-- BOTÓN CATEGORÍAS -->
 <button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
 
 <div class="category-panel" id="bigCategory">
@@ -300,13 +299,14 @@ Mandá tu video a<br><b>elpapu3388@gmail.com</b>
 </div>
 
 <div id="songName"></div>
+
 <div id="miniPlayer">
-  <div class="row">
+  <div id="currentSong">Canción</div>
+  <div class="buttonsRow">
     <button onclick="prevSong()">◀</button>
-    <button onclick="stopSong()">⏹</button>
+    <button onclick="toggleStop()">⏹</button>
     <button onclick="nextSong()">▶</button>
   </div>
-  <div id="currentSong">Canción</div>
 </div>
 
 <div id="warnMsg">Advertencia: si no empieza la música trata de ir a las tres rayas y apretar el botón de On/Off dos veces</div>
@@ -333,6 +333,7 @@ const currentSong=document.getElementById("currentSong");
 
 let ytPlayer;
 let musicOn=true;
+let stopActive=false;
 let playlistIndex=0;
 let playlistIds=['jwJ2vhjyAE0','4yV_gv299VM','2yVop7pZh-w','rWVJQH3VY-A','_L6HjwwcyCs'];
 
@@ -380,8 +381,14 @@ function onYouTubeIframeAPIReady(){
 }
 
 function toggleMusic(){
-  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off";}
+  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=false;}
   else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on";}
+}
+
+function toggleStop(){
+  if(!ytPlayer) return;
+  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; }
+  else{ ytPlayer.playVideo(); stopActive=false;}
 }
 
 function updateSongDisplay(){
@@ -390,13 +397,12 @@ function updateSongDisplay(){
   const title=data.title || "Canción";
   songName.innerText="Estás escuchando: "+title;
   songName.style.display="block";
-  songName.style.animation="fadeInOut 3s forwards";
+  songName.style.animation="fadeInOut 5s forwards";
   currentSong.innerText=title;
 }
 
 function nextSong(){if(playlistIndex<playlistIds.length-1){playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
 function prevSong(){if(playlistIndex>0){playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
-function stopSong(){ytPlayer.pauseVideo();}
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
