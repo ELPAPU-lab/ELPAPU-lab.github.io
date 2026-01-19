@@ -13,18 +13,205 @@ body{
   font-family:'Press Start 2P', monospace;
   overflow-x:hidden;
   position:relative;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
+  text-align:center;
 }
 
-/* ---------- CENTRADO DEL CONTENIDO PRINCIPAL ---------- */
-.main-container{
-  flex:1;
+/* ---------- TÍTULO ANIMADO ---------- */
+.title-container{
+  margin-top:100px;
+}
+
+.title-line{
+  display:block;
+  font-size:64px;
+  line-height:1;
+}
+
+.letter{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(-100px);
+  animation:drop 1s forwards;
+}
+
+@keyframes drop{
+  0%{opacity:0; transform:translateY(-100px);}
+  100%{opacity:1; transform:translateY(0);}
+}
+
+/* ---------- SUBTÍTULO ---------- */
+.subtitle{
+  margin-top:20px;
+  font-size:24px;
+}
+
+/* ---------- BOTÓN CATEGORÍAS ---------- */
+#categoryMainBtn{
+  display:block;
+  margin:20px auto 10px auto;
+  background:black;
+  border:4px solid white;
+  color:red;
+  font-family:'Press Start 2P';
+  font-size:24px;
+  padding:20px;
+  width:70%;
+  text-align:center;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+
+#categoryMainBtn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 12px white;
+}
+
+/* PANEL CATEGORÍAS */
+.category-panel{
+  display:none;
+  margin:0 auto 20px auto;
+  text-align:center;
+  background:#111;
+  border:4px solid white;
+  padding:20px;
+  width:300px;
+}
+
+.category-panel button{
+  width:90%;
+  margin:10px 0;
+  padding:14px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  background:black;
+  color:white;
+  border:3px solid white;
+  cursor:pointer;
+  transition:transform 0.15s;
+}
+
+.category-panel button:hover{transform:scale(1.05);}
+
+/* ---------- TABLAS ---------- */
+table{
+  width:95%;
+  margin:30px auto;
+  border-collapse:collapse;
+  font-size:16px;
+  display:none;
+}
+
+th,td{
+  border:3px solid white;
+  padding:12px;
+  text-align:center;
+  position:relative;
+}
+
+th{background:#222;}
+a{color:#00ffcc;text-decoration:none;}
+
+/* ---------- INFO PANELS ---------- */
+.info-panel{
+  display:none;
+  margin:60px auto;
+  background:#111;
+  border:4px solid white;
+  padding:30px;
+  width:80%;
+  text-align:center;
+  position:relative;
+}
+
+.close-btn{
+  position:absolute;
+  top:12px;
+  right:16px;
+  font-size:24px;
+  cursor:pointer;
+}
+.close-btn:hover{color:red;}
+
+/* ---------- CUADRO MÚSICA ARRIBA ---------- */
+#songName{
+  display:none;
+  position:fixed;
+  top:20px;
+  right:30px;
+  background:#222;
+  color:#00ff00;
+  border:4px solid white;
+  padding:20px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  z-index:1000;
+  opacity:0;
+  animation:fadeInOut 5s forwards;
+}
+
+@keyframes fadeInOut{
+  0%{opacity:0;transform:translateY(-20px);}
+  10%{opacity:1;transform:translateY(0);}
+  90%{opacity:1;transform:translateY(0);}
+  100%{opacity:0;transform:translateY(-20px);}
+}
+
+/* ---------- MINI REPRODUCTOR CUADRADO ---------- */
+#miniPlayer{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#111;
+  border:4px solid white;
+  width:220px;
+  height:220px;
   display:flex;
   flex-direction:column;
-  justify-content:center; /* Centrado vertical */
   align-items:center;
+  justify-content:center;
+  gap:12px;
+  z-index:1000;
+  padding:10px;
+}
+
+#miniPlayer #currentSong{
+  color:#00ff00;
+  font-family:'Press Start 2P';
+  font-size:18px;
+  text-align:center;
+}
+
+#miniPlayer .buttonsRow{
+  display:flex;
+  justify-content:space-around;
+  width:100%;
+}
+
+#miniPlayer .buttonsRow button{
+  background:black;
+  color:white;
+  border:3px solid white;
+  font-family:'Press Start 2P';
+  font-size:18px;
+  cursor:pointer;
+  padding:10px 14px;
+  width:60px;
+  transition:0.2s;
+}
+
+#miniPlayer .buttonsRow button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 10px white;
+}
+
+/* ---------- ADVERTENCIA ---------- */
+#warnMsg{
+  position:fixed;
+  bottom:20px;
+  left:260px;
+  font-size:14px;
+  color:#ff4444;
+  width:300px;
 }
 
 /* ---------- MENU ---------- */
@@ -69,205 +256,6 @@ body{
 
 #musicBtn.on{background:blue;color:white;}
 #musicBtn.off{background:red;color:white;}
-
-/* ---------- BOTON CATEGORIAS GRANDE ---------- */
-#categoryMainBtn{
-  background:black;
-  border:4px solid white;
-  color:red;
-  font-family:'Press Start 2P';
-  font-size:24px;
-  padding:20px;
-  width:70%;
-  text-align:center;
-  cursor:pointer;
-  transition:transform 0.15s, box-shadow 0.15s;
-  margin-top:20px;
-}
-
-#categoryMainBtn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 12px white;
-}
-
-/* ---------- CATEGORY PANEL ---------- */
-.category-panel{
-  display:none;
-  margin:20px auto;
-  text-align:center;
-  background:#111;
-  border:4px solid white;
-  padding:20px;
-  width:300px;
-}
-
-.category-panel button{
-  width:90%;
-  margin:10px 0;
-  padding:14px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  background:black;
-  color:white;
-  border:3px solid white;
-  cursor:pointer;
-  transition:transform 0.15s;
-}
-
-.category-panel button:hover{transform:scale(1.05);}
-
-/* ---------- TITLES ---------- */
-.title{
-  text-align:center;
-  font-size:64px;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-}
-
-.title span{
-  display:inline-block;
-  transform:translateY(-100px);
-  opacity:0;
-  animation:slideDown 1s forwards;
-}
-
-.subtitle{
-  text-align:center;
-  font-size:24px;
-  margin-top:20px;
-}
-
-/* ---------- TABLES ---------- */
-table{
-  width:95%;
-  margin:50px auto;
-  border-collapse:collapse;
-  font-size:16px;
-  display:none;
-}
-
-th,td{
-  border:3px solid white;
-  padding:12px;
-  text-align:center;
-  position:relative;
-}
-
-th{background:#222;}
-
-a{color:#00ffcc;text-decoration:none;}
-
-/* ---------- INFO PANELS ---------- */
-.info-panel{
-  display:none;
-  margin:60px auto;
-  background:#111;
-  border:4px solid white;
-  padding:30px;
-  width:80%;
-  text-align:center;
-  position:relative;
-}
-
-.close-btn{
-  position:absolute;
-  top:12px;
-  right:16px;
-  font-size:24px;
-  cursor:pointer;
-}
-
-.close-btn:hover{color:red;}
-
-/* ---------- CUADRO MÚSICA ARRIBA ---------- */
-#songName{
-  display:none;
-  position:fixed;
-  top:20px;
-  right:30px;
-  background:#222;
-  color:#00ff00;
-  border:4px solid white;
-  padding:20px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  z-index:1000;
-  opacity:0;
-  animation:fadeInOut 5s forwards;
-}
-
-@keyframes fadeInOut{
-  0%{opacity:0;transform:translateY(-20px);}
-  10%{opacity:1;transform:translateY(0);}
-  90%{opacity:1;transform:translateY(0);}
-  100%{opacity:0;transform:translateY(-20px);}
-}
-
-@keyframes slideDown{
-  to{transform:translateY(0); opacity:1;}
-}
-
-/* ---------- MINI REPRODUCTOR HORIZONTAL ---------- */
-#miniPlayer{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#111;
-  border:4px solid white;
-  width:300px;
-  height:120px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  z-index:1000;
-  padding:10px;
-}
-
-#miniPlayer #currentSong{
-  color:#00ff00;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  text-align:center;
-}
-
-#miniPlayer .buttonsRow{
-  display:flex;
-  flex-direction:row; /* Horizontal */
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin-top:10px;
-}
-
-#miniPlayer .buttonsRow button{
-  background:black;
-  color:white;
-  border:3px solid white;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  cursor:pointer;
-  padding:10px 14px;
-  width:80px;
-  transition:0.2s;
-}
-
-#miniPlayer .buttonsRow button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 10px white;
-}
-
-/* ---------- ADVERTENCIA ---------- */
-#warnMsg{
-  position:fixed;
-  bottom:20px;
-  left:340px;
-  font-size:14px;
-  color:#ff4444;
-  width:300px;
-}
 </style>
 </head>
 
@@ -282,16 +270,20 @@ a{color:#00ffcc;text-decoration:none;}
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
-<!-- CONTENEDOR PRINCIPAL CENTRADO -->
-<div class="main-container">
-  <div class="title" id="mainTitle"></div>
-  <div class="subtitle">Clasificación</div>
-  <button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
-  <div class="category-panel" id="bigCategory">
-    <button onclick="firstCategory('lvl11')">1-1 Level</button>
-    <button onclick="firstCategory('any')">Any%</button>
-    <button onclick="firstCategory('warpless')">Warpless</button>
-  </div>
+<div class="title-container">
+  <span class="title-line" id="line1">EL PAPU</span>
+  <span class="title-line" id="line2">SPEEDRUNS</span>
+</div>
+
+<div class="subtitle">Clasificación</div>
+
+<!-- BOTÓN CATEGORÍAS -->
+<button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
+
+<div class="category-panel" id="bigCategory">
+  <button onclick="firstCategory('lvl11')">1-1 Level</button>
+  <button onclick="firstCategory('any')">Any%</button>
+  <button onclick="firstCategory('warpless')">Warpless</button>
 </div>
 
 <table id="lvl11">
@@ -341,30 +333,26 @@ frameborder="0" allow="autoplay" allowfullscreen></iframe>
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
+
 const lvl11=document.getElementById("lvl11");
 const any=document.getElementById("any");
 const warpless=document.getElementById("warpless");
+
 const importPanel=document.getElementById("importPanel");
 const rulesPanel=document.getElementById("rulesPanel");
+
 const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
 const currentSong=document.getElementById("currentSong");
-const mainTitle=document.getElementById("mainTitle");
+
+const line1=document.getElementById("line1");
+const line2=document.getElementById("line2");
 
 let ytPlayer;
 let musicOn=true;
 let stopActive=false;
 let playlistIndex=0;
 let playlistIds=['jwJ2vhjyAE0','4yV_gv299VM','2yVop7pZh-w','rWVJQH3VY-A','_L6HjwwcyCs'];
-
-// ---------- Animación Título ----------
-const titleText="PAPU SPEEDRUNS";
-titleText.split("").forEach((l,i)=>{
-  const span=document.createElement("span");
-  span.innerText=l;
-  span.style.animationDelay=(i*0.1)+"s";
-  mainTitle.appendChild(span);
-});
 
 function hideAll(){
   [lvl11,any,warpless].forEach(t=>t.style.display="none");
@@ -432,8 +420,25 @@ function updateSongDisplay(){
 
 function nextSong(){if(playlistIndex<playlistIds.length-1){playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
 function prevSong(){if(playlistIndex>0){playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
+
+// ---------------- ANIMACIÓN TÍTULO ----------------
+window.addEventListener('load',()=>{
+  animateLine(line1,0);
+  animateLine(line2,0.3); // segundos de retraso
+});
+
+function animateLine(line,delaySec){
+  const letters=line.textContent.split('');
+  line.textContent='';
+  letters.forEach((l,i)=>{
+    const span=document.createElement('span');
+    span.className='letter';
+    span.textContent=l;
+    span.style.animationDelay=`${(i*0.1+delaySec)}s`;
+    line.appendChild(span);
+  });
+}
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
-
 </body>
 </html>
