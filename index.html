@@ -217,7 +217,7 @@ a{color:#00ffcc; text-decoration:none;}
 
 <!-- Mini Player -->
 <div id="miniPlayer">
-  <div id="currentSong">Nuts</div>
+  <div id="currentSong">Cargando...</div>
   <div class="buttonsRow">
     <button onclick="prevSong()">◀</button>
     <button onclick="toggleStop()">⏹</button>
@@ -225,6 +225,90 @@ a{color:#00ffcc; text-decoration:none;}
   </div>
   <div id="trackCounter">1 / 7</div>
 </div>
+
+<script>
+let ytPlayer;
+let musicOn = true;
+let stopActive = false;
+let playlistIndex = 0;
+let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','CxKTbcs1t7M','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+
+const currentSong = document.getElementById('currentSong');
+const songName = document.getElementById('songName');
+const trackCounter = document.getElementById('trackCounter');
+const musicBtn = document.getElementById('musicBtn');
+
+// Inicializar el reproductor YouTube
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytPlayer', {
+    events: {
+      'onReady': () => {
+        ytPlayer.playVideo();
+        setTimeout(updateSongDisplay, 500); // Espera medio segundo para mostrar el título correcto
+      },
+      'onStateChange': (event) => {
+        if(event.data === YT.PlayerState.ENDED){
+          nextSong(); // Pasar automáticamente al siguiente video al terminar
+        } else if(event.data === YT.PlayerState.PLAYING){
+          setTimeout(updateSongDisplay, 200); // Actualiza el título cuando empieza a sonar
+        }
+      }
+    }
+  });
+}
+
+// Función para actualizar el título y contador
+function updateSongDisplay(){
+  if(!ytPlayer || !ytPlayer.getVideoData) return;
+  const data = ytPlayer.getVideoData();
+  const title = data.title || "Canción";
+  currentSong.innerText = title;
+  songName.innerText = "Estás escuchando: " + title;
+  songName.style.display = "block";
+  songName.style.animation = "fadeInOut 5s forwards";
+  trackCounter.innerText = (playlistIndex+1) + " / " + playlistIds.length;
+}
+
+// Botones de control
+function toggleMusic(){
+  if(!ytPlayer) return;
+  if(musicOn){
+    ytPlayer.pauseVideo();
+    musicOn = false;
+    musicBtn.className = "off";
+    stopActive = true;
+  } else {
+    ytPlayer.playVideo();
+    musicOn = true;
+    musicBtn.className = "on";
+    stopActive = false;
+  }
+}
+
+function toggleStop(){
+  if(!ytPlayer) return;
+  if(!stopActive){
+    ytPlayer.pauseVideo();
+    stopActive = true;
+  } else {
+    ytPlayer.playVideo();
+    stopActive = false;
+  }
+}
+
+function nextSong(){
+  playlistIndex = (playlistIndex + 1) % playlistIds.length; // Vuelve al 1 después del 7
+  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+  setTimeout(updateSongDisplay, 500);
+}
+
+function prevSong(){
+  playlistIndex = (playlistIndex - 1 + playlistIds.length) % playlistIds.length;
+  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+  setTimeout(updateSongDisplay, 500);
+}
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <!-- Delete Panel -->
 <div id="deletePanel">
