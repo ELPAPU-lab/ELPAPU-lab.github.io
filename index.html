@@ -175,32 +175,49 @@ a{color:#00ffcc;text-decoration:none;}
   cursor:pointer;
 }
 .close-btn:hover{color:red;}
+
+/* ---------- CUADRO NOMBRE CANCION ---------- */
+#songName{
+  display:none;
+  position:fixed;
+  top:100px;
+  right:20px;
+  background:#222;
+  color:#00ffcc;
+  border:4px solid white;
+  padding:20px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  z-index:1000;
+  opacity:0.95;
+}
 </style>
 </head>
 
 <body>
 
-<div class="menu" onclick="playClick();toggleMenu()">☰</div>
+<div class="menu" onclick="toggleMenu()">☰</div>
 
 <div class="menu-panel" id="menuPanel">
-  <button id="menuCatBtn" onclick="playClick();toggleCategories()" style="display:none">Categorías</button>
-  <button onclick="playClick();showImport()">Importar Speedruns</button>
-  <button onclick="playClick();showRules()">REGLAS</button>
+  <button id="menuCatBtn" onclick="toggleCategories()" style="display:none">Categorías</button>
+  <button onclick="showImport()">Importar Speedruns</button>
+  <button onclick="showRules()">REGLAS</button>
+  <button onclick="toggleMusic()">Música On/Off</button>
 </div>
 
 <div class="category-panel" id="categoryPanel">
-  <button onclick="playClick();showCategory('lvl11')">1-1 Level</button>
-  <button onclick="playClick();showCategory('any')">Any%</button>
-  <button onclick="playClick();showCategory('warpless')">Warpless</button>
+  <button onclick="showCategory('lvl11')">1-1 Level</button>
+  <button onclick="showCategory('any')">Any%</button>
+  <button onclick="showCategory('warpless')">Warpless</button>
 </div>
 
 <div class="title">PAPU SPEEDRUNS</div>
 <div class="subtitle">NES Speedruns</div>
 
 <div class="big-category" id="bigCategory">
-  <button onclick="playClick();firstCategory('lvl11')">1-1 Level</button>
-  <button onclick="playClick();firstCategory('any')">Any%</button>
-  <button onclick="playClick();firstCategory('warpless')">Warpless</button>
+  <button onclick="firstCategory('lvl11')">1-1 Level</button>
+  <button onclick="firstCategory('any')">Any%</button>
+  <button onclick="firstCategory('warpless')">Warpless</button>
 </div>
 
 <table id="lvl11">
@@ -220,19 +237,23 @@ a{color:#00ffcc;text-decoration:none;}
 </table>
 
 <div class="info-panel" id="importPanel">
-<span class="close-btn" onclick="playClick();closePanels()">✕</span>
+<span class="close-btn" onclick="closePanels()">✕</span>
 Mandá tu video a<br><b>elpapu3388@gmail.com</b>
 </div>
 
 <div class="info-panel" id="rulesPanel">
-<span class="close-btn" onclick="playClick();closePanels()">✕</span>
+<span class="close-btn" onclick="closePanels()">✕</span>
 1) Video completo<br><br>
 2) Sin editar<br><br>
 3) Inicio y final visibles
 </div>
 
-<!-- SONIDO CLICK -->
-<audio id="clickSound" src="https://freesound.org/data/previews/178/178186_285997-lq.mp3"></audio>
+<div id="songName"></div>
+
+<!-- EMBED PLAYLIST -->
+<iframe id="ytPlayer" width="0" height="0"
+src="https://www.youtube.com/embed?listType=playlist&list=PLKH-YE4Goc7lZIe7l67TDDKURsRWWW0vc&autoplay=1&enablejsapi=1"
+frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 let firstTime=true;
@@ -247,15 +268,11 @@ const warpless=document.getElementById("warpless");
 
 const importPanel=document.getElementById("importPanel");
 const rulesPanel=document.getElementById("rulesPanel");
-const clickSound=document.getElementById("clickSound");
 
-function playClick(){
-  clickSound.pause();
-  clickSound.currentTime=0;
-  clickSound.volume=0.3; // bajar volumen para que se escuche bien
-  clickSound.play();
-}
+const songName=document.getElementById("songName");
+let musicOn=true;
 
+// --------- FUNCIONES DE PÁGINA ---------
 function hideAll(){
   [lvl11,any,warpless].forEach(t=>t.style.display="none");
   importPanel.style.display="none";
@@ -279,9 +296,8 @@ function firstCategory(id){
 
 function showCategory(id){
   hideAll();
-  const table=document.getElementById(id);
-  table.style.display="table";
-  sortTable(table);
+  document.getElementById(id).style.display="table";
+  sortTable(document.getElementById(id));
   menuPanel.style.display="none";
   categoryPanel.style.display="none";
   window.scrollTo(0,300);
@@ -304,7 +320,38 @@ function sortTable(table){
     table.appendChild(r);
   });
 }
+
+// --------- MÚSICA ALEATORIA Y CUADRO ---------
+let ytPlayer;
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('ytPlayer',{
+    events:{
+      'onStateChange':onPlayerStateChange
+    }
+  });
+}
+
+function onPlayerStateChange(event){
+  if(event.data===YT.PlayerState.PLAYING){
+    // mostrar nombre canción
+    songName.innerText="Estás escuchando una canción de la playlist";
+    songName.style.display="block";
+    setTimeout(()=>{songName.style.display="none";},5000);
+  }
+}
+
+function toggleMusic(){
+  if(musicOn){
+    ytPlayer.pauseVideo();
+    musicOn=false;
+  }else{
+    ytPlayer.playVideo();
+    musicOn=true;
+  }
+}
 </script>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
