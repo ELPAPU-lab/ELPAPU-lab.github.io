@@ -12,39 +12,36 @@ body{
   color:white;
   margin:0;
   font-family:'Press Start 2P', monospace;
-  animation:fadeIn 1.2s ease;
+  position:relative;
+  overflow-x:hidden;
 }
 
-/* ---------- ANIMATIONS ---------- */
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
+/* ---------- CRT SCANLINES ---------- */
+body::before{
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:
+    repeating-linear-gradient(
+      rgba(0,0,0,0.2) 0 1px,
+      rgba(0,0,0,0) 1px 2px
+    );
+  pointer-events:none;
+  z-index:9999;
+  mix-blend-mode:overlay;
+  animation:scanline 0.5s linear infinite;
 }
 
-@keyframes popIn{
-  from{opacity:0;transform:scale(0.9);}
-  to{opacity:1;transform:scale(1);}
-}
-
-@keyframes slideDown{
-  from{opacity:0;transform:translateY(-20px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-@keyframes slideRight{
-  from{opacity:0;transform:translateX(30px);}
-  to{opacity:1;transform:translateX(0);}
+@keyframes scanline{
+  0%{background-position:0 0;}
+  100%{background-position:0 2px;}
 }
 
 /* ---------- TOP COLORS ---------- */
-.top1{color:#FFD700;animation:glow 1.5s infinite alternate;}
+.top1{color:#FFD700; text-shadow:0 0 5px #FFD700,0 0 10px #FFD700,0 0 15px #FFD700;}
 .top2{color:#C0C0C0;}
 .top3{color:#CD7F32;}
-
-@keyframes glow{
-  from{text-shadow:0 0 5px #FFD700;}
-  to{text-shadow:0 0 20px #FFD700;}
-}
 
 /* ---------- MENU ---------- */
 .menu{
@@ -133,7 +130,7 @@ body{
   width:100%;
   margin-bottom:12px;
   padding:12px;
-  font-family:'Press Start 2P';
+  font-family:'Press Start 2P', monospace;
   background:black;
   color:white;
   border:3px solid white;
@@ -201,6 +198,20 @@ a{color:#00ffcc;text-decoration:none;}
   cursor:pointer;
 }
 .close-btn:hover{color:red;}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes popIn{
+  from{opacity:0; transform:scale(0.9);}
+  to{opacity:1; transform:scale(1);}
+}
+@keyframes slideDown{
+  from{opacity:0; transform:translateY(-20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+@keyframes slideRight{
+  from{opacity:0; transform:translateX(30px);}
+  to{opacity:1; transform:translateX(0);}
+}
 </style>
 </head>
 
@@ -258,53 +269,67 @@ Mandá tu video a<br><b>elpapu3388@gmail.com</b>
 </div>
 
 <script>
+let firstTime=true;
+const menuPanel=document.getElementById("menuPanel");
+const categoryPanel=document.getElementById("categoryPanel");
+const bigCategory=document.getElementById("bigCategory");
+const menuCatBtn=document.getElementById("menuCatBtn");
+
+const lvl11=document.getElementById("lvl11");
+const any=document.getElementById("any");
+const warpless=document.getElementById("warpless");
+
+const importPanel=document.getElementById("importPanel");
+const rulesPanel=document.getElementById("rulesPanel");
+
 function hideAll(){
-["lvl11","any","warpless"].forEach(id=>document.getElementById(id).style.display="none");
-importPanel.style.display="none";
-rulesPanel.style.display="none";
+  [lvl11,any,warpless].forEach(t=>t.style.display="none");
+  importPanel.style.display="none";
+  rulesPanel.style.display="none";
 }
 
 function toggleMenu(){
-menuPanel.style.display = menuPanel.style.display==="block"?"none":"block";
-if(menuPanel.style.display==="none"){categoryPanel.style.display="none";}
+  menuPanel.style.display=menuPanel.style.display==="block"?"none":"block";
+  if(menuPanel.style.display==="none"){categoryPanel.style.display="none";}
 }
 
 function toggleCategories(){
-categoryPanel.style.display = categoryPanel.style.display==="block"?"none":"block";
+  categoryPanel.style.display=categoryPanel.style.display==="block"?"none":"block";
 }
 
 function firstCategory(id){
-bigCategory.style.display="none";
-menuCatBtn.style.display="block";
-showCategory(id);
+  bigCategory.style.display="none";
+  menuCatBtn.style.display="block";
+  showCategory(id);
 }
 
 function showCategory(id){
-hideAll();
-const table=document.getElementById(id);
-table.style.display="table";
-sortTable(table);
-menuPanel.style.display="none";
-categoryPanel.style.display="none";
-window.scrollTo(0,300);
+  hideAll();
+  const table=document.getElementById(id);
+  table.style.display="table";
+  sortTable(table);
+  menuPanel.style.display="none";
+  categoryPanel.style.display="none";
+  window.scrollTo(0,300);
 }
 
 function showImport(){hideAll();importPanel.style.display="block";}
 function showRules(){hideAll();rulesPanel.style.display="block";}
-function closePanels(){importPanel.style.display="none";rulesPanel.style.display="none";}
+function closePanels(){importPanel.style.display="none"; rulesPanel.style.display="none";}
 
+/* SORT + COLOR TOP 1/2/3 */
 function sortTable(table){
-const rows=[...table.rows].slice(1);
-const valid=rows.filter(r=>r.cells[2].innerText!=="");
-valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
-valid.forEach((r,i)=>{
-r.classList.remove("top1","top2","top3");
-if(i===0)r.classList.add("top1");
-if(i===1)r.classList.add("top2");
-if(i===2)r.classList.add("top3");
-r.cells[0].innerText=i+1;
-table.appendChild(r);
-});
+  const rows=[...table.rows].slice(1);
+  const valid=rows.filter(r=>r.cells[2].innerText!=="");
+  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+  valid.forEach((r,i)=>{
+    r.classList.remove("top1","top2","top3");
+    if(i===0)r.classList.add("top1");
+    if(i===1)r.classList.add("top2");
+    if(i===2)r.classList.add("top3");
+    r.cells[0].innerText=i+1;
+    table.appendChild(r);
+  });
 }
 </script>
 
