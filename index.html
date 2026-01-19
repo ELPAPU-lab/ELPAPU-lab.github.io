@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <title>PAPU Speedruns</title>
 <style>
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+}
+
+.close-btn:hover {
+  color: red;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
@@ -163,18 +176,22 @@ th {
 
 <!-- IMPORTAR SPEEDRUNS -->
 <div class="info-panel" id="importPanel">
-¿Querés que tus speedruns aparezcan acá?<br><br>
-Contactame a:<br>
-<b>elpapu3388@gmail.com</b><br><br>
-Mandame tu video, lo revisaré y si cumple las reglas lo agregaré sin duda 🙂
+  <span class="close-btn" onclick="closePanels()">✕</span>
+
+  ¿Querés que tus speedruns aparezcan acá?<br><br>
+  Contactame a:<br>
+  <b>elpapu3388@gmail.com</b><br><br>
+  Mandame tu video, lo revisaré y si cumple las reglas lo agregaré sin duda 🙂
 </div>
 
 <!-- REGLAS -->
 <div class="info-panel" id="rulesPanel">
-REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓<br><br>
-1) Mandar el video a <b>elpapu3388@gmail.com</b><br><br>
-2) El video no debe estar editado ni alterado (crudo)<br><br>
-3) Debe mostrar el inicio y el final
+  <span class="close-btn" onclick="closePanels()">✕</span>
+
+  REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓<br><br>
+  1) Mandar el video a <b>elpapu3388@gmail.com</b><br><br>
+  2) El video no debe estar editado ni alterado (crudo)<br><br>
+  3) Debe mostrar el inicio y el final
 </div>
 
 <script>
