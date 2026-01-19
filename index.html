@@ -13,206 +13,30 @@ body{
   font-family:'Press Start 2P', monospace;
   overflow-x:hidden;
   position:relative;
-  text-align:center;
 }
 
-/* ---------- TÍTULO ANIMADO ---------- */
-.title-container{
-  margin-top:100px;
-}
-
-.title-line{
-  display:block;
-  font-size:64px;
-  line-height:1;
-}
-
-.letter{
-  display:inline-block;
-  opacity:0;
-  transform:translateY(-100px);
-  animation:drop 1s forwards;
-}
-
-@keyframes drop{
-  0%{opacity:0; transform:translateY(-100px);}
-  100%{opacity:1; transform:translateY(0);}
-}
-
-/* ---------- SUBTÍTULO ---------- */
-.subtitle{
-  margin-top:20px;
-  font-size:24px;
-}
-
-/* ---------- BOTÓN CATEGORÍAS ---------- */
-#categoryMainBtn{
-  display:block;
-  margin:20px auto 10px auto;
-  background:black;
-  border:4px solid white;
-  color:red;
-  font-family:'Press Start 2P';
-  font-size:24px;
-  padding:20px;
-  width:70%;
-  text-align:center;
-  cursor:pointer;
-  transition:transform 0.15s, box-shadow 0.15s;
-}
-
-#categoryMainBtn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 12px white;
-}
-
-/* PANEL CATEGORÍAS */
-.category-panel{
-  display:none;
-  margin:0 auto 20px auto;
-  text-align:center;
-  background:#111;
-  border:4px solid white;
-  padding:20px;
-  width:300px;
-}
-
-.category-panel button{
-  width:90%;
-  margin:10px 0;
-  padding:14px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  background:black;
-  color:white;
-  border:3px solid white;
-  cursor:pointer;
-  transition:transform 0.15s;
-}
-
-.category-panel button:hover{transform:scale(1.05);}
-
-/* ---------- TABLAS ---------- */
-table{
-  width:95%;
-  margin:30px auto;
-  border-collapse:collapse;
-  font-size:16px;
-  display:none;
-}
-
-th,td{
-  border:3px solid white;
-  padding:12px;
-  text-align:center;
-  position:relative;
-}
-
-th{background:#222;}
-a{color:#00ffcc;text-decoration:none;}
-
-/* ---------- INFO PANELS ---------- */
-.info-panel{
-  display:none;
-  margin:60px auto;
-  background:#111;
-  border:4px solid white;
-  padding:30px;
-  width:80%;
-  text-align:center;
-  position:relative;
-}
-
-.close-btn{
-  position:absolute;
-  top:12px;
-  right:16px;
-  font-size:24px;
-  cursor:pointer;
-}
-.close-btn:hover{color:red;}
-
-/* ---------- CUADRO MÚSICA ARRIBA ---------- */
-#songName{
-  display:none;
+/* ---------- FONDO ANIMADO NES ---------- */
+body::before{
+  content:"";
   position:fixed;
-  top:20px;
-  right:30px;
-  background:#222;
-  color:#00ff00;
-  border:4px solid white;
-  padding:20px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  z-index:1000;
-  opacity:0;
-  animation:fadeInOut 5s forwards;
+  top:0;
+  left:0;
+  width:200%;
+  height:200%;
+  background-image:repeating-linear-gradient(45deg,#222 0 1px,#111 1px 2px);
+  z-index:-1;
+  animation:bgMove 20s linear infinite;
+}
+@keyframes bgMove{
+  0%{transform:translate(0,0);}
+  50%{transform:translate(-50px,50px);}
+  100%{transform:translate(0,0);}
 }
 
-@keyframes fadeInOut{
-  0%{opacity:0;transform:translateY(-20px);}
-  10%{opacity:1;transform:translateY(0);}
-  90%{opacity:1;transform:translateY(0);}
-  100%{opacity:0;transform:translateY(-20px);}
-}
-
-/* ---------- MINI REPRODUCTOR CUADRADO ---------- */
-#miniPlayer{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#111;
-  border:4px solid white;
-  width:220px;
-  height:220px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  z-index:1000;
-  padding:10px;
-}
-
-#miniPlayer #currentSong{
-  color:#00ff00;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  text-align:center;
-}
-
-#miniPlayer .buttonsRow{
-  display:flex;
-  justify-content:space-around;
-  width:100%;
-}
-
-#miniPlayer .buttonsRow button{
-  background:black;
-  color:white;
-  border:3px solid white;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  cursor:pointer;
-  padding:10px 14px;
-  width:60px;
-  transition:0.2s;
-}
-
-#miniPlayer .buttonsRow button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 10px white;
-}
-
-/* ---------- ADVERTENCIA ---------- */
-#warnMsg{
-  position:fixed;
-  bottom:20px;
-  left:260px;
-  font-size:14px;
-  color:#ff4444;
-  width:300px;
-}
+/* ---------- TOP COLORS ---------- */
+.top1{color:#FFD700; text-shadow:0 0 5px #FFD700,0 0 10px #FFD700,0 0 15px #FFD700;}
+.top2{color:#C0C0C0;}
+.top3{color:#CD7F32;}
 
 /* ---------- MENU ---------- */
 .menu{
@@ -248,14 +72,204 @@ a{color:#00ffcc;text-decoration:none;}
   cursor:pointer;
   transition:transform 0.15s, box-shadow 0.15s;
 }
-
 .menu-panel button:hover{
-  transform:scale(1.05);
+  transform:scale(1.05) rotate(-1deg);
   box-shadow:0 0 12px white;
 }
 
-#musicBtn.on{background:blue;color:white;}
-#musicBtn.off{background:red;color:white;}
+/* ---------- BOTON CATEGORIAS GRANDE ---------- */
+#categoryMainBtn{
+  display:block;
+  margin:20px auto 30px auto;
+  background:black;
+  border:4px solid white;
+  color:red;
+  font-family:'Press Start 2P';
+  font-size:24px;
+  padding:20px;
+  width:70%;
+  text-align:center;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+#categoryMainBtn:hover{
+  transform:scale(1.05) rotate(1deg);
+  box-shadow:0 0 12px white;
+}
+
+/* ---------- CATEGORY PANEL ---------- */
+.category-panel{
+  display:none;
+  margin:0 auto 30px auto;
+  text-align:center;
+  background:#111;
+  border:4px solid white;
+  padding:20px;
+  width:300px;
+}
+
+.category-panel button{
+  width:90%;
+  margin:10px 0;
+  padding:14px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  background:black;
+  color:white;
+  border:3px solid white;
+  cursor:pointer;
+  transition:transform 0.15s;
+}
+.category-panel button:hover{
+  transform:scale(1.1) rotate(1deg);
+  box-shadow:0 0 10px white;
+}
+
+/* ---------- TITULOS CENTRADOS ---------- */
+.title-wrapper{
+  text-align:center;
+  margin-top:20vh;
+  font-size:64px;
+}
+
+.title-line{
+  display:block;
+  animation:slideDown 1s ease forwards;
+}
+
+@keyframes slideDown{
+  0%{transform:translateY(-100px); opacity:0;}
+  100%{transform:translateY(0); opacity:1;}
+}
+
+.subtitle{
+  text-align:center;
+  margin-top:20px;
+  font-size:24px;
+}
+
+/* ---------- TABLAS ---------- */
+table{
+  width:95%;
+  margin:20px auto 50px auto;
+  border-collapse:collapse;
+  font-size:16px;
+  display:none;
+}
+
+th,td{
+  border:3px solid white;
+  padding:12px;
+  text-align:center;
+  position:relative;
+}
+th{background:#222;}
+a{color:#00ffcc;text-decoration:none;}
+
+/* ---------- INFO PANELS ---------- */
+.info-panel{
+  display:none;
+  margin:60px auto;
+  background:#111;
+  border:4px solid white;
+  padding:30px;
+  width:80%;
+  text-align:center;
+  position:relative;
+}
+.close-btn{
+  position:absolute;
+  top:12px;
+  right:16px;
+  font-size:24px;
+  cursor:pointer;
+}
+.close-btn:hover{color:red;}
+
+/* ---------- CUADRO MÚSICA ARRIBA ---------- */
+#songName{
+  display:none;
+  position:fixed;
+  top:20px;
+  right:30px;
+  background:#222;
+  color:#00ff00;
+  border:4px solid white;
+  padding:20px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  z-index:1000;
+  opacity:0;
+  animation:fadeInOut 5s forwards;
+}
+@keyframes fadeInOut{
+  0%{opacity:0;transform:translateY(-20px);}
+  10%{opacity:1;transform:translateY(0);}
+  90%{opacity:1;transform:translateY(0);}
+  100%{opacity:0;transform:translateY(-20px);}
+}
+
+/* ---------- MINI REPRODUCTOR CUADRADO ---------- */
+#miniPlayer{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#111;
+  border:4px solid white;
+  width:220px;
+  height:220px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  z-index:1000;
+  padding:10px;
+}
+#miniPlayer #currentSong{
+  color:#00ff00;
+  font-family:'Press Start 2P';
+  font-size:18px;
+  text-align:center;
+}
+#miniPlayer .buttonsRow{
+  display:flex;
+  justify-content:space-around;
+  width:100%;
+}
+#miniPlayer .buttonsRow button{
+  background:black;
+  color:white;
+  border:3px solid white;
+  font-family:'Press Start 2P';
+  font-size:18px;
+  cursor:pointer;
+  padding:10px 14px;
+  width:30%;
+  transition:0.2s;
+}
+#miniPlayer .buttonsRow button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 10px white;
+}
+
+/* ---------- ADVERTENCIA ---------- */
+#warnMsg{
+  position:fixed;
+  bottom:20px;
+  left:260px;
+  font-size:14px;
+  color:#ff4444;
+  width:300px;
+}
+
+/* ---------- RESALTAR 1°,2°,3° ---------- */
+.top1{animation:glowGold 1s infinite alternate;}
+.top2{animation:glowSilver 1s infinite alternate;}
+.top3{animation:glowBronze 1s infinite alternate;}
+@keyframes glowGold{0%{text-shadow:0 0 5px #FFD700;}100%{text-shadow:0 0 20px #FFD700;}}
+@keyframes glowSilver{0%{text-shadow:0 0 5px #C0C0C0;}100%{text-shadow:0 0 20px #C0C0C0;}}
+@keyframes glowBronze{0%{text-shadow:0 0 5px #CD7F32;}100%{text-shadow:0 0 20px #CD7F32;}}
 </style>
 </head>
 
@@ -270,14 +284,13 @@ a{color:#00ffcc;text-decoration:none;}
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
-<div class="title-container">
-  <span class="title-line" id="line1">EL PAPU</span>
-  <span class="title-line" id="line2">SPEEDRUNS</span>
+<div class="title-wrapper">
+  <span class="title-line">EL PAPU</span>
+  <span class="title-line">SPEEDRUNS</span>
 </div>
 
 <div class="subtitle">Clasificación</div>
 
-<!-- BOTÓN CATEGORÍAS -->
 <button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
 
 <div class="category-panel" id="bigCategory">
@@ -288,7 +301,7 @@ a{color:#00ffcc;text-decoration:none;}
 
 <table id="lvl11">
 <tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-<tr><td>1</td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
+<tr><td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
 <td><a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">VER</a></td></tr>
 </table>
 
@@ -333,20 +346,14 @@ frameborder="0" allow="autoplay" allowfullscreen></iframe>
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
-
 const lvl11=document.getElementById("lvl11");
 const any=document.getElementById("any");
 const warpless=document.getElementById("warpless");
-
 const importPanel=document.getElementById("importPanel");
 const rulesPanel=document.getElementById("rulesPanel");
-
 const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
 const currentSong=document.getElementById("currentSong");
-
-const line1=document.getElementById("line1");
-const line2=document.getElementById("line2");
 
 let ytPlayer;
 let musicOn=true;
@@ -365,11 +372,18 @@ function toggleMenu(){
   if(open){menuPanel.style.display="none"; hideAll(); bigCategory.style.display="none"; menuCatBtn.style.display="none";}
   else{menuPanel.style.display="block";}
 }
-
 function toggleCategories(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
 function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
 function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id);}
-function showCategory(id){ hideAll(); document.getElementById(id).style.display="table"; sortTable(document.getElementById(id)); menuPanel.style.display="none"; bigCategory.style.display="none"; window.scrollTo(0,300);}
+function showCategory(id){
+  hideAll();
+  const tbl=document.getElementById(id);
+  tbl.style.display="table";
+  sortTable(tbl);
+  menuPanel.style.display="none";
+  bigCategory.style.display="none";
+  tbl.scrollIntoView({behavior:"smooth"});
+}
 function showImport(){hideAll();importPanel.style.display="block";}
 function showRules(){hideAll();rulesPanel.style.display="block";}
 function closePanels(){importPanel.style.display="none"; rulesPanel.style.display="none";}
@@ -379,9 +393,9 @@ function sortTable(table){
   valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
   valid.forEach((r,i)=>{
     r.classList.remove("top1","top2","top3");
-    if(i===0)r.classList.add("top1");
-    if(i===1)r.classList.add("top2");
-    if(i===2)r.classList.add("top3");
+    if(i===0) r.classList.add("top1");
+    if(i===1) r.classList.add("top2");
+    if(i===2) r.classList.add("top3");
     r.cells[0].innerText=i+1;
     table.appendChild(r);
   });
@@ -404,7 +418,7 @@ function toggleMusic(){
 
 function toggleStop(){
   if(!ytPlayer) return;
-  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; }
+  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true;}
   else{ ytPlayer.playVideo(); stopActive=false;}
 }
 
@@ -420,25 +434,8 @@ function updateSongDisplay(){
 
 function nextSong(){if(playlistIndex<playlistIds.length-1){playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
 function prevSong(){if(playlistIndex>0){playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
-
-// ---------------- ANIMACIÓN TÍTULO ----------------
-window.addEventListener('load',()=>{
-  animateLine(line1,0);
-  animateLine(line2,0.3); // segundos de retraso
-});
-
-function animateLine(line,delaySec){
-  const letters=line.textContent.split('');
-  line.textContent='';
-  letters.forEach((l,i)=>{
-    const span=document.createElement('span');
-    span.className='letter';
-    span.textContent=l;
-    span.style.animationDelay=`${(i*0.1+delaySec)}s`;
-    line.appendChild(span);
-  });
-}
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
+
 </body>
 </html>
