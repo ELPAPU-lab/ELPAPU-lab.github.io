@@ -17,13 +17,14 @@ body {
   font-family: Snowbell, monospace;
 }
 
-/* ☰ menú */
+/* MENÚ ☰ */
 .menu {
   position: fixed;
   top: 20px;
   right: 30px;
   font-size: 48px;
   cursor: pointer;
+  z-index: 100;
 }
 
 .menu-panel {
@@ -48,7 +49,7 @@ body {
   cursor: pointer;
 }
 
-/* panel categorías */
+/* CATEGORÍAS */
 .category-panel {
   display: none;
   position: fixed;
@@ -71,7 +72,7 @@ body {
   cursor: pointer;
 }
 
-/* textos */
+/* TÍTULOS */
 .title {
   text-align: center;
   font-size: 90px;
@@ -85,7 +86,7 @@ body {
   font-size: 38px;
 }
 
-/* tablas */
+/* TABLAS */
 table {
   width: 95%;
   margin: 50px auto;
@@ -104,24 +105,23 @@ th {
   background: #222;
 }
 
-/* panel texto */
+/* INFO (REGLAS / IMPORTAR) */
 .info-panel {
   display: none;
-  position: fixed;
-  top: 90px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 60px auto;
   background: #111;
   border: 4px solid white;
-  padding: 25px;
-  width: 70%;
+  padding: 30px;
+  width: 80%;
   font-size: 26px;
+  text-align: center;
 }
 </style>
 </head>
 
 <body>
 
+<!-- MENÚ -->
 <div class="menu" onclick="toggleMenu()">☰</div>
 
 <div class="menu-panel" id="menuPanel">
@@ -136,28 +136,47 @@ th {
   <button onclick="showCategory('warpless')">Warpless</button>
 </div>
 
+<!-- TÍTULOS -->
 <div class="title">PAPU SPEEDRUNS</div>
 <div class="subtitle">NES Speedruns</div>
 
 <!-- 1-1 LEVEL -->
 <table id="lvl11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th></tr>
-<tr><td>1</td><td>PAPU</td><td>18.59</td><td>NES / Emu</td></tr>
+<tr>
+  <th>Puesto</th>
+  <th>Jugador</th>
+  <th>Tiempo</th>
+  <th>Plataforma</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td>PAPU</td>
+  <td>18.59</td>
+  <td>NES / Emu</td>
+</tr>
 </table>
 
 <!-- ANY% -->
 <table id="any">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th></tr>
-<tr><td>1</td><td>PAPU</td><td>---</td><td>NES</td></tr>
+<tr>
+  <th>Puesto</th>
+  <th>Jugador</th>
+  <th>Tiempo</th>
+  <th>Plataforma</th>
+</tr>
 </table>
 
 <!-- WARPLESS -->
 <table id="warpless">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th></tr>
-<tr><td>1</td><td>PAPU</td><td>---</td><td>NES</td></tr>
+<tr>
+  <th>Puesto</th>
+  <th>Jugador</th>
+  <th>Tiempo</th>
+  <th>Plataforma</th>
+</tr>
 </table>
 
-<!-- IMPORTAR -->
+<!-- IMPORTAR SPEEDRUNS -->
 <div class="info-panel" id="importPanel">
 ¿Querés que tus speedruns aparezcan acá?<br><br>
 Contactame a:<br>
@@ -168,10 +187,11 @@ Mandame tu video, lo revisaré y si cumple las reglas lo agregaré sin duda 🙂
 <!-- REGLAS -->
 <div class="info-panel" id="rulesPanel">
 REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓<br><br>
-1) Mandar el video a <b>elpapu3388@gmail.com</b><br>
-2) El video no debe estar editado ni alterado (crudo)<br>
+1) Mandar el video a <b>elpapu3388@gmail.com</b><br><br>
+2) El video no debe estar editado ni alterado (crudo)<br><br>
 3) Debe mostrar el inicio y el final
 </div>
+
 <script>
 function toggleMenu() {
   const menu = document.getElementById("menuPanel");
@@ -194,7 +214,7 @@ function hideAll() {
 function showCategory(id) {
   hideAll();
   document.getElementById(id).style.display = "table";
-  window.scrollTo(0, 300); // baja la vista, NO tapa nada
+  window.scrollTo(0, 300);
 }
 
 function showImport() {
@@ -209,10 +229,9 @@ function showRules() {
   window.scrollTo(0, 300);
 }
 
-// por defecto
+/* categoría por defecto */
 showCategory("lvl11");
 </script>
-
 
 </body>
 </html>
