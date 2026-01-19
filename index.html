@@ -42,7 +42,6 @@ body::before{
   cursor:pointer;
   z-index:100;
 }
-
 .menu-panel{
   display:none;
   position:fixed;
@@ -54,7 +53,6 @@ body::before{
   width:320px;
   z-index:100;
 }
-
 .menu-panel button{
   width:100%;
   margin-bottom:12px;
@@ -326,7 +324,7 @@ a{color:#00ffcc;text-decoration:none;}
 <table id="lvl11">
 <tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
 <tr><td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
-<td><a href="https://https://youtu.be/osPq9Yb8xm8?si=exMaIe9mMF1VryF6" target="_blank">VER</a></td></tr>
+<td><a href="https://youtu.be/ww1Ba536FFE?si=cYBdipihB0PNmGI0" target="_blank">VER</a></td></tr>
 </table>
 
 <table id="any">
@@ -345,6 +343,7 @@ a{color:#00ffcc;text-decoration:none;}
 <br><br>
 <input type="text" id="playerName" placeholder="Nombre jugador">
 <input type="number" id="playerTime" placeholder="Tiempo">
+<input type="text" id="playerVideo" placeholder="URL del video">
 <select id="runCategory">
   <option value="lvl11">1-1 Level</option>
   <option value="any">Any%</option>
@@ -363,13 +362,13 @@ a{color:#00ffcc;text-decoration:none;}
 
 <!-- Mini Player -->
 <div id="miniPlayer">
-  <div id="currentSong">Canción</div>
+  <div id="currentSong">Nuts</div>
   <div class="buttonsRow">
     <button onclick="prevSong()">◀</button>
     <button onclick="toggleStop()">⏹</button>
     <button onclick="nextSong()">▶</button>
   </div>
-  <div id="trackCounter">1 / 5</div>
+  <div id="trackCounter">1 / 6</div>
 </div>
 
 <!-- Delete Panel -->
@@ -389,7 +388,7 @@ a{color:#00ffcc;text-decoration:none;}
 <div id="warnMsg">Advertencia: si no empieza la música trata de ir a las tres rayas y apretar el botón de On/Off dos veces</div>
 
 <iframe id="ytPlayer" width="0" height="0"
-src="https://www.youtube.com/embed?listType=playlist&list=PLKH-YE4Goc7lZIe7l67TDDKURsRWWW0vc&autoplay=1&enablejsapi=1"
+src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
@@ -397,7 +396,8 @@ let ytPlayer;
 let musicOn=true;
 let stopActive=false;
 let playlistIndex=0;
-let playlistIds=['osPq9Yb8xm8','NTa6Xbzfq1U','7tTVYfgDf6g','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc'];
+// playlistIds actualizado para empezar con "Nuts" (NTa6Xbzfq1U)
+let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','CxKTbcs1t7M','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
 
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
@@ -478,67 +478,89 @@ function prevSong(){
 
 // ---------------- AGREGAR SPEEDRUNS ----------------
 function addSpeedrun(){
-  const pass=document.getElementById('importPass').value;
-  if(pass!=="ELPAPUESPRO"){alert("Contraseña incorrecta"); return;}
-  const name=document.getElementById('playerName').value;
-  const time=parseFloat(document.getElementById('playerTime').value);
-  const category=document.getElementById('runCategory').value;
-  if(!name || !time){alert("Completa todos los campos"); return;}
-  const table=document.getElementById(category);
-  const row=document.createElement('tr');
-  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>--</td>`;
+  const pass = document.getElementById('importPass').value;
+  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+
+  const name = document.getElementById('playerName').value.trim();
+  const time = parseFloat(document.getElementById('playerTime').value);
+  const video = document.getElementById('playerVideo').value.trim();
+  const category = document.getElementById('runCategory').value;
+
+  if(!name || !time){ alert("Completa todos los campos"); return; }
+
+  const table = document.getElementById(category);
+  const row = document.createElement('tr');
+  row.innerHTML = `<td></td>
+                   <td>${name}</td>
+                   <td>${time.toFixed(2)}</td>
+                   <td>Custom</td>
+                   <td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
   table.appendChild(row);
   sortTable(table);
-  document.getElementById('playerName').value="";
-  document.getElementById('playerTime').value="";
+
+  document.getElementById('playerName').value = "";
+  document.getElementById('playerTime').value = "";
+  document.getElementById('playerVideo').value = "";
+  importPanel.style.display = "none";
 }
 
 // ---------------- BORRAR SPEEDRUN ----------------
-let runToDelete=null;
-function showDeletePanel(){
-  document.getElementById('deletePanel').style.display='block';
-  document.getElementById('deleteConfirm').style.display='none';
-  document.getElementById('deletePass').value='';
-  runToDelete=null;
-}
-function confirmDelete(){
-  const pass=document.getElementById('deletePass').value;
-  if(pass!=="ELPAPUESPRO"){alert("Contraseña incorrecta"); return;}
-  // Pedir qué run borrar (por simplicidad, borramos la primera fila seleccionada en la tabla visible)
-  const visibleTable = [lvl11, any, warpless].find(t=>t.style.display==="table");
-  if(!visibleTable){alert("Primero selecciona una categoría visible"); return;}
-  if(visibleTable.rows.length<=1){alert("No hay runs para borrar"); return;}
-  runToDelete = visibleTable.rows[1]; // primera run
-  document.getElementById('deleteConfirm').style.display='block';
+let runToDelete = null;
+
+function showDeletePanel() {
+  document.getElementById('deletePanel').style.display = 'block';
+  document.getElementById('deleteConfirm').style.display = 'none';
+  document.getElementById('deletePass').value = '';
+  runToDelete = null;
 }
 
-function deleteRun(){
-  if(runToDelete){
+function confirmDelete() {
+  const pass = document.getElementById('deletePass').value;
+  if (pass !== "ELPAPUESPRO") { alert("Contraseña incorrecta"); return; }
+
+  // Selecciona la categoría visible actual
+  const visibleTable = [lvl11, any, warpless].find(t => t.style.display === "table");
+  if (!visibleTable) { alert("Primero selecciona una categoría visible"); return; }
+  if (visibleTable.rows.length <= 1) { alert("No hay runs para borrar"); return; }
+
+  // Selecciona la primera fila de run visible
+  runToDelete = visibleTable.rows[1];
+  document.getElementById('deleteConfirm').style.display = 'block';
+}
+
+function deleteRun() {
+  if (runToDelete) {
     runToDelete.remove();
-    runToDelete=null;
-    document.getElementById('deletePanel').style.display='none';
+    runToDelete = null;
+    document.getElementById('deletePanel').style.display = 'none';
   }
 }
 
-function cancelDelete(){
-  runToDelete=null;
-  document.getElementById('deletePanel').style.display='none';
+function cancelDelete() {
+  runToDelete = null;
+  document.getElementById('deletePanel').style.display = 'none';
 }
 
 // ---------------- ORDENAR TABLAS ----------------
-function sortTable(table){
-  const rows=[...table.rows].slice(1);
-  const valid=rows.filter(r=>r.cells[2].innerText!=="");
-  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
-  valid.forEach((r,i)=>{
-    r.classList.remove("top1","top2","top3");
-    if(i===0) r.classList.add("top1");
-    if(i===1) r.classList.add("top2");
-    if(i===2) r.classList.add("top3");
-    r.cells[0].innerText=i+1;
+function sortTable(table) {
+  const rows = [...table.rows].slice(1);
+  const valid = rows.filter(r => r.cells[2].innerText !== "");
+  valid.sort((a, b) => parseFloat(a.cells[2].innerText) - parseFloat(b.cells[2].innerText));
+  valid.forEach((r, i) => {
+    r.classList.remove("top1", "top2", "top3");
+    if (i === 0) r.classList.add("top1");
+    if (i === 1) r.classList.add("top2");
+    if (i === 2) r.classList.add("top3");
+    r.cells[0].innerText = i + 1;
     table.appendChild(r);
   });
 }
+
+// ---------------- ABRIR / CERRAR PANELS ----------------
+function showImport() { hideAll(); importPanel.style.display = 'block'; menuPanel.style.display = 'none'; }
+function showRules() { hideAll(); rulesPanel.style.display = 'block'; menuPanel.style.display = 'none'; }
+function closePanels() { hideAll(); }
+
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
