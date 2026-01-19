@@ -62,7 +62,6 @@ body{
   box-shadow:0 0 12px white;
 }
 
-/* ON/OFF Botón colores */
 #musicBtn.on{background:blue;color:white;}
 #musicBtn.off{background:red;color:white;}
 
@@ -180,14 +179,14 @@ a{color:#00ffcc;text-decoration:none;}
 }
 .close-btn:hover{color:red;}
 
-/* ---------- CUADRO NOMBRE CANCION ABAJO ---------- */
+/* ---------- CUADRO ABAJO ---------- */
 #songName{
   display:none;
   position:fixed;
-  bottom:30px;
+  bottom:100px;
   right:30px;
   background:#222;
-  color:#00ffcc;
+  color:#00ff00;
   border:4px solid white;
   padding:20px;
   font-family:'Press Start 2P';
@@ -202,6 +201,44 @@ a{color:#00ffcc;text-decoration:none;}
   10%{opacity:1;transform:translateY(0);}
   90%{opacity:1;transform:translateY(0);}
   100%{opacity:0;transform:translateY(30px);}
+}
+
+/* ---------- MINI MENÚ ABAJO ---------- */
+#miniPlayer{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#111;
+  border:4px solid white;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  z-index:1000;
+}
+
+#miniPlayer button{
+  background:black;
+  color:white;
+  border:3px solid white;
+  font-family:'Press Start 2P';
+  font-size:12px;
+  cursor:pointer;
+  padding:6px 12px;
+  transition:0.2s;
+}
+
+#miniPlayer button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 10px white;
+}
+
+#currentSong{
+  color:#00ff00;
+  font-size:12px;
+  font-family:'Press Start 2P';
+  text-align:center;
+  min-width:150px;
 }
 </style>
 </head>
@@ -262,13 +299,19 @@ Mandá tu video a<br><b>elpapu3388@gmail.com</b>
 
 <div id="songName"></div>
 
-<!-- YT PLAYLIST EMBED -->
+<!-- MINI PLAYER -->
+<div id="miniPlayer">
+  <button id="prevSong" onclick="prevSong()">◀</button>
+  <div id="currentSong">Canción</div>
+  <button id="nextSong" onclick="nextSong()">▶</button>
+</div>
+
+<!-- YT PLAYLIST -->
 <iframe id="ytPlayer" width="0" height="0"
 src="https://www.youtube.com/embed?listType=playlist&list=PLKH-YE4Goc7lZIe7l67TDDKURsRWWW0vc&autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
-let firstTime=true;
 const menuPanel=document.getElementById("menuPanel");
 const categoryPanel=document.getElementById("categoryPanel");
 const bigCategory=document.getElementById("bigCategory");
@@ -284,44 +327,29 @@ const rulesPanel=document.getElementById("rulesPanel");
 const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
 
+const currentSong=document.getElementById("currentSong");
+const prevBtn=document.getElementById("prevSong");
+const nextBtn=document.getElementById("nextSong");
+
+let firstTime=true;
 let ytPlayer;
 let musicOn=true;
+let playlistIndex=0;
+let playlistIds=[
+  'ww1Ba536FFE', // ejemplo, reemplazable por IDs reales de la playlist
+  'OTRA_ID',
+  'OTRA_ID2'
+];
 
-// --------- FUNCIONES PÁGINA ---------
-function hideAll(){
-  [lvl11,any,warpless].forEach(t=>t.style.display="none");
-  importPanel.style.display="none";
-  rulesPanel.style.display="none";
-}
-
-function toggleMenu(){
-  menuPanel.style.display=menuPanel.style.display==="block"?"none":"block";
-  if(menuPanel.style.display==="none"){categoryPanel.style.display="none";}
-}
-
-function toggleCategories(){
-  categoryPanel.style.display=categoryPanel.style.display==="block"?"none":"block";
-}
-
-function firstCategory(id){
-  bigCategory.style.display="none";
-  menuCatBtn.style.display="block";
-  showCategory(id);
-}
-
-function showCategory(id){
-  hideAll();
-  document.getElementById(id).style.display="table";
-  sortTable(document.getElementById(id));
-  menuPanel.style.display="none";
-  categoryPanel.style.display="none";
-  window.scrollTo(0,300);
-}
-
+// ---------- FUNCIONES PÁGINA ----------
+function hideAll(){ [lvl11,any,warpless].forEach(t=>t.style.display="none"); importPanel.style.display="none"; rulesPanel.style.display="none"; }
+function toggleMenu(){ menuPanel.style.display=menuPanel.style.display==="block"?"none":"block"; if(menuPanel.style.display==="none"){categoryPanel.style.display="none";} }
+function toggleCategories(){ categoryPanel.style.display=categoryPanel.style.display==="block"?"none":"block"; }
+function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
+function showCategory(id){ hideAll(); document.getElementById(id).style.display="table"; sortTable(document.getElementById(id)); menuPanel.style.display="none"; categoryPanel.style.display="none"; window.scrollTo(0,300); }
 function showImport(){hideAll();importPanel.style.display="block";}
 function showRules(){hideAll();rulesPanel.style.display="block";}
 function closePanels(){importPanel.style.display="none"; rulesPanel.style.display="none";}
-
 function sortTable(table){
   const rows=[...table.rows].slice(1);
   const valid=rows.filter(r=>r.cells[2].innerText!=="");
@@ -336,42 +364,38 @@ function sortTable(table){
   });
 }
 
-// --------- MÚSICA Y CUADRO ---------
+// ---------- MÚSICA ----------
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('ytPlayer',{
     events:{
       'onReady':()=>{
         ytPlayer.playVideo();
-        showSongName("Reproduciendo música de la playlist");
+        updateSongDisplay();
       },
-      'onStateChange':onPlayerStateChange
+      'onStateChange':()=>{updateSongDisplay();}
     }
   });
 }
 
-function onPlayerStateChange(event){
-  if(event.data===YT.PlayerState.PLAYING){
-    showSongName("Reproduciendo música de la playlist");
-    musicBtn.className="on";
-  }
+function toggleMusic(){
+  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; }
+  else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on"; }
 }
 
-function showSongName(name){
-  songName.innerText=name;
+function updateSongDisplay(){
+  const title="Canción actual"; // luego se puede reemplazar por API de YouTube Data
+  songName.innerText="Estás escuchando: "+title;
   songName.style.display="block";
   songName.style.animation="fadeInOut 5s forwards";
+  currentSong.innerText=title;
 }
 
-function toggleMusic(){
-  if(musicOn){
-    ytPlayer.pauseVideo();
-    musicOn=false;
-    musicBtn.className="off";
-  }else{
-    ytPlayer.playVideo();
-    musicOn=true;
-    musicBtn.className="on";
-  }
+function nextSong(){
+  if(playlistIndex<playlistIds.length-1){ playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay(); }
+}
+
+function prevSong(){
+  if(playlistIndex>0){ playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay(); }
 }
 </script>
 
