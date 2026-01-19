@@ -3,20 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>PAPU Speedruns</title>
-
 <style>
-font-family: 'Press Start 2P', monospace;
-
-  }
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
-  background-color: black;
-  color: white;
+  background-color: #000000;
+  color: #ffffff;
   margin: 0;
   font-family: 'Press Start 2P', monospace;
 }
 
-/* MENÚ ☰ */
+/* MENÚ */
 .menu {
   position: fixed;
   top: 20px;
@@ -26,45 +23,35 @@ body {
   z-index: 100;
 }
 
+.menu-panel, .category-panel {
+  background: #111;
+  border: 4px solid white;
+}
+
 .menu-panel {
   display: none;
   position: fixed;
   top: 90px;
   right: 30px;
-  background: #111;
-  border: 4px solid white;
   padding: 20px;
   width: 320px;
 }
 
-.menu-panel button {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px;
-  font-size: 22px;
-  background: black;
-  color: white;
-  border: 3px solid white;
-  cursor: pointer;
-}
-
-/* CATEGORÍAS */
 .category-panel {
   display: none;
   position: fixed;
   top: 90px;
   right: 380px;
-  background: #111;
-  border: 4px solid white;
   padding: 20px;
   width: 260px;
 }
 
+.menu-panel button,
 .category-panel button {
   width: 100%;
   margin-bottom: 12px;
   padding: 12px;
-  font-size: 22px;
+  font-size: 18px;
   background: black;
   color: white;
   border: 3px solid white;
@@ -74,15 +61,14 @@ body {
 /* TÍTULOS */
 .title {
   text-align: center;
-  font-size: 90px;
+  font-size: 64px;
   margin-top: 60px;
-  letter-spacing: 10px;
 }
 
 .subtitle {
   margin-left: 40px;
   margin-top: 40px;
-  font-size: 38px;
+  font-size: 24px;
 }
 
 /* TABLAS */
@@ -90,13 +76,13 @@ table {
   width: 95%;
   margin: 50px auto;
   border-collapse: collapse;
-  font-size: 28px;
+  font-size: 18px;
   display: none;
 }
 
 th, td {
-  border: 4px solid white;
-  padding: 18px;
+  border: 3px solid white;
+  padding: 12px;
   text-align: center;
 }
 
@@ -104,7 +90,7 @@ th {
   background: #222;
 }
 
-/* INFO (REGLAS / IMPORTAR) */
+/* INFO */
 .info-panel {
   display: none;
   margin: 60px auto;
@@ -112,10 +98,10 @@ th {
   border: 4px solid white;
   padding: 30px;
   width: 80%;
-  font-size: 26px;
-  text-align: center;
+  font-size: 18px;
 }
 </style>
+
 </head>
 
 <body>
