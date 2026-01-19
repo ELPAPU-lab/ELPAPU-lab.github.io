@@ -1,66 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<link href="https://fonts.cdnfonts.com/css/snowbell" rel="stylesheet">
   <meta charset="UTF-8">
   <title>PAPU Speedruns</title>
 
-<style>
-body {
-  background-color: #000000;
-  color: #ffffff;
-  font-family: "Courier New", monospace;
-  margin: 0;
-  padding: 0;
-}
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: "Courier New", monospace;
+      margin: 0;
+      padding: 0;
+    }
 
-/* PAPU SPEEDRUNS — más grande y más ancho */
-.title {
-  text-align: center;
-  font-size: 72px;          /* más grande */
-  margin-top: 60px;
-  letter-spacing: 10px;     /* más ancha */
-  font-weight: bold;
-}
+    /* Menú hamburguesa */
+    .menu {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      cursor: pointer;
+      user-select: none;
+    }
 
-/* Subtítulo más grande y llegando al medio */
-.subtitle {
-  margin-left: 40px;
-  margin-top: 40px;
-  font-size: 32px;          /* más grande */
-  max-width: 50%;           /* llega hasta el medio */
-}
+    .menu-panel {
+      display: none;
+      position: fixed;
+      top: 80px;
+      right: 30px;
+      background-color: #111;
+      border: 3px solid #fff;
+      padding: 20px;
+      width: 300px;
+    }
 
-/* Tabla ocupa casi toda la pantalla */
-table {
-  width: 90%;               /* ancho de pantalla */
-  margin: 40px auto;        /* centrada */
-  border-collapse: collapse;
-  font-size: 26px;          /* texto grande */
-}
+    .menu-panel button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 18px;
+      background-color: #000;
+      color: #fff;
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
 
-/* Celdas grandes estilo leaderboard */
-th, td {
-  border: 4px solid #ffffff;
-  padding: 18px 28px;
-  text-align: center;
-}
+    /* Título */
+    .title {
+      text-align: center;
+      font-size: 72px;
+      margin-top: 60px;
+      letter-spacing: 10px;
+      font-weight: bold;
+    }
 
-th {
-  background-color: #222222;
-}
-</style>
+    .subtitle {
+      margin-left: 40px;
+      margin-top: 40px;
+      font-size: 32px;
+      max-width: 50%;
+    }
+
+    table {
+      width: 90%;
+      margin: 40px auto;
+      border-collapse: collapse;
+      font-size: 26px;
+    }
+
+    th, td {
+      border: 4px solid #fff;
+      padding: 18px 28px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #222;
+    }
+
+    /* Ventanas internas */
+    .panel {
+      display: none;
+      width: 80%;
+      margin: 40px auto;
+      border: 3px solid #fff;
+      padding: 30px;
+      font-size: 22px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <div class="title">
-    PAPU SPEEDRUNS
+  <!-- Menú -->
+  <div class="menu" onclick="toggleMenu()">☰</div>
+
+  <div class="menu-panel" id="menuPanel">
+    <button onclick="showPanel('importar')">Importar Speedruns</button>
+    <button onclick="showPanel('reglas')">REGLAS</button>
   </div>
 
-  <div class="subtitle">
-    NES Speedruns – 1-1 Level
-  </div>
+  <!-- Título -->
+  <div class="title">PAPU SPEEDRUNS</div>
+  <div class="subtitle">NES Speedruns – 1-1 Level</div>
 
+  <!-- Tabla -->
   <table>
     <tr>
       <th>Puesto</th>
@@ -75,6 +119,39 @@ th {
       <td>NES / Emu</td>
     </tr>
   </table>
+
+  <!-- Importar Speedruns -->
+  <div class="panel" id="importar">
+    <p>
+      ¿Quieres que tus Speedruns aparezcan aquí?<br><br>
+      Contactame a <b>elpapu3388@gmail.com</b><br><br>
+      Mandame tu video, lo revisaré y si cumple con las reglas lo agregaré sin duda :)
+    </p>
+  </div>
+
+  <!-- Reglas -->
+  <div class="panel" id="reglas">
+    <p>
+      <b>REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓</b><br><br>
+      1) Tienes que mandarme el video de tu speedrun a <b>elpapu3388@gmail.com</b><br><br>
+      2) El video no debe estar ni editado ni alterado, debe estar <b>crudo</b><br><br>
+      3) El video tiene que mostrar el principio y el final
+    </p>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menuPanel");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function showPanel(id) {
+      document.getElementById("importar").style.display = "none";
+      document.getElementById("reglas").style.display = "none";
+      document.getElementById(id).style.display = "block";
+      document.getElementById("menuPanel").style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
