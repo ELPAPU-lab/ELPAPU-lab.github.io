@@ -62,6 +62,10 @@ body{
   box-shadow:0 0 12px white;
 }
 
+/* ON/OFF Botón colores */
+#musicBtn.on{background:blue;color:white;}
+#musicBtn.off{background:red;color:white;}
+
 /* ---------- CATEGORY PANELS ---------- */
 .big-category{
   display:block;
@@ -176,12 +180,12 @@ a{color:#00ffcc;text-decoration:none;}
 }
 .close-btn:hover{color:red;}
 
-/* ---------- CUADRO NOMBRE CANCION ---------- */
+/* ---------- CUADRO NOMBRE CANCION ABAJO ---------- */
 #songName{
   display:none;
   position:fixed;
-  top:100px;
-  right:20px;
+  bottom:30px;
+  right:30px;
   background:#222;
   color:#00ffcc;
   border:4px solid white;
@@ -189,7 +193,15 @@ a{color:#00ffcc;text-decoration:none;}
   font-family:'Press Start 2P';
   font-size:16px;
   z-index:1000;
-  opacity:0.95;
+  opacity:0;
+  animation:fadeInOut 5s forwards;
+}
+
+@keyframes fadeInOut{
+  0%{opacity:0;transform:translateY(30px);}
+  10%{opacity:1;transform:translateY(0);}
+  90%{opacity:1;transform:translateY(0);}
+  100%{opacity:0;transform:translateY(30px);}
 }
 </style>
 </head>
@@ -202,7 +214,7 @@ a{color:#00ffcc;text-decoration:none;}
   <button id="menuCatBtn" onclick="toggleCategories()" style="display:none">Categorías</button>
   <button onclick="showImport()">Importar Speedruns</button>
   <button onclick="showRules()">REGLAS</button>
-  <button onclick="toggleMusic()">Música On/Off</button>
+  <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
 <div class="category-panel" id="categoryPanel">
@@ -250,7 +262,7 @@ Mandá tu video a<br><b>elpapu3388@gmail.com</b>
 
 <div id="songName"></div>
 
-<!-- EMBED PLAYLIST -->
+<!-- YT PLAYLIST EMBED -->
 <iframe id="ytPlayer" width="0" height="0"
 src="https://www.youtube.com/embed?listType=playlist&list=PLKH-YE4Goc7lZIe7l67TDDKURsRWWW0vc&autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
@@ -270,9 +282,12 @@ const importPanel=document.getElementById("importPanel");
 const rulesPanel=document.getElementById("rulesPanel");
 
 const songName=document.getElementById("songName");
+const musicBtn=document.getElementById("musicBtn");
+
+let ytPlayer;
 let musicOn=true;
 
-// --------- FUNCIONES DE PÁGINA ---------
+// --------- FUNCIONES PÁGINA ---------
 function hideAll(){
   [lvl11,any,warpless].forEach(t=>t.style.display="none");
   importPanel.style.display="none";
@@ -321,11 +336,14 @@ function sortTable(table){
   });
 }
 
-// --------- MÚSICA ALEATORIA Y CUADRO ---------
-let ytPlayer;
+// --------- MÚSICA Y CUADRO ---------
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('ytPlayer',{
     events:{
+      'onReady':()=>{
+        ytPlayer.playVideo();
+        showSongName("Reproduciendo música de la playlist");
+      },
       'onStateChange':onPlayerStateChange
     }
   });
@@ -333,25 +351,30 @@ function onYouTubeIframeAPIReady(){
 
 function onPlayerStateChange(event){
   if(event.data===YT.PlayerState.PLAYING){
-    // mostrar nombre canción
-    songName.innerText="Estás escuchando una canción de la playlist";
-    songName.style.display="block";
-    setTimeout(()=>{songName.style.display="none";},5000);
+    showSongName("Reproduciendo música de la playlist");
+    musicBtn.className="on";
   }
+}
+
+function showSongName(name){
+  songName.innerText=name;
+  songName.style.display="block";
+  songName.style.animation="fadeInOut 5s forwards";
 }
 
 function toggleMusic(){
   if(musicOn){
     ytPlayer.pauseVideo();
     musicOn=false;
+    musicBtn.className="off";
   }else{
     ytPlayer.playVideo();
     musicOn=true;
+    musicBtn.className="on";
   }
 }
 </script>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-
 </body>
 </html>
