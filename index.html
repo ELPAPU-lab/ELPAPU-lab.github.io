@@ -178,44 +178,66 @@ REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓<br><br>
 </div>
 
 <script>
+const menuPanel = document.getElementById("menuPanel");
+const categoryPanel = document.getElementById("categoryPanel");
+
+const lvl11 = document.getElementById("lvl11");
+const any = document.getElementById("any");
+const warpless = document.getElementById("warpless");
+
+const importPanel = document.getElementById("importPanel");
+const rulesPanel = document.getElementById("rulesPanel");
+
+function hideAllContent() {
+  lvl11.style.display = "none";
+  any.style.display = "none";
+  warpless.style.display = "none";
+  importPanel.style.display = "none";
+  rulesPanel.style.display = "none";
+}
+
 function toggleMenu() {
-  const menu = document.getElementById("menuPanel");
-  menu.style.display = menu.style.display === "block" ? "none" : "block";
+  const isOpen = menuPanel.style.display === "block";
+
+  if (isOpen) {
+    // cerrar TODO
+    menuPanel.style.display = "none";
+    categoryPanel.style.display = "none";
+    hideAllContent();
+  } else {
+    // abrir menú
+    menuPanel.style.display = "block";
+  }
 }
 
 function toggleCategories() {
-  const cat = document.getElementById("categoryPanel");
-  cat.style.display = cat.style.display === "block" ? "none" : "block";
-}
-
-function hideAll() {
-  document.getElementById("lvl11").style.display = "none";
-  document.getElementById("any").style.display = "none";
-  document.getElementById("warpless").style.display = "none";
-  document.getElementById("importPanel").style.display = "none";
-  document.getElementById("rulesPanel").style.display = "none";
+  categoryPanel.style.display =
+    categoryPanel.style.display === "block" ? "none" : "block";
 }
 
 function showCategory(id) {
-  hideAll();
+  hideAllContent();
   document.getElementById(id).style.display = "table";
+  menuPanel.style.display = "none";
+  categoryPanel.style.display = "none";
   window.scrollTo(0, 300);
 }
 
 function showImport() {
-  hideAll();
-  document.getElementById("importPanel").style.display = "block";
+  hideAllContent();
+  importPanel.style.display = "block";
+  menuPanel.style.display = "none";
+  categoryPanel.style.display = "none";
   window.scrollTo(0, 300);
 }
 
 function showRules() {
-  hideAll();
-  document.getElementById("rulesPanel").style.display = "block";
+  hideAllContent();
+  rulesPanel.style.display = "block";
+  menuPanel.style.display = "none";
+  categoryPanel.style.display = "none";
   window.scrollTo(0, 300);
 }
-
-/* categoría por defecto */
-showCategory("lvl11");
 </script>
 
 </body>
