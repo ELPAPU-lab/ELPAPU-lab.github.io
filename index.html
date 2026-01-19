@@ -502,7 +502,7 @@ function showDeletePanel(){
   runToDelete=null;
 }
 function confirmDelete(){
-  const pass=document.getElement.getElementById('deletePass').value;
+  const pass=document.getElementById('deletePass').value;
   if(pass!=="ELPAPUESPRO"){alert("Contraseña incorrecta"); return;}
   // Pedir qué run borrar (por simplicidad, borramos la primera fila seleccionada en la tabla visible)
   const visibleTable = [lvl11, any, warpless].find(t=>t.style.display==="table");
