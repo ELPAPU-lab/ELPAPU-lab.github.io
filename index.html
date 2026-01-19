@@ -323,8 +323,6 @@ a{color:#00ffcc;text-decoration:none;}
 <!-- Tablas -->
 <table id="lvl11">
 <tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-<tr><td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
-<td><a href="https://youtu.be/ww1Ba536FFE?si=cYBdipihB0PNmGI0" target="_blank">VER</a></td></tr>
 </table>
 
 <table id="any">
@@ -368,7 +366,7 @@ a{color:#00ffcc;text-decoration:none;}
     <button onclick="toggleStop()">⏹</button>
     <button onclick="nextSong()">▶</button>
   </div>
-  <div id="trackCounter">1 / 6</div>
+  <div id="trackCounter">1 / 7</div>
 </div>
 
 <!-- Delete Panel -->
@@ -396,7 +394,6 @@ let ytPlayer;
 let musicOn=true;
 let stopActive=false;
 let playlistIndex=0;
-// playlistIds actualizado para empezar con "Nuts" (NTa6Xbzfq1U)
 let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','CxKTbcs1t7M','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
 
 const menuPanel=document.getElementById("menuPanel");
@@ -411,6 +408,7 @@ const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
 const currentSong=document.getElementById("currentSong");
 
+// ---------- Helpers ----------
 function hideAll(){
   [lvl11,any,warpless].forEach(t=>t.style.display="none");
   importPanel.style.display="none";
@@ -476,91 +474,123 @@ function prevSong(){
   if(playlistIndex>0){playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay();}
 }
 
-// ---------------- AGREGAR SPEEDRUNS ----------------
-function addSpeedrun(){
-  const pass = document.getElementById('importPass').value;
-  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
-
-  const name = document.getElementById('playerName').value.trim();
-  const time = parseFloat(document.getElementById('playerTime').value);
-  const video = document.getElementById('playerVideo').value.trim();
-  const category = document.getElementById('runCategory').value;
-
-  if(!name || !time){ alert("Completa todos los campos"); return; }
-
-  const table = document.getElementById(category);
-  const row = document.createElement('tr');
-  row.innerHTML = `<td></td>
-                   <td>${name}</td>
-                   <td>${time.toFixed(2)}</td>
-                   <td>Custom</td>
-                   <td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
-  table.appendChild(row);
-  sortTable(table);
-
-  document.getElementById('playerName').value = "";
-  document.getElementById('playerTime').value = "";
-  document.getElementById('playerVideo').value = "";
-  importPanel.style.display = "none";
-}
-
-// ---------------- BORRAR SPEEDRUN ----------------
-let runToDelete = null;
-
-function showDeletePanel() {
-  document.getElementById('deletePanel').style.display = 'block';
-  document.getElementById('deleteConfirm').style.display = 'none';
-  document.getElementById('deletePass').value = '';
-  runToDelete = null;
-}
-
-function confirmDelete() {
-  const pass = document.getElementById('deletePass').value;
-  if (pass !== "ELPAPUESPRO") { alert("Contraseña incorrecta"); return; }
-
-  // Selecciona la categoría visible actual
-  const visibleTable = [lvl11, any, warpless].find(t => t.style.display === "table");
-  if (!visibleTable) { alert("Primero selecciona una categoría visible"); return; }
-  if (visibleTable.rows.length <= 1) { alert("No hay runs para borrar"); return; }
-
-  // Selecciona la primera fila de run visible
-  runToDelete = visibleTable.rows[1];
-  document.getElementById('deleteConfirm').style.display = 'block';
-}
-
-function deleteRun() {
-  if (runToDelete) {
-    runToDelete.remove();
-    runToDelete = null;
-    document.getElementById('deletePanel').style.display = 'none';
+// ---------------- SPEEDRUNS CON LOCALSTORAGE ----------------
+function loadRuns(){
+  const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
+  for(const cat in saved){
+    const table=document.getElementById(cat);
+    saved[cat].forEach(run=>{
+      const row=document.createElement('tr');
+      row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
+      table.appendChild(row);
+    });
+    sortTable(table);
   }
 }
 
-function cancelDelete() {
-  runToDelete = null;
-  document.getElementById('deletePanel').style.display = 'none';
+function saveRuns(){
+  const data={};
+  [lvl11,any,warpless].forEach(table=>{
+    data[table.id]=[...table.rows].slice(1).map(r=>({
+      name:r.cells[1].innerText,
+      time:parseFloat(r.cells[2].innerText),
+      platform:r.cells[3].innerText,
+      video:r.cells[4].querySelector('a') ? r.cells[4].querySelector('a').href : ''
+    }));
+  });
+  localStorage.setItem('papuSpeedruns',JSON.stringify(data));
+}
+
+// ---------------- AGREGAR SPEEDRUN ----------------
+function addSpeedrun(){
+  const pass=document.getElementById('importPass').value;
+  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+  const name=document.getElementById('playerName').value.trim();
+  const time=parseFloat(document.getElementById('playerTime').value);
+  const video=document.getElementById('playerVideo').value.trim();
+  const category=document.getElementById('runCategory').value;
+  if(!name||!time){ alert("Completa todos los campos"); return; }
+
+  const table=document.getElementById(category);
+  const row=document.createElement('tr');
+  row.innerHTML=`<td></td>
+                 <td>${name}</td>
+                 <td>${time.toFixed(2)}</td>
+                 <td>Custom</td>
+                 <td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
+  table.appendChild(row);
+  sortTable(table);
+  saveRuns(); // Guardar cambios en LocalStorage
+
+  document.getElementById('playerName').value="";
+  document.getElementById('playerTime').value="";
+  document.getElementById('playerVideo').value="";
+  importPanel.style.display="none";
+}
+
+// ---------------- BORRAR SPEEDRUN ----------------
+let runToDelete=null;
+
+function showDeletePanel(){
+  document.getElementById('deletePanel').style.display='block';
+  document.getElementById('deleteConfirm').style.display='none';
+  document.getElementById('deletePass').value='';
+  runToDelete=null;
+}
+
+function confirmDelete(){
+  const pass=document.getElementById('deletePass').value;
+  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+
+  // Selecciona la categoría visible
+  const visibleTable=[lvl11,any,warpless].find(t=>t.style.display==="table");
+  if(!visibleTable){ alert("Primero selecciona una categoría visible"); return; }
+  if(visibleTable.rows.length<=1){ alert("No hay runs para borrar"); return; }
+
+  // Selecciona la primera fila visible (puedes modificar luego para elegir otra)
+  runToDelete=visibleTable.rows[1];
+  document.getElementById('deleteConfirm').style.display='block';
+}
+
+function deleteRun(){
+  if(runToDelete){
+    runToDelete.remove();
+    runToDelete=null;
+    document.getElementById('deletePanel').style.display='none';
+    saveRuns(); // Guardar cambios en LocalStorage
+  }
+}
+
+function cancelDelete(){
+  runToDelete=null;
+  document.getElementById('deletePanel').style.display='none';
 }
 
 // ---------------- ORDENAR TABLAS ----------------
-function sortTable(table) {
-  const rows = [...table.rows].slice(1);
-  const valid = rows.filter(r => r.cells[2].innerText !== "");
-  valid.sort((a, b) => parseFloat(a.cells[2].innerText) - parseFloat(b.cells[2].innerText));
-  valid.forEach((r, i) => {
-    r.classList.remove("top1", "top2", "top3");
-    if (i === 0) r.classList.add("top1");
-    if (i === 1) r.classList.add("top2");
-    if (i === 2) r.classList.add("top3");
-    r.cells[0].innerText = i + 1;
+function sortTable(table){
+  const rows=[...table.rows].slice(1);
+  const valid=rows.filter(r=>r.cells[2].innerText!=="");
+  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+  valid.forEach((r,i)=>{
+    r.classList.remove("top1","top2","top3");
+    if(i===0) r.classList.add("top1");
+    if(i===1) r.classList.add("top2");
+    if(i===2) r.classList.add("top3");
+    r.cells[0].innerText=i+1;
     table.appendChild(r);
   });
 }
 
 // ---------------- ABRIR / CERRAR PANELS ----------------
-function showImport() { hideAll(); importPanel.style.display = 'block'; menuPanel.style.display = 'none'; }
-function showRules() { hideAll(); rulesPanel.style.display = 'block'; menuPanel.style.display = 'none'; }
-function closePanels() { hideAll(); }
+function showImport(){ hideAll(); importPanel.style.display='block'; menuPanel.style.display='none'; }
+function showRules(){ hideAll(); rulesPanel.style.display='block'; menuPanel.style.display='none'; }
+function closePanels(){ hideAll(); }
 
+// ---------------- INICIALIZACIÓN ----------------
+window.onload=()=>{
+  loadRuns(); // Cargar runs guardados
+  showCategory('lvl11'); // Mostrar por defecto 1-1 Level
+}
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
