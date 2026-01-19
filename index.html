@@ -14,15 +14,11 @@ body{
   overflow-x:hidden;
   position:relative;
 }
-
-/* ---------- FONDO ANIMADO NES ---------- */
 body::before{
   content:"";
   position:fixed;
-  top:0;
-  left:0;
-  width:200%;
-  height:200%;
+  top:0; left:0;
+  width:200%; height:200%;
   background-image:repeating-linear-gradient(45deg,#222 0 1px,#111 1px 2px);
   z-index:-1;
   animation:bgMove 20s linear infinite;
@@ -33,15 +29,8 @@ body::before{
   100%{transform:translate(0,0);}
 }
 
-/* ---------- MENU ---------- */
-.menu{
-  position:fixed;
-  top:20px;
-  right:30px;
-  font-size:48px;
-  cursor:pointer;
-  z-index:100;
-}
+/* Menu */
+.menu{position:fixed; top:20px; right:30px; font-size:48px; cursor:pointer; z-index:100;}
 .menu-panel{
   display:none;
   position:fixed;
@@ -65,32 +54,15 @@ body::before{
   cursor:pointer;
   transition:transform 0.15s, box-shadow 0.15s;
 }
-.menu-panel button:hover{
-  transform:scale(1.05) rotate(-1deg);
-  box-shadow:0 0 12px white;
-}
+.menu-panel button:hover{transform:scale(1.05) rotate(-1deg); box-shadow:0 0 12px white;}
 
-/* ---------- TITULO ---------- */
-.title-wrapper{
-  text-align:center;
-  margin-top:15vh;
-  font-size:64px;
-}
-.title-line{
-  display:block;
-  animation:slideDown 1s ease forwards;
-}
-@keyframes slideDown{
-  0%{transform:translateY(-100px); opacity:0;}
-  100%{transform:translateY(0); opacity:1;}
-}
-.subtitle{
-  text-align:center;
-  margin-top:20px;
-  font-size:24px;
-}
+/* Titulo */
+.title-wrapper{text-align:center; margin-top:15vh; font-size:64px;}
+.title-line{display:block; animation:slideDown 1s ease forwards;}
+@keyframes slideDown{0%{transform:translateY(-100px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+.subtitle{text-align:center; margin-top:20px; font-size:24px;}
 
-/* ---------- BOTON CATEGORIAS ---------- */
+/* Boton categorias */
 #categoryMainBtn{
   display:block;
   margin:20px auto 30px auto;
@@ -105,12 +77,9 @@ body::before{
   cursor:pointer;
   transition:transform 0.15s, box-shadow 0.15s;
 }
-#categoryMainBtn:hover{
-  transform:scale(1.05) rotate(1deg);
-  box-shadow:0 0 12px white;
-}
+#categoryMainBtn:hover{transform:scale(1.05) rotate(1deg); box-shadow:0 0 12px white;}
 
-/* ---------- CATEGORY PANEL ---------- */
+/* Category Panel */
 .category-panel{
   display:none;
   margin:0 auto 30px auto;
@@ -132,12 +101,9 @@ body::before{
   cursor:pointer;
   transition:transform 0.15s;
 }
-.category-panel button:hover{
-  transform:scale(1.1) rotate(1deg);
-  box-shadow:0 0 10px white;
-}
+.category-panel button:hover{transform:scale(1.1) rotate(1deg); box-shadow:0 0 10px white;}
 
-/* ---------- TABLAS ---------- */
+/* Tablas */
 table{
   width:95%;
   margin:20px auto 50px auto;
@@ -145,122 +111,38 @@ table{
   font-size:16px;
   display:none;
 }
-th,td{
-  border:3px solid white;
-  padding:12px;
-  text-align:center;
-  position:relative;
-}
+th,td{border:3px solid white; padding:12px; text-align:center; position:relative;}
 th{background:#222;}
-a{color:#00ffcc;text-decoration:none;}
+a{color:#00ffcc; text-decoration:none;}
 
-/* ---------- INFO PANELS ---------- */
-.info-panel{
-  display:none;
-  margin:60px auto;
-  background:#111;
-  border:4px solid white;
-  padding:30px;
-  width:80%;
-  text-align:center;
-  position:relative;
-}
-.close-btn{
-  position:absolute;
-  top:12px;
-  right:16px;
-  font-size:24px;
-  cursor:pointer;
-}
+/* Info Panels */
+.info-panel{display:none; margin:60px auto; background:#111; border:4px solid white; padding:30px; width:80%; text-align:center; position:relative;}
+.close-btn{position:absolute; top:12px; right:16px; font-size:24px; cursor:pointer;}
 .close-btn:hover{color:red;}
 
-/* ---------- CUADRO MÚSICA ARRIBA ---------- */
-#songName{
-  display:none;
-  position:fixed;
-  top:20px;
-  right:30px;
-  background:#222;
-  color:#00ff00;
-  border:4px solid white;
-  padding:20px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  z-index:1000;
-  opacity:0;
-  animation:fadeInOut 5s forwards;
-}
-@keyframes fadeInOut{
-  0%{opacity:0;transform:translateY(-20px);}
-  10%{opacity:1;transform:translateY(0);}
-  90%{opacity:1;transform:translateY(0);}
-  100%{opacity:0;transform:translateY(-20px);}
-}
+/* Cuadro musica */
+#songName{display:none; position:fixed; top:20px; right:30px; background:#222; color:#00ff00; border:4px solid white; padding:20px; font-family:'Press Start 2P'; font-size:16px; z-index:1000; opacity:0; animation:fadeInOut 5s forwards;}
+@keyframes fadeInOut{0%{opacity:0;transform:translateY(-20px);}10%{opacity:1;transform:translateY(0);}90%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-20px);}}
 
-/* ---------- MINI REPRODUCTOR ---------- */
+/* Mini Player */
 #miniPlayer{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#111;
-  border:4px solid white;
-  width:220px;
-  height:220px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  z-index:1000;
-  padding:10px;
+  position:fixed; bottom:20px; right:20px;
+  background:#111; border:4px solid white;
+  width:220px; height:220px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:12px;
+  z-index:1000; padding:10px;
 }
-#miniPlayer #currentSong{
-  color:#00ff00;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  text-align:center;
-}
-#miniPlayer .buttonsRow{
-  display:flex;
-  justify-content:space-around;
-  width:100%;
-}
-#miniPlayer .buttonsRow button{
-  background:black;
-  color:white;
-  border:3px solid white;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  cursor:pointer;
-  padding:10px 14px;
-  width:30%;
-  transition:0.2s;
-}
-#miniPlayer .buttonsRow button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 10px white;
-}
+#miniPlayer #currentSong{color:#00ff00; font-family:'Press Start 2P'; font-size:18px; text-align:center;}
+#miniPlayer .buttonsRow{display:flex; justify-content:space-around; width:100%;}
+#miniPlayer .buttonsRow button{background:black;color:white;border:3px solid white;font-family:'Press Start 2P';font-size:18px;cursor:pointer;padding:10px 14px;width:30%;transition:0.2s;}
+#miniPlayer .buttonsRow button:hover{transform:scale(1.1); box-shadow:0 0 10px white;}
+#trackCounter{margin-top:10px; color:#00ff00; font-family:'Press Start 2P'; font-size:14px; text-align:center;}
 
-/* ---------- MINI CONTADOR DE PISTAS ---------- */
-#trackCounter{
-  margin-top:10px;
-  color:#00ff00;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  text-align:center;
-}
+/* Advertencia */
+#warnMsg{position:fixed; bottom:20px; left:260px; font-size:14px; color:#ff4444; width:300px;}
 
-/* ---------- ADVERTENCIA ---------- */
-#warnMsg{
-  position:fixed;
-  bottom:20px;
-  left:260px;
-  font-size:14px;
-  color:#ff4444;
-  width:300px;
-}
-
-/* ---------- RESALTAR 1°,2°,3° ---------- */
+/* Resaltar 1°,2°,3° */
 .top1{animation:glowGold 1s infinite alternate;}
 .top2{animation:glowSilver 1s infinite alternate;}
 .top3{animation:glowBronze 1s infinite alternate;}
@@ -268,35 +150,20 @@ a{color:#00ffcc;text-decoration:none;}
 @keyframes glowSilver{0%{text-shadow:0 0 5px #C0C0C0;}100%{text-shadow:0 0 20px #C0C0C0;}}
 @keyframes glowBronze{0%{text-shadow:0 0 5px #CD7F32;}100%{text-shadow:0 0 20px #CD7F32;}}
 
-/* ---------- BORRAR RUN PANEL ---------- */
+/* Delete Panel */
 #deletePanel{
-  display:none;
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#111;
-  border:4px solid white;
-  padding:30px;
-  width:400px;
-  text-align:center;
-  z-index:2000;
+  display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:#111; border:4px solid white; padding:30px; width:400px; text-align:center; z-index:2000;
 }
-#deletePanel button{
-  margin:10px;
-  padding:12px 20px;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  cursor:pointer;
-}
+#deletePanel button{margin:10px; padding:12px 20px; font-family:'Press Start 2P'; font-size:14px; cursor:pointer;}
 #deletePanel #yesDelete{background:green;color:white;}
 #deletePanel #noDelete{background:red;color:white;}
+#deletePanel select{margin-top:10px; padding:10px; width:90%; font-family:'Press Start 2P'; font-size:14px;}
 </style>
 </head>
 <body>
 
 <div class="menu" onclick="toggleMenu()">☰</div>
-
 <div class="menu-panel" id="menuPanel">
   <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
   <button onclick="showImport()">Importar Speedruns</button>
@@ -305,16 +172,10 @@ a{color:#00ffcc;text-decoration:none;}
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
-<div class="title-wrapper">
-  <span class="title-line">EL PAPU</span>
-  <span class="title-line">SPEEDRUNS</span>
-</div>
-
+<div class="title-wrapper"><span class="title-line">EL PAPU</span><span class="title-line">SPEEDRUNS</span></div>
 <div class="subtitle">Clasificación</div>
-
 <button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
 
-<!-- CATEGORIAS -->
 <div class="category-panel" id="bigCategory">
   <button onclick="firstCategory('lvl11')">1-1 Level</button>
   <button onclick="firstCategory('any')">Any%</button>
@@ -323,33 +184,18 @@ a{color:#00ffcc;text-decoration:none;}
   <button onclick="firstCategory('moonwalkAny')">Moonwalk Jump Solo - Any%</button>
 </div>
 
-<!-- TABLAS -->
-<table id="lvl11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<table id="any">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<table id="warpless">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<table id="moonwalk11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<table id="moonwalkAny">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
+<!-- Tablas -->
+<table id="lvl11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="any"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="warpless"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moonwalk11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moonwalkAny"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
 
 <!-- Importar Panel -->
 <div class="info-panel" id="importPanel">
 <span class="close-btn" onclick="closePanels()">✕</span>
 <h3>Importar Speedrun</h3>
-<input type="password" id="importPass" placeholder="Contraseña">
-<br><br>
+<input type="password" id="importPass" placeholder="Contraseña"><br><br>
 <input type="text" id="playerName" placeholder="Nombre jugador">
 <input type="number" id="playerTime" placeholder="Tiempo">
 <input type="text" id="playerVideo" placeholder="URL del video">
@@ -359,13 +205,11 @@ a{color:#00ffcc;text-decoration:none;}
   <option value="warpless">Warpless</option>
   <option value="moonwalk11">Moonwalk Jump Solo - 1-1</option>
   <option value="moonwalkAny">Moonwalk Jump Solo - Any%</option>
-</select>
-<br><br>
+</select><br><br>
 <button onclick="addSpeedrun()">Agregar Speedrun</button>
 </div>
 
-<div class="info-panel" id="rulesPanel">
-<span class="close-btn" onclick="closePanels()">✕</span>
+<div class="info-panel" id="rulesPanel"><span class="close-btn" onclick="closePanels()">✕</span>
 1) Video completo<br><br>
 2) Sin editar<br><br>
 3) Inicio y final visibles
@@ -385,8 +229,8 @@ a{color:#00ffcc;text-decoration:none;}
 <!-- Delete Panel -->
 <div id="deletePanel">
   <p>Para borrar, pon la contraseña:</p>
-  <input type="password" id="deletePass">
-  <br><br>
+  <input type="password" id="deletePass"><br><br>
+  <select id="deleteSelect"><option value="">--Selecciona un run--</option></select><br><br>
   <button onclick="confirmDelete()">Confirmar Contraseña</button>
   <div id="deleteConfirm" style="display:none;">
     <p>REALMENTE QUIERES BORRAR ESTE RUN?, NO PODRÁS RECUPERARLO JAMÁS BRO :V</p>
@@ -403,10 +247,7 @@ src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
-let ytPlayer;
-let musicOn=true;
-let stopActive=false;
-let playlistIndex=0;
+let ytPlayer, musicOn=true, stopActive=false, playlistIndex=0;
 let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','CxKTbcs1t7M','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
 
 const menuPanel=document.getElementById("menuPanel");
@@ -423,208 +264,127 @@ const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
 const currentSong=document.getElementById("currentSong");
 
-// ---------- Helpers ----------
-function hideAll(){
-  [lvl11,any,warpless,moonwalk11,moonwalkAny].forEach(t=>t.style.display="none");
-  importPanel.style.display="none";
-  rulesPanel.style.display="none";
-}
-
-function toggleMenu(){
-  const open=menuPanel.style.display==="block";
-  if(open){menuPanel.style.display="none"; hideAll(); bigCategory.style.display="none"; menuCatBtn.style.display="none";}
-  else{menuPanel.style.display="block";}
-}
-
-function toggleCategories(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
-function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
-function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id);}
-function showCategory(id){
-  hideAll();
-  const tbl=document.getElementById(id);
-  tbl.style.display="table";
-  sortTable(tbl);
-  menuPanel.style.display="none";
-  bigCategory.style.display="none";
-  tbl.scrollIntoView({behavior:"smooth"});
-}
-
-// ---------------- MÚSICA ----------------
-function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player('ytPlayer',{
-    events:{
-      'onReady':()=>{
-        ytPlayer.playVideo(); 
-        updateSongDisplay();
-      },
-      'onStateChange':(event)=>{
-        if(event.data === YT.PlayerState.ENDED){ // Cuando termina la canción
-          nextSongAuto();
-        }
-        updateSongDisplay();
-      }
-    }
-  });
-}
-
-function toggleMusic(){
-  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=false;}
-  else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on";}
-}
-
-function toggleStop(){
-  if(!ytPlayer) return;
-  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true;}
-  else{ ytPlayer.playVideo(); stopActive=false;}
-}
-
-function updateSongDisplay(){
-  if(!ytPlayer || !ytPlayer.getVideoData) return;
-  const data=ytPlayer.getVideoData();
-  const title=data.title || "Canción";
-  songName.innerText="Estás escuchando: "+title;
-  songName.style.display="block";
-  songName.style.animation="fadeInOut 5s forwards";
-  currentSong.innerText=title;
-  document.getElementById('trackCounter').innerText=(playlistIndex+1)+' / '+playlistIds.length;
-}
-
-function nextSong(){
-  if(playlistIndex<playlistIds.length-1){playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay();}
-}
-
-function prevSong(){
-  if(playlistIndex>0){playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay();}
-}
-
-// Auto siguiente canción
-function nextSongAuto(){
-  playlistIndex++;
-  if(playlistIndex >= playlistIds.length) playlistIndex=0;
-  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
-  updateSongDisplay();
-}
-
-// ---------------- SPEEDRUNS CON LOCALSTORAGE ----------------
-function loadRuns(){
-  const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
-  for(const cat in saved){
-    const table=document.getElementById(cat);
-    saved[cat].forEach(run=>{
-      const row=document.createElement('tr');
-      row.innerHTML=`<td></td>
-                     <td>${run.name}</td>
-                     <td>${run.time.toFixed(2)}</td>
-                     <td>${run.platform}</td>
-                     <td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
-      table.appendChild(row);
-    });
-    sortTable(table);
-  }
-}
-
-function saveRuns(){
-  const data={};
-  [lvl11,any,warpless,moonwalk11,moonwalkAny].forEach(table=>{
-    data[table.id]=[...table.rows].slice(1).map(r=>({
-      name:r.cells[1].innerText,
-      time:parseFloat(r.cells[2].innerText),
-      platform:r.cells[3].innerText,
-      video:r.cells[4].querySelector('a') ? r.cells[4].querySelector('a').href : ''
-    }));
-  });
-  localStorage.setItem('papuSpeedruns',JSON.stringify(data));
-}
-
-// ---------------- AGREGAR SPEEDRUN ----------------
-function addSpeedrun(){
-  const pass=document.getElementById('importPass').value;
-  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
-  const name=document.getElementById('playerName').value.trim();
-  const time=parseFloat(document.getElementById('playerTime').value);
-  const video=document.getElementById('playerVideo').value.trim();
-  const category=document.getElementById('runCategory').value;
-  if(!name||!time){ alert("Completa todos los campos"); return; }
-
-  const table=document.getElementById(category);
-  const row=document.createElement('tr');
-  row.innerHTML=`<td></td>
-                 <td>${name}</td>
-                 <td>${time.toFixed(2)}</td>
-                 <td>Custom</td>
-                 <td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
-  table.appendChild(row);
-  sortTable(table);
-  saveRuns(); // Guardar cambios en LocalStorage
-
-  document.getElementById('playerName').value="";
-  document.getElementById('playerTime').value="";
-  document.getElementById('playerVideo').value="";
-  importPanel.style.display="none";
-}
-
-// ---------------- BORRAR SPEEDRUN ----------------
 let runToDelete=null;
 
+// Helpers
+function hideAll(){[lvl11,any,warpless,moonwalk11,moonwalkAny].forEach(t=>t.style.display="none"); importPanel.style.display="none"; rulesPanel.style.display="none";}
+function toggleMenu(){menuPanel.style.display==="block"? (menuPanel.style.display="none", hideAll(), bigCategory.style.display="none", menuCatBtn.style.display="none") : menuPanel.style.display="block";}
+function toggleCategories(){bigCategory.style.display=bigCategory.style.display==="block"?"none":"block";}
+function toggleBigCategory(){bigCategory.style.display=bigCategory.style.display==="block"?"none":"block";}
+function firstCategory(id){bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id);}
+function showCategory(id){hideAll(); const tbl=document.getElementById(id); tbl.style.display="table"; sortTable(tbl); menuPanel.style.display="none"; bigCategory.style.display="none"; tbl.scrollIntoView({behavior:"smooth"});}
+
+// Música
+function onYouTubeIframeAPIReady(){ytPlayer=new YT.Player('ytPlayer',{events:{'onReady':()=>{ytPlayer.playVideo(); updateSongDisplay();}, 'onStateChange':onPlayerStateChange}});}
+function toggleMusic(){musicOn?(ytPlayer.pauseVideo(), musicOn=false, musicBtn.className="off", stopActive=false):(ytPlayer.playVideo(), musicOn=true, musicBtn.className="on");}
+function toggleStop(){if(!ytPlayer)return; stopActive? (ytPlayer.playVideo(), stopActive=false):(ytPlayer.pauseVideo(), stopActive=true);}
+function updateSongDisplay(){if(!ytPlayer||!ytPlayer.getVideoData)return; const data=ytPlayer.getVideoData(); const title=data.title||"Canción"; songName.innerText="Estás escuchando: "+title; songName.style.display="block"; songName.style.animation="fadeInOut 5s forwards"; currentSong.innerText=title; document.getElementById('trackCounter').innerText=(playlistIndex+1)+' / '+playlistIds.length;}
+function nextSong(){playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay();}
+function prevSong(){playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay();}
+function onPlayerStateChange(e){if(e.data===0) nextSong();} // al terminar la canción pasa a la siguiente
+
+// Speedruns
+function loadRuns(){const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}'); for(const cat in saved){const table=document.getElementById(cat); saved[cat].forEach(run=>{const row=document.createElement('tr'); row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video?`<a href="${run.video}" target="_blank">VER</a>`:'--'}</td>`; table.appendChild(row);}); sortTable(table);}}
+function saveRuns(){const data={}; [lvl11,any,warpless,moonwalk11,moonwalkAny].forEach(table=>{data[table.id]=[...table.rows].slice(1).map(r=>({name:r.cells[1].innerText,time:parseFloat(r.cells[2].innerText),platform:r.cells[3].innerText,video:r.cells[4].querySelector('a')?r.cells[4].querySelector('a').href:''}));}); localStorage.setItem('papuSpeedruns',JSON.stringify(data));}
+
+// Agregar Speedrun
+function addSpeedrun(){
+  const pass = document.getElementById('importPass').value;
+  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+
+  const name = document.getElementById('playerName').value.trim();
+  const time = parseFloat(document.getElementById('playerTime').value);
+  const video = document.getElementById('playerVideo').value.trim();
+  const category = document.getElementById('runCategory').value;
+
+  if(!name || !time){ alert("Completa todos los campos"); return; }
+
+  const table = document.getElementById(category);
+  const row = document.createElement('tr');
+  row.innerHTML = `<td></td>
+                   <td>${name}</td>
+                   <td>${time.toFixed(2)}</td>
+                   <td>Custom</td>
+                   <td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
+  table.appendChild(row);
+  sortTable(table);
+  saveRuns();
+
+  document.getElementById('playerName').value = "";
+  document.getElementById('playerTime').value = "";
+  document.getElementById('playerVideo').value = "";
+  importPanel.style.display = "none";
+}
+
+// Borrar Speedrun
 function showDeletePanel(){
   document.getElementById('deletePanel').style.display='block';
   document.getElementById('deleteConfirm').style.display='none';
   document.getElementById('deletePass').value='';
-  runToDelete=null;
+  runToDelete = null;
+
+  // Llenar el select con los runs visibles
+  const visibleTable = [lvl11, any, warpless, moonwalk11, moonwalkAny].find(t=>t.style.display==="table");
+  const select = document.getElementById('deleteSelect');
+  select.innerHTML = '<option value="">--Selecciona un run--</option>';
+  if(visibleTable){
+    [...visibleTable.rows].slice(1).forEach((r,i)=>{
+      select.innerHTML += `<option value="${i}">${r.cells[1].innerText} - ${r.cells[2].innerText}</option>`;
+    });
+  }
 }
 
 function confirmDelete(){
-  const pass=document.getElementById('deletePass').value;
-  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+  const pass = document.getElementById('deletePass').value;
+  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
 
-  // Selecciona la categoría visible
-  const visibleTable=[lvl11,any,warpless,moonwalk11,moonwalkAny].find(t=>t.style.display==="table");
-  if(!visibleTable){ alert("Primero selecciona una categoría visible"); return; }
-  if(visibleTable.rows.length<=1){ alert("No hay runs para borrar"); return; }
+  const select = document.getElementById('deleteSelect');
+  const index = parseInt(select.value);
+  if(isNaN(index)){ alert("Selecciona un run"); return; }
 
-  // Selecciona la primera fila visible (puedes modificar luego para elegir otra)
-  runToDelete=visibleTable.rows[1];
+  const visibleTable = [lvl11, any, warpless, moonwalk11, moonwalkAny].find(t=>t.style.display==="table");
+  runToDelete = visibleTable.rows[index+1]; // +1 por el header
   document.getElementById('deleteConfirm').style.display='block';
 }
 
 function deleteRun(){
   if(runToDelete){
     runToDelete.remove();
-    runToDelete=null;
+    runToDelete = null;
     document.getElementById('deletePanel').style.display='none';
-    saveRuns(); // Guardar cambios en LocalStorage
+    saveRuns();
   }
 }
 
 function cancelDelete(){
-  runToDelete=null;
+  runToDelete = null;
   document.getElementById('deletePanel').style.display='none';
 }
 
-// ---------------- ORDENAR TABLAS ----------------
+// Ordenar tablas
 function sortTable(table){
-  const rows=[...table.rows].slice(1);
-  const valid=rows.filter(r=>r.cells[2].innerText!=="");
-  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+  const rows = [...table.rows].slice(1);
+  const valid = rows.filter(r=>r.cells[2].innerText!=="");
+  valid.sort((a,b)=>parseFloat(a.cells[2].innerText) - parseFloat(b.cells[2].innerText));
   valid.forEach((r,i)=>{
     r.classList.remove("top1","top2","top3");
     if(i===0) r.classList.add("top1");
     if(i===1) r.classList.add("top2");
     if(i===2) r.classList.add("top3");
-    r.cells[0].innerText=i+1;
+    r.cells[0].innerText = i+1;
     table.appendChild(r);
   });
 }
 
-// ---------------- ABRIR / CERRAR PANELS ----------------
+// Abrir/cerrar panels
 function showImport(){ hideAll(); importPanel.style.display='block'; menuPanel.style.display='none'; }
 function showRules(){ hideAll(); rulesPanel.style.display='block'; menuPanel.style.display='none'; }
 function closePanels(){ hideAll(); }
 
-// ---------------- INICIALIZACIÓN ----------------
+// Inicialización
 window.onload=()=>{
-  loadRuns(); // Cargar runs guardados
-  showCategory('lvl11'); // Mostrar por defecto 1-1 Level
+  loadRuns();
+  showCategory('lvl11'); // mostrar 1-1 Level por defecto
 }
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
