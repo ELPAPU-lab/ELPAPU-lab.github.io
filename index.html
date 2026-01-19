@@ -336,9 +336,11 @@ let ytPlayer;
 let musicOn=true;
 let playlistIndex=0;
 let playlistIds=[
-  'ww1Ba536FFE', // ejemplo, reemplazable por IDs reales de la playlist
-  'OTRA_ID',
-  'OTRA_ID2'
+  'jwJ2vhjyAE0',
+  '4yV_gv299VM',
+  '2yVop7pZh-w',
+  'rWVJQH3VY-A',
+  '_L6HjwwcyCs'
 ];
 
 // ---------- FUNCIONES PÁGINA ----------
@@ -383,7 +385,7 @@ function toggleMusic(){
 }
 
 function updateSongDisplay(){
-  const title="Canción actual"; // luego se puede reemplazar por API de YouTube Data
+  const title="Canción actual"; // placeholder
   songName.innerText="Estás escuchando: "+title;
   songName.style.display="block";
   songName.style.animation="fadeInOut 5s forwards";
