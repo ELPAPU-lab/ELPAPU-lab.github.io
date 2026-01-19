@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
-<link href="https://fonts.cdnfonts.com/css/snowbell" rel="stylesheet">
+<head>
   <meta charset="UTF-8">
   <title>PAPU Speedruns</title>
+
+  <!-- Fuente Snowbell -->
+  <link href="https://fonts.cdnfonts.com/css/snowbell" rel="stylesheet">
 
   <style>
     body {
       background-color: #000;
       color: #fff;
-      font-family: "Courier New", monospace;
+      font-family: 'Snowbell', monospace;
       margin: 0;
       padding: 0;
     }
@@ -18,7 +21,7 @@
       position: fixed;
       top: 20px;
       right: 30px;
-      font-size: 40px;
+      font-size: 48px;
       cursor: pointer;
       user-select: none;
     }
@@ -26,51 +29,54 @@
     .menu-panel {
       display: none;
       position: fixed;
-      top: 80px;
+      top: 90px;
       right: 30px;
       background-color: #111;
-      border: 3px solid #fff;
+      border: 4px solid #fff;
       padding: 20px;
-      width: 300px;
+      width: 320px;
     }
 
     .menu-panel button {
       width: 100%;
       margin-bottom: 15px;
-      padding: 10px;
-      font-size: 18px;
+      padding: 12px;
+      font-size: 20px;
       background-color: #000;
       color: #fff;
-      border: 2px solid #fff;
+      border: 3px solid #fff;
       cursor: pointer;
+      font-family: 'Snowbell', monospace;
     }
 
-    /* Título */
+    /* Título principal */
     .title {
       text-align: center;
-      font-size: 72px;
+      font-size: 80px;
       margin-top: 60px;
-      letter-spacing: 10px;
+      letter-spacing: 12px;
       font-weight: bold;
     }
 
+    /* Subtítulo */
     .subtitle {
       margin-left: 40px;
       margin-top: 40px;
-      font-size: 32px;
+      font-size: 34px;
       max-width: 50%;
     }
 
+    /* Tabla leaderboard */
     table {
       width: 90%;
       margin: 40px auto;
       border-collapse: collapse;
-      font-size: 26px;
+      font-size: 28px;
     }
 
     th, td {
       border: 4px solid #fff;
-      padding: 18px 28px;
+      padding: 20px 30px;
       text-align: center;
     }
 
@@ -78,14 +84,14 @@
       background-color: #222;
     }
 
-    /* Ventanas internas */
+    /* Paneles */
     .panel {
       display: none;
       width: 80%;
       margin: 40px auto;
-      border: 3px solid #fff;
+      border: 4px solid #fff;
       padding: 30px;
-      font-size: 22px;
+      font-size: 24px;
     }
   </style>
 </head>
@@ -100,11 +106,11 @@
     <button onclick="showPanel('reglas')">REGLAS</button>
   </div>
 
-  <!-- Título -->
+  <!-- Títulos -->
   <div class="title">PAPU SPEEDRUNS</div>
   <div class="subtitle">NES Speedruns – 1-1 Level</div>
 
-  <!-- Tabla -->
+  <!-- Leaderboard -->
   <table>
     <tr>
       <th>Puesto</th>
@@ -120,23 +126,19 @@
     </tr>
   </table>
 
-  <!-- Importar Speedruns -->
+  <!-- Importar -->
   <div class="panel" id="importar">
-    <p>
-      ¿Quieres que tus Speedruns aparezcan aquí?<br><br>
-      Contactame a <b>elpapu3388@gmail.com</b><br><br>
-      Mandame tu video, lo revisaré y si cumple con las reglas lo agregaré sin duda :)
-    </p>
+    ¿Quieres que tus Speedruns aparezcan aquí?<br><br>
+    Contactame a <b>elpapu3388@gmail.com</b><br><br>
+    Mandame tu video, lo revisaré y si cumple con las reglas lo agregaré sin duda :)
   </div>
 
   <!-- Reglas -->
   <div class="panel" id="reglas">
-    <p>
-      <b>REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓</b><br><br>
-      1) Tienes que mandarme el video de tu speedrun a <b>elpapu3388@gmail.com</b><br><br>
-      2) El video no debe estar ni editado ni alterado, debe estar <b>crudo</b><br><br>
-      3) El video tiene que mostrar el principio y el final
-    </p>
+    <b>REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓</b><br><br>
+    1) Tienes que mandarme el video de tu speedrun a <b>elpapu3388@gmail.com</b><br><br>
+    2) El video no debe estar ni editado ni alterado, debe estar <b>crudo</b><br><br>
+    3) El video tiene que mostrar el principio y el final
   </div>
 
   <script>
