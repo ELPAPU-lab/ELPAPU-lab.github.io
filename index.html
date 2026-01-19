@@ -7,152 +7,209 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-body {
-  background-color: black;
-  color: white;
-  margin: 0;
-  font-family: 'Press Start 2P', monospace;
+body{
+  background:black;
+  color:white;
+  margin:0;
+  font-family:'Press Start 2P', monospace;
+  animation:fadeIn 1.2s ease;
 }
 
-/* COLORES TOP AUTOMÁTICOS */
-.top1 { 
-  color: #FFD700;
-  animation: glow 1.5s infinite alternate;
-}
-.top2 { color: #C0C0C0; }
-.top3 { color: #CD7F32; }
-
-/* BRILLO WR */
-@keyframes glow {
-  from { text-shadow: 0 0 5px #FFD700; }
-  to { text-shadow: 0 0 20px #FFD700; }
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
 }
 
-/* MENÚ ☰ */
-.menu {
-  position: fixed;
-  top: 20px;
-  right: 30px;
-  font-size: 48px;
-  cursor: pointer;
-  z-index: 100;
+@keyframes popIn{
+  from{opacity:0;transform:scale(0.9);}
+  to{opacity:1;transform:scale(1);}
 }
 
-/* PANEL MENÚ */
-.menu-panel {
-  display: none;
-  position: fixed;
-  top: 90px;
-  right: 30px;
-  background: #111;
-  border: 4px solid white;
-  padding: 20px;
-  width: 320px;
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
-.menu-panel button {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px;
-  font-size: 18px;
-  background: black;
-  color: white;
-  border: 3px solid white;
-  cursor: pointer;
+@keyframes slideRight{
+  from{opacity:0;transform:translateX(30px);}
+  to{opacity:1;transform:translateX(0);}
 }
 
-/* PANEL CATEGORÍAS */
-.category-panel {
-  display: none;
-  position: fixed;
-  top: 90px;
-  right: 380px;
-  background: #111;
-  border: 4px solid white;
-  padding: 20px;
-  width: 260px;
+/* ---------- TOP COLORS ---------- */
+.top1{color:#FFD700;animation:glow 1.5s infinite alternate;}
+.top2{color:#C0C0C0;}
+.top3{color:#CD7F32;}
+
+@keyframes glow{
+  from{text-shadow:0 0 5px #FFD700;}
+  to{text-shadow:0 0 20px #FFD700;}
 }
 
-.category-panel button {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px;
-  font-size: 18px;
-  background: black;
-  color: white;
-  border: 3px solid white;
-  cursor: pointer;
+/* ---------- MENU ---------- */
+.menu{
+  position:fixed;
+  top:20px;
+  right:30px;
+  font-size:48px;
+  cursor:pointer;
+  z-index:100;
 }
 
-/* TÍTULOS */
-.title {
-  text-align: center;
-  font-size: 64px;
-  margin-top: 60px;
+/* MENU PANEL */
+.menu-panel{
+  display:none;
+  position:fixed;
+  top:90px;
+  right:30px;
+  background:#111;
+  border:4px solid white;
+  padding:20px;
+  width:320px;
+  animation:slideDown 0.3s ease;
 }
 
-.subtitle {
-  margin-left: 40px;
-  margin-top: 40px;
-  font-size: 24px;
+.menu-panel button{
+  width:100%;
+  margin-bottom:12px;
+  padding:14px;
+  font-family:'Press Start 2P';
+  font-size:14px;
+  background:black;
+  color:white;
+  border:3px solid white;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
 }
 
-/* TABLAS */
-table {
-  width: 95%;
-  margin: 50px auto;
-  border-collapse: collapse;
-  font-size: 18px;
-  display: none;
+.menu-panel button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 12px white;
 }
 
-th, td {
-  border: 3px solid white;
-  padding: 12px;
-  text-align: center;
+/* ---------- CATEGORY PANELS ---------- */
+.big-category{
+  display:block;
+  margin:40px auto;
+  background:#111;
+  border:4px solid white;
+  padding:30px;
+  width:85%;
+  text-align:center;
+  animation:popIn 0.6s ease;
 }
 
-th {
-  background: #222;
+.big-category button{
+  width:100%;
+  margin:14px 0;
+  padding:18px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  background:black;
+  color:white;
+  border:4px solid white;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
 }
 
-a {
-  color: #00ffcc;
-  text-decoration: none;
+.big-category button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px white;
 }
 
-/* PANELES INFO */
-.info-panel {
-  display: none;
-  position: relative;
-  margin: 60px auto;
-  background: #111;
-  border: 4px solid white;
-  padding: 30px;
-  width: 80%;
-  font-size: 18px;
-  text-align: center;
+.category-panel{
+  display:none;
+  position:fixed;
+  top:90px;
+  right:380px;
+  background:#111;
+  border:4px solid white;
+  padding:20px;
+  width:260px;
+  animation:slideRight 0.3s ease;
 }
 
-/* BOTÓN CERRAR */
-.close-btn {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 28px;
-  cursor: pointer;
+.category-panel button{
+  width:100%;
+  margin-bottom:12px;
+  padding:12px;
+  font-family:'Press Start 2P';
+  background:black;
+  color:white;
+  border:3px solid white;
+  cursor:pointer;
+  transition:transform 0.15s;
 }
-.close-btn:hover { color: red; }
+
+.category-panel button:hover{
+  transform:scale(1.05);
+}
+
+/* ---------- TITLES ---------- */
+.title{
+  text-align:center;
+  font-size:64px;
+  margin-top:60px;
+  animation:slideDown 0.6s ease;
+}
+
+.subtitle{
+  text-align:center;
+  margin-top:20px;
+  font-size:24px;
+  animation:slideDown 0.8s ease;
+}
+
+/* ---------- TABLES ---------- */
+table{
+  width:95%;
+  margin:50px auto;
+  border-collapse:collapse;
+  font-size:16px;
+  display:none;
+  animation:popIn 0.4s ease;
+}
+
+th,td{
+  border:3px solid white;
+  padding:12px;
+  text-align:center;
+}
+
+th{background:#222;}
+
+a{color:#00ffcc;text-decoration:none;}
+
+/* ---------- INFO PANELS ---------- */
+.info-panel{
+  display:none;
+  margin:60px auto;
+  background:#111;
+  border:4px solid white;
+  padding:30px;
+  width:80%;
+  text-align:center;
+  position:relative;
+  animation:popIn 0.4s ease;
+}
+
+.close-btn{
+  position:absolute;
+  top:12px;
+  right:16px;
+  font-size:24px;
+  cursor:pointer;
+}
+.close-btn:hover{color:red;}
 </style>
 </head>
 
 <body>
 
-<!-- MENÚ -->
 <div class="menu" onclick="toggleMenu()">☰</div>
 
 <div class="menu-panel" id="menuPanel">
-  <button onclick="toggleCategories()">Categorías</button>
+  <button id="menuCatBtn" onclick="toggleCategories()" style="display:none">Categorías</button>
   <button onclick="showImport()">Importar Speedruns</button>
   <button onclick="showRules()">REGLAS</button>
 </div>
@@ -163,98 +220,91 @@ a {
   <button onclick="showCategory('warpless')">Warpless</button>
 </div>
 
-<!-- TÍTULOS -->
 <div class="title">PAPU SPEEDRUNS</div>
 <div class="subtitle">NES Speedruns</div>
 
-<!-- 1-1 LEVEL -->
-<table id="lvl11">
-<tr>
-  <th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th>
-</tr>
-<tr>
-  <td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
-  <td><a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">VER</a></td>
-</tr>
-</table>
-
-<!-- ANY% -->
-<table id="any">
-<tr>
-  <th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th>
-</tr>
-</table>
-
-<!-- WARPLESS -->
-<table id="warpless">
-<tr>
-  <th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th>
-</tr>
-</table>
-
-<!-- IMPORTAR -->
-<div class="info-panel" id="importPanel">
-  <span class="close-btn" onclick="closePanels()">✕</span>
-  Mandá tu video a<br><b>elpapu3388@gmail.com</b><br><br>
-  Si cumple las reglas, se agrega 👍
+<div class="big-category" id="bigCategory">
+  <button onclick="firstCategory('lvl11')">1-1 Level</button>
+  <button onclick="firstCategory('any')">Any%</button>
+  <button onclick="firstCategory('warpless')">Warpless</button>
 </div>
 
-<!-- REGLAS -->
+<table id="lvl11">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+<tr>
+<td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
+<td><a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">VER</a></td>
+</tr>
+</table>
+
+<table id="any">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+</table>
+
+<table id="warpless">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+</table>
+
+<div class="info-panel" id="importPanel">
+<span class="close-btn" onclick="closePanels()">✕</span>
+Mandá tu video a<br><b>elpapu3388@gmail.com</b>
+</div>
+
 <div class="info-panel" id="rulesPanel">
-  <span class="close-btn" onclick="closePanels()">✕</span>
-  1) Video completo<br><br>
-  2) Sin editar<br><br>
-  3) Mostrar inicio y final
+<span class="close-btn" onclick="closePanels()">✕</span>
+1) Video completo<br><br>
+2) Sin editar<br><br>
+3) Inicio y final visibles
 </div>
 
 <script>
-const tables = ["lvl11","any","warpless"];
-
-function hideAllContent(){
-  tables.forEach(id => document.getElementById(id).style.display="none");
-  importPanel.style.display="none";
-  rulesPanel.style.display="none";
+function hideAll(){
+["lvl11","any","warpless"].forEach(id=>document.getElementById(id).style.display="none");
+importPanel.style.display="none";
+rulesPanel.style.display="none";
 }
 
 function toggleMenu(){
-  const open = menuPanel.style.display==="block";
-  menuPanel.style.display = open ? "none":"block";
-  if(open){ categoryPanel.style.display="none"; hideAllContent(); }
+menuPanel.style.display = menuPanel.style.display==="block"?"none":"block";
+if(menuPanel.style.display==="none"){categoryPanel.style.display="none";}
 }
 
 function toggleCategories(){
-  categoryPanel.style.display =
-    categoryPanel.style.display==="block"?"none":"block";
+categoryPanel.style.display = categoryPanel.style.display==="block"?"none":"block";
+}
+
+function firstCategory(id){
+bigCategory.style.display="none";
+menuCatBtn.style.display="block";
+showCategory(id);
 }
 
 function showCategory(id){
-  hideAllContent();
-  const table = document.getElementById(id);
-  table.style.display="table";
-  sortTable(table);
-  menuPanel.style.display="none";
-  categoryPanel.style.display="none";
+hideAll();
+const table=document.getElementById(id);
+table.style.display="table";
+sortTable(table);
+menuPanel.style.display="none";
+categoryPanel.style.display="none";
+window.scrollTo(0,300);
 }
 
-function showImport(){ hideAllContent(); importPanel.style.display="block"; }
-function showRules(){ hideAllContent(); rulesPanel.style.display="block"; }
-function closePanels(){ importPanel.style.display="none"; rulesPanel.style.display="none"; }
+function showImport(){hideAll();importPanel.style.display="block";}
+function showRules(){hideAll();rulesPanel.style.display="block";}
+function closePanels(){importPanel.style.display="none";rulesPanel.style.display="none";}
 
-/* ORDEN + COLORES AUTOMÁTICOS */
 function sortTable(table){
-  const rows = Array.from(table.rows).slice(1);
-  const valid = rows.filter(r => r.cells[2].innerText !== "--.--");
-
-  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
-
-  valid.forEach((row,i)=>{
-    row.classList.remove("top1","top2","top3");
-    if(i===0) row.classList.add("top1");
-    if(i===1) row.classList.add("top2");
-    if(i===2) row.classList.add("top3");
-    row.cells[0].innerText = i+1;
-    table.appendChild(row);
-  });
+const rows=[...table.rows].slice(1);
+const valid=rows.filter(r=>r.cells[2].innerText!=="");
+valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+valid.forEach((r,i)=>{
+r.classList.remove("top1","top2","top3");
+if(i===0)r.classList.add("top1");
+if(i===1)r.classList.add("top2");
+if(i===2)r.classList.add("top3");
+r.cells[0].innerText=i+1;
+table.appendChild(r);
+});
 }
 </script>
 
