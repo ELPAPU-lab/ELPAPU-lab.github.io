@@ -299,14 +299,12 @@ Mandá tu video a<br><b>elpapu3388@gmail.com</b>
 
 <div id="songName"></div>
 
-<!-- MINI PLAYER -->
 <div id="miniPlayer">
   <button id="prevSong" onclick="prevSong()">◀</button>
   <div id="currentSong">Canción</div>
   <button id="nextSong" onclick="nextSong()">▶</button>
 </div>
 
-<!-- YT PLAYLIST -->
 <iframe id="ytPlayer" width="0" height="0"
 src="https://www.youtube.com/embed?listType=playlist&list=PLKH-YE4Goc7lZIe7l67TDDKURsRWWW0vc&autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
@@ -328,8 +326,6 @@ const songName=document.getElementById("songName");
 const musicBtn=document.getElementById("musicBtn");
 
 const currentSong=document.getElementById("currentSong");
-const prevBtn=document.getElementById("prevSong");
-const nextBtn=document.getElementById("nextSong");
 
 let firstTime=true;
 let ytPlayer;
@@ -343,7 +339,6 @@ let playlistIds=[
   '_L6HjwwcyCs'
 ];
 
-// ---------- FUNCIONES PÁGINA ----------
 function hideAll(){ [lvl11,any,warpless].forEach(t=>t.style.display="none"); importPanel.style.display="none"; rulesPanel.style.display="none"; }
 function toggleMenu(){ menuPanel.style.display=menuPanel.style.display==="block"?"none":"block"; if(menuPanel.style.display==="none"){categoryPanel.style.display="none";} }
 function toggleCategories(){ categoryPanel.style.display=categoryPanel.style.display==="block"?"none":"block"; }
@@ -366,7 +361,7 @@ function sortTable(table){
   });
 }
 
-// ---------- MÚSICA ----------
+// ---------------- MÚSICA ----------------
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('ytPlayer',{
     events:{
@@ -374,7 +369,9 @@ function onYouTubeIframeAPIReady(){
         ytPlayer.playVideo();
         updateSongDisplay();
       },
-      'onStateChange':()=>{updateSongDisplay();}
+      'onStateChange':()=>{
+        updateSongDisplay();
+      }
     }
   });
 }
@@ -385,7 +382,9 @@ function toggleMusic(){
 }
 
 function updateSongDisplay(){
-  const title="Canción actual"; // placeholder
+  if(!ytPlayer || !ytPlayer.getVideoData) return;
+  const data=ytPlayer.getVideoData();
+  const title=data.title || "Canción";
   songName.innerText="Estás escuchando: "+title;
   songName.style.display="block";
   songName.style.animation="fadeInOut 5s forwards";
@@ -393,11 +392,11 @@ function updateSongDisplay(){
 }
 
 function nextSong(){
-  if(playlistIndex<playlistIds.length-1){ playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay(); }
+  if(playlistIndex<playlistIds.length-1){ playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]); }
 }
 
 function prevSong(){
-  if(playlistIndex>0){ playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay(); }
+  if(playlistIndex>0){ playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]); }
 }
 </script>
 
