@@ -15,69 +15,27 @@ body{
   position:relative;
 }
 
-/* ---------- FONDO ANIMADO NES ---------- */
-body::before{
-  content:"";
-  position:fixed;
-  top:0;
-  left:0;
-  width:200%;
-  height:200%;
-  background-image:repeating-linear-gradient(45deg,#222 0 1px,#111 1px 2px);
-  z-index:-1;
-  animation:bgMove 20s linear infinite;
+/* ---------- TITULOS ---------- */
+.title-wrapper{
+  text-align:center;
+  margin-top:20vh;
+  font-size:64px;
 }
-@keyframes bgMove{
-  0%{transform:translate(0,0);}
-  50%{transform:translate(-50px,50px);}
-  100%{transform:translate(0,0);}
+.title-line{
+  display:block;
+  animation:slideDown 1s ease forwards;
 }
-
-/* ---------- TOP COLORS ---------- */
-.top1{color:#FFD700; text-shadow:0 0 5px #FFD700,0 0 10px #FFD700,0 0 15px #FFD700;}
-.top2{color:#C0C0C0;}
-.top3{color:#CD7F32;}
-
-/* ---------- MENU ---------- */
-.menu{
-  position:fixed;
-  top:20px;
-  right:30px;
-  font-size:48px;
-  cursor:pointer;
-  z-index:100;
+@keyframes slideDown{
+  0%{transform:translateY(-100px); opacity:0;}
+  100%{transform:translateY(0); opacity:1;}
+}
+.subtitle{
+  text-align:center;
+  margin-top:20px;
+  font-size:24px;
 }
 
-.menu-panel{
-  display:none;
-  position:fixed;
-  top:90px;
-  right:30px;
-  background:#111;
-  border:4px solid white;
-  padding:20px;
-  width:320px;
-  z-index:100;
-}
-
-.menu-panel button{
-  width:100%;
-  margin-bottom:12px;
-  padding:14px;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  background:black;
-  color:white;
-  border:3px solid white;
-  cursor:pointer;
-  transition:transform 0.15s, box-shadow 0.15s;
-}
-.menu-panel button:hover{
-  transform:scale(1.05) rotate(-1deg);
-  box-shadow:0 0 12px white;
-}
-
-/* ---------- BOTON CATEGORIAS GRANDE ---------- */
+/* ---------- BOTON CATEGORIAS ---------- */
 #categoryMainBtn{
   display:block;
   margin:20px auto 30px auto;
@@ -107,7 +65,6 @@ body::before{
   padding:20px;
   width:300px;
 }
-
 .category-panel button{
   width:90%;
   margin:10px 0;
@@ -120,33 +77,7 @@ body::before{
   cursor:pointer;
   transition:transform 0.15s;
 }
-.category-panel button:hover{
-  transform:scale(1.1) rotate(1deg);
-  box-shadow:0 0 10px white;
-}
-
-/* ---------- TITULOS CENTRADOS ---------- */
-.title-wrapper{
-  text-align:center;
-  margin-top:20vh;
-  font-size:64px;
-}
-
-.title-line{
-  display:block;
-  animation:slideDown 1s ease forwards;
-}
-
-@keyframes slideDown{
-  0%{transform:translateY(-100px); opacity:0;}
-  100%{transform:translateY(0); opacity:1;}
-}
-
-.subtitle{
-  text-align:center;
-  margin-top:20px;
-  font-size:24px;
-}
+.category-panel button:hover{transform:scale(1.05);}
 
 /* ---------- TABLAS ---------- */
 table{
@@ -156,7 +87,6 @@ table{
   font-size:16px;
   display:none;
 }
-
 th,td{
   border:3px solid white;
   padding:12px;
@@ -278,7 +208,7 @@ a{color:#00ffcc;text-decoration:none;}
 <div class="menu" onclick="toggleMenu()">☰</div>
 
 <div class="menu-panel" id="menuPanel">
-  <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
+  <button id="menuCatBtn" onclick="toggleCategories()" style="display:none">Categorías</button>
   <button onclick="showImport()">Importar Speedruns</button>
   <button onclick="showRules()">REGLAS</button>
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
@@ -288,11 +218,10 @@ a{color:#00ffcc;text-decoration:none;}
   <span class="title-line">EL PAPU</span>
   <span class="title-line">SPEEDRUNS</span>
 </div>
-
 <div class="subtitle">Clasificación</div>
 
+<!-- BOTÓN CATEGORIAS -->
 <button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
-
 <div class="category-panel" id="bigCategory">
   <button onclick="firstCategory('lvl11')">1-1 Level</button>
   <button onclick="firstCategory('any')">Any%</button>
@@ -301,29 +230,18 @@ a{color:#00ffcc;text-decoration:none;}
 
 <table id="lvl11">
 <tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-<tr><td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
+<tr><td>1</td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
 <td><a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">VER</a></td></tr>
 </table>
 
-<table id="any">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
+<table id="any"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="warpless"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
 
-<table id="warpless">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
+<div class="info-panel" id="importPanel"><span class="close-btn" onclick="closePanels()">✕</span>
+Mandá tu video a<br><b>elpapu3388@gmail.com</b></div>
 
-<div class="info-panel" id="importPanel">
-<span class="close-btn" onclick="closePanels()">✕</span>
-Mandá tu video a<br><b>elpapu3388@gmail.com</b>
-</div>
-
-<div class="info-panel" id="rulesPanel">
-<span class="close-btn" onclick="closePanels()">✕</span>
-1) Video completo<br><br>
-2) Sin editar<br><br>
-3) Inicio y final visibles
-</div>
+<div class="info-panel" id="rulesPanel"><span class="close-btn" onclick="closePanels()">✕</span>
+1) Video completo<br><br>2) Sin editar<br><br>3) Inicio y final visibles</div>
 
 <div id="songName"></div>
 
@@ -359,14 +277,13 @@ let ytPlayer;
 let musicOn=true;
 let stopActive=false;
 let playlistIndex=0;
-let playlistIds=['jwJ2vhjyAE0','4yV_gv299VM','2yVop7pZh-w','rWVJQH3VY-A','_L6HjwwcyCs'];
+let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc'];
 
 function hideAll(){
   [lvl11,any,warpless].forEach(t=>t.style.display="none");
   importPanel.style.display="none";
   rulesPanel.style.display="none";
 }
-
 function toggleMenu(){
   const open=menuPanel.style.display==="block";
   if(open){menuPanel.style.display="none"; hideAll(); bigCategory.style.display="none"; menuCatBtn.style.display="none";}
@@ -375,31 +292,10 @@ function toggleMenu(){
 function toggleCategories(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
 function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
 function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id);}
-function showCategory(id){
-  hideAll();
-  const tbl=document.getElementById(id);
-  tbl.style.display="table";
-  sortTable(tbl);
-  menuPanel.style.display="none";
-  bigCategory.style.display="none";
-  tbl.scrollIntoView({behavior:"smooth"});
-}
+function showCategory(id){ hideAll(); document.getElementById(id).style.display="table"; menuPanel.style.display="none"; bigCategory.style.display="none"; window.scrollTo(0,300);}
 function showImport(){hideAll();importPanel.style.display="block";}
 function showRules(){hideAll();rulesPanel.style.display="block";}
 function closePanels(){importPanel.style.display="none"; rulesPanel.style.display="none";}
-function sortTable(table){
-  const rows=[...table.rows].slice(1);
-  const valid=rows.filter(r=>r.cells[2].innerText!=="");
-  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
-  valid.forEach((r,i)=>{
-    r.classList.remove("top1","top2","top3");
-    if(i===0) r.classList.add("top1");
-    if(i===1) r.classList.add("top2");
-    if(i===2) r.classList.add("top3");
-    r.cells[0].innerText=i+1;
-    table.appendChild(r);
-  });
-}
 
 // ---------------- MÚSICA ----------------
 function onYouTubeIframeAPIReady(){
@@ -410,18 +306,15 @@ function onYouTubeIframeAPIReady(){
     }
   });
 }
-
 function toggleMusic(){
   if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=false;}
   else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on";}
 }
-
 function toggleStop(){
   if(!ytPlayer) return;
   if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true;}
   else{ ytPlayer.playVideo(); stopActive=false;}
 }
-
 function updateSongDisplay(){
   if(!ytPlayer || !ytPlayer.getVideoData) return;
   const data=ytPlayer.getVideoData();
@@ -431,11 +324,9 @@ function updateSongDisplay(){
   songName.style.animation="fadeInOut 5s forwards";
   currentSong.innerText=title;
 }
-
 function nextSong(){if(playlistIndex<playlistIds.length-1){playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
 function prevSong(){if(playlistIndex>0){playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]);}}
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
-
 </body>
 </html>
