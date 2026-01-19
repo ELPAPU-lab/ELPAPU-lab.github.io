@@ -172,41 +172,47 @@ REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓<br><br>
 2) El video no debe estar editado ni alterado (crudo)<br>
 3) Debe mostrar el inicio y el final
 </div>
-
 <script>
 function toggleMenu() {
-  menuPanel.style.display = menuPanel.style.display === "block" ? "none" : "block";
+  const menu = document.getElementById("menuPanel");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
 
 function toggleCategories() {
-  categoryPanel.style.display = categoryPanel.style.display === "block" ? "none" : "block";
+  const cat = document.getElementById("categoryPanel");
+  cat.style.display = cat.style.display === "block" ? "none" : "block";
 }
 
 function hideAll() {
-  lvl11.style.display = "none";
-  any.style.display = "none";
-  warpless.style.display = "none";
-  importPanel.style.display = "none";
-  rulesPanel.style.display = "none";
+  document.getElementById("lvl11").style.display = "none";
+  document.getElementById("any").style.display = "none";
+  document.getElementById("warpless").style.display = "none";
+  document.getElementById("importPanel").style.display = "none";
+  document.getElementById("rulesPanel").style.display = "none";
 }
 
 function showCategory(id) {
   hideAll();
   document.getElementById(id).style.display = "table";
+  window.scrollTo(0, 300); // baja la vista, NO tapa nada
 }
 
 function showImport() {
   hideAll();
-  importPanel.style.display = "block";
+  document.getElementById("importPanel").style.display = "block";
+  window.scrollTo(0, 300);
 }
 
 function showRules() {
   hideAll();
-  rulesPanel.style.display = "block";
+  document.getElementById("rulesPanel").style.display = "block";
+  window.scrollTo(0, 300);
 }
 
+// por defecto
 showCategory("lvl11");
 </script>
+
 
 </body>
 </html>
