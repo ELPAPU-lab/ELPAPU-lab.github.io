@@ -14,6 +14,20 @@ body {
   font-family: 'Press Start 2P', monospace;
 }
 
+/* COLORES TOP AUTOMÁTICOS */
+.top1 { 
+  color: #FFD700;
+  animation: glow 1.5s infinite alternate;
+}
+.top2 { color: #C0C0C0; }
+.top3 { color: #CD7F32; }
+
+/* BRILLO WR */
+@keyframes glow {
+  from { text-shadow: 0 0 5px #FFD700; }
+  to { text-shadow: 0 0 20px #FFD700; }
+}
+
 /* MENÚ ☰ */
 .menu {
   position: fixed;
@@ -107,10 +121,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 /* PANELES INFO */
 .info-panel {
   display: none;
@@ -124,7 +134,7 @@ a:hover {
   text-align: center;
 }
 
-/* BOTÓN CERRAR ❌ */
+/* BOTÓN CERRAR */
 .close-btn {
   position: absolute;
   top: 12px;
@@ -132,10 +142,7 @@ a:hover {
   font-size: 28px;
   cursor: pointer;
 }
-
-.close-btn:hover {
-  color: red;
-}
+.close-btn:hover { color: red; }
 </style>
 </head>
 
@@ -163,127 +170,91 @@ a:hover {
 <!-- 1-1 LEVEL -->
 <table id="lvl11">
 <tr>
-  <th>Puesto</th>
-  <th>Jugador</th>
-  <th>Tiempo</th>
-  <th>Plataforma</th>
-  <th>Link de video</th>
+  <th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th>
 </tr>
 <tr>
-  <td>1</td>
-  <td>PAPU</td>
-  <td>18.59</td>
-  <td>NES / Emu</td>
-  <td>
-    <a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">
-      VER
-    </a>
-  </td>
+  <td></td><td>PAPU</td><td>18.59</td><td>NES / Emu</td>
+  <td><a href="https://youtu.be/ww1Ba536FFE?si=d0WaEpmVn96MX46K" target="_blank">VER</a></td>
 </tr>
 </table>
 
 <!-- ANY% -->
 <table id="any">
 <tr>
-  <th>Puesto</th>
-  <th>Jugador</th>
-  <th>Tiempo</th>
-  <th>Plataforma</th>
-  <th>Link de video</th>
+  <th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th>
 </tr>
 </table>
 
 <!-- WARPLESS -->
 <table id="warpless">
 <tr>
-  <th>Puesto</th>
-  <th>Jugador</th>
-  <th>Tiempo</th>
-  <th>Plataforma</th>
-  <th>Link de video</th>
+  <th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th>
 </tr>
 </table>
 
 <!-- IMPORTAR -->
 <div class="info-panel" id="importPanel">
   <span class="close-btn" onclick="closePanels()">✕</span>
-  ¿Querés que tus speedruns aparezcan acá?<br><br>
-  Contactame a:<br>
-  <b>elpapu3388@gmail.com</b><br><br>
-  Mandame tu video, lo revisaré y si cumple las reglas lo agregaré sin duda 🙂
+  Mandá tu video a<br><b>elpapu3388@gmail.com</b><br><br>
+  Si cumple las reglas, se agrega 👍
 </div>
 
 <!-- REGLAS -->
 <div class="info-panel" id="rulesPanel">
   <span class="close-btn" onclick="closePanels()">✕</span>
-  REGLAS PARA AGREGAR TUS SPEEDRUNS ↓↓↓<br><br>
-  1) Mandar el video a <b>elpapu3388@gmail.com</b><br><br>
-  2) El video no debe estar editado ni alterado (crudo)<br><br>
-  3) Debe mostrar el inicio y el final
+  1) Video completo<br><br>
+  2) Sin editar<br><br>
+  3) Mostrar inicio y final
 </div>
 
 <script>
-const menuPanel = document.getElementById("menuPanel");
-const categoryPanel = document.getElementById("categoryPanel");
+const tables = ["lvl11","any","warpless"];
 
-const lvl11 = document.getElementById("lvl11");
-const any = document.getElementById("any");
-const warpless = document.getElementById("warpless");
-
-const importPanel = document.getElementById("importPanel");
-const rulesPanel = document.getElementById("rulesPanel");
-
-function hideAllContent() {
-  lvl11.style.display = "none";
-  any.style.display = "none";
-  warpless.style.display = "none";
-  importPanel.style.display = "none";
-  rulesPanel.style.display = "none";
+function hideAllContent(){
+  tables.forEach(id => document.getElementById(id).style.display="none");
+  importPanel.style.display="none";
+  rulesPanel.style.display="none";
 }
 
-function toggleMenu() {
-  const isOpen = menuPanel.style.display === "block";
-  if (isOpen) {
-    menuPanel.style.display = "none";
-    categoryPanel.style.display = "none";
-    hideAllContent();
-  } else {
-    menuPanel.style.display = "block";
-  }
+function toggleMenu(){
+  const open = menuPanel.style.display==="block";
+  menuPanel.style.display = open ? "none":"block";
+  if(open){ categoryPanel.style.display="none"; hideAllContent(); }
 }
 
-function toggleCategories() {
+function toggleCategories(){
   categoryPanel.style.display =
-    categoryPanel.style.display === "block" ? "none" : "block";
+    categoryPanel.style.display==="block"?"none":"block";
 }
 
-function showCategory(id) {
+function showCategory(id){
   hideAllContent();
-  document.getElementById(id).style.display = "table";
-  menuPanel.style.display = "none";
-  categoryPanel.style.display = "none";
-  window.scrollTo(0, 300);
+  const table = document.getElementById(id);
+  table.style.display="table";
+  sortTable(table);
+  menuPanel.style.display="none";
+  categoryPanel.style.display="none";
 }
 
-function showImport() {
-  hideAllContent();
-  importPanel.style.display = "block";
-  menuPanel.style.display = "none";
-  categoryPanel.style.display = "none";
-  window.scrollTo(0, 300);
-}
+function showImport(){ hideAllContent(); importPanel.style.display="block"; }
+function showRules(){ hideAllContent(); rulesPanel.style.display="block"; }
+function closePanels(){ importPanel.style.display="none"; rulesPanel.style.display="none"; }
 
-function showRules() {
-  hideAllContent();
-  rulesPanel.style.display = "block";
-  menuPanel.style.display = "none";
-  categoryPanel.style.display = "none";
-  window.scrollTo(0, 300);
-}
+/* ORDEN + COLORES AUTOMÁTICOS */
+function sortTable(table){
+  const rows = Array.from(table.rows).slice(1);
+  const valid = rows.filter(r => r.cells[2].innerText !== "--.--");
 
-function closePanels() {
-  importPanel.style.display = "none";
-  rulesPanel.style.display = "none";
+  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+
+  valid.forEach((row,i)=>{
+    row.classList.remove("top1","top2","top3");
+    if(i===0) row.classList.add("top1");
+    if(i===1) row.classList.add("top2");
+    if(i===2) row.classList.add("top3");
+    row.cells[0].innerText = i+1;
+    table.appendChild(row);
+  });
 }
 </script>
 
