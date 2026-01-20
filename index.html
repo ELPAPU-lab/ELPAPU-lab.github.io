@@ -52,14 +52,6 @@ body::before{
   padding:20px;
   width:320px;
   z-index:100;
-  opacity:0;
-  transform:translateY(-20px);
-  transition:opacity 0.3s, transform 0.3s;
-}
-.menu-panel.show{
-  display:block;
-  opacity:1;
-  transform:translateY(0);
 }
 .menu-panel button{
   width:100%;
@@ -135,14 +127,6 @@ body::before{
   border:4px solid white;
   padding:20px;
   width:300px;
-  opacity:0;
-  transform:translateY(-20px);
-  transition:opacity 0.3s, transform 0.3s;
-}
-.category-panel.show{
-  display:block;
-  opacity:1;
-  transform:translateY(0);
 }
 .category-panel button{
   width:90%;
@@ -178,14 +162,6 @@ th,td{
 th{background:#222;}
 a{color:#00ffcc;text-decoration:none;}
 
-/* Hover destacado en filas */
-table tr:hover td{
-  background:#222;
-  box-shadow:0 0 10px #00ffcc inset;
-  transform:scale(1.02);
-  transition:0.2s;
-}
-
 /* ---------- INFO PANELS ---------- */
 .info-panel{
   display:none;
@@ -196,14 +172,6 @@ table tr:hover td{
   width:80%;
   text-align:center;
   position:relative;
-  opacity:0;
-  transform:translateY(-20px);
-  transition:opacity 0.3s, transform 0.3s;
-}
-.info-panel.show{
-  display:block;
-  opacity:1;
-  transform:translateY(0);
 }
 .close-btn{
   position:absolute;
@@ -213,29 +181,6 @@ table tr:hover td{
   cursor:pointer;
 }
 .close-btn:hover{color:red;}
-
-/* ---------- CUADRO MÚSICA ARRIBA ---------- */
-#songName{
-  display:none;
-  position:fixed;
-  top:20px;
-  right:30px;
-  background:#222;
-  color:#00ff00;
-  border:4px solid white;
-  padding:20px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  z-index:1000;
-  opacity:0;
-  animation:fadeInOut 5s forwards;
-}
-@keyframes fadeInOut{
-  0%{opacity:0;transform:translateY(-20px);}
-  10%{opacity:1;transform:translateY(0);}
-  90%{opacity:1;transform:translateY(0);}
-  100%{opacity:0;transform:translateY(-20px);}
-}
 
 /* ---------- MINI PLAYER ---------- */
 #miniPlayer{
@@ -301,33 +246,121 @@ table tr:hover td{
 </head>
 <body>
 
-<!-- Menú, categoría, tablas y paneles igual que antes -->
+<div class="menu" onclick="toggleMenu()">☰</div>
+<div class="menu-panel" id="menuPanel">
+  <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
+  <button onclick="showImport()">Importar Speedruns</button>
+  <button onclick="showDeletePanel()">Borrar Speedruns</button>
+  <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
+</div>
+
+<div id="currentCategory"></div>
+
+<div class="title-wrapper">
+  <span class="title-line">EL PAPU</span>
+  <span class="title-line">SPEEDRUNS</span>
+</div>
+
+<div class="subtitle">Clasificación</div>
+<button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
+<div class="category-panel" id="bigCategory">
+  <button onclick="firstCategory('lvl11')">1-1 Level</button>
+  <button onclick="firstCategory('any')">Any%</button>
+  <button onclick="firstCategory('warpless')">Warpless</button>
+  <button onclick="firstCategory('moon11')">Moonwalk Jump Solo - 1-1</button>
+  <button onclick="firstCategory('moonAny')">Moonwalk Jump Solo - Any%</button>
+</div>
+
+<!-- Tablas -->
+<table id="lvl11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="any"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="warpless"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moon11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moonAny"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+
+<!-- IMPORTAR SPEEDRUN PANEL -->
+<div class="info-panel" id="importPanel">
+<span class="close-btn" onclick="closePanels()">✕</span>
+<h3>Importar Speedrun</h3>
+<input type="password" id="importPass" placeholder="Contraseña"><br><br>
+<input type="text" id="playerName" placeholder="Nombre jugador">
+<input type="number" id="playerTime" placeholder="Tiempo">
+<input type="text" id="playerVideo" placeholder="URL del video">
+<select id="runCategory">
+  <option value="lvl11">1-1 Level</option>
+  <option value="any">Any%</option>
+  <option value="warpless">Warpless</option>
+  <option value="moon11">Moonwalk Jump Solo - 1-1</option>
+  <option value="moonAny">Moonwalk Jump Solo - Any%</option>
+</select>
+<br><br>
+<button onclick="addSpeedrun()">Agregar Speedrun</button>
+</div>
+
+<!-- MINI PLAYER -->
+<div id="miniPlayer">
+  <div id="currentSong">Cargando...</div>
+  <div class="buttonsRow">
+    <button onclick="prevSong()">◀</button>
+    <button onclick="toggleStop()">⏹</button>
+    <button onclick="nextSong()">▶</button>
+  </div>
+  <div id="trackCounter">1 / 10</div>
+</div>
+
+<iframe id="ytPlayer" width="0" height="0"
+src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
+frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
-/* -------------------- Paneles con animación -------------------- */
-function toggleMenu(){
-  menuPanel.classList.toggle("show");
-}
-function toggleCategories(){
-  bigCategory.classList.toggle("show");
-}
-function toggleBigCategory(){
-  bigCategory.classList.toggle("show");
-}
-function showImport(){
-  hideAll();
-  importPanel.classList.add('show');
-  menuPanel.classList.remove('show');
-}
-function closePanels(){
-  document.querySelectorAll('.info-panel.show').forEach(p=>{
-    p.classList.remove('show');
+let ytPlayer;
+let musicOn = true;
+let stopActive = false;
+let playlistIndex = 0;
+let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+const currentSong = document.getElementById('currentSong');
+const trackCounter = document.getElementById('trackCounter');
+const musicBtn = document.getElementById('musicBtn');
+const menuPanel=document.getElementById("menuPanel");
+const bigCategory=document.getElementById("bigCategory");
+const menuCatBtn=document.getElementById("menuCatBtn");
+const currentCategoryDiv = document.getElementById("currentCategory");
+
+/* -------------------- Funciones Mini Player -------------------- */
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytPlayer', {
+    events: {
+      'onReady': () => { ytPlayer.playVideo(); setTimeout(updateSongDisplay, 500); },
+      'onStateChange': (event) => { if(event.data === YT.PlayerState.ENDED){ nextSong(); } else if(event.data === YT.PlayerState.PLAYING){ setTimeout(updateSongDisplay,200); } }
+    }
   });
 }
+function updateSongDisplay(){
+  if(!ytPlayer || !ytPlayer.getVideoData) return;
+  const data = ytPlayer.getVideoData();
+  currentSong.innerText = data.title || "Canción";
+  trackCounter.innerText = (playlistIndex+1) + " / " + playlistIds.length;
+}
+function toggleMusic(){ if(!ytPlayer) return; if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=true; } else { ytPlayer.playVideo(); musicOn=true; musicBtn.className="on"; stopActive=false; } }
+function toggleStop(){ if(!ytPlayer) return; if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; } else { ytPlayer.playVideo(); stopActive=false; } }
+function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500); }
+function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500); }
 
-/* -------------------- Tablas hover ya agregado en CSS -------------------- */
+/* -------------------- Menú y Categorías -------------------- */
+function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
+function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
+function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
+function showCategory(id){
+  [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
+  const tbl=document.getElementById(id);
+  tbl.style.display="table";
+  sortTable(tbl);
+  menuPanel.style.display="none";
+  currentCategoryDiv.innerText = {"lvl11":"1-1 Level","any":"Any%","warpless":"Warpless","moon11":"Moonwalk Jump Solo - 1-1","moonAny":"Moonwalk Jump Solo - Any%"}[id] || "";
+}
 
-/* -------------------- Resto del código (miniPlayer, speedruns, import, delete) igual que antes -------------------- */
+/* -------------------- Inicialización -------------------- */
+window.onload = ()=>{ showCategory('lvl11'); }
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
