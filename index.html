@@ -197,7 +197,37 @@ a{color:#00ffcc;text-decoration:none;}
   100%{opacity:0;transform:translateY(-20px);}
 }
 
-/* ---------- MINI REPRODUCTOR ---------- */
+/* ---------- PANEL MÚSICA SCROLLABLE ---------- */
+#musicListPanel{
+  display:none;
+  position:fixed;
+  bottom:260px;
+  right:20px;
+  width:240px;
+  height:200px;
+  background:#111;
+  border:4px solid white;
+  overflow-y:auto;
+  z-index:1000;
+  padding:10px;
+}
+#musicListPanel button{
+  display:block;
+  width:100%;
+  margin:6px 0;
+  padding:10px;
+  font-family:'Press Start 2P';
+  font-size:14px;
+  background:black;
+  color:white;
+  border:2px solid white;
+  cursor:pointer;
+}
+#musicListPanel button:hover{
+  background:#222;
+}
+
+/* ---------- MINI PLAYER ---------- */
 #miniPlayer{
   position:fixed;
   bottom:20px;
@@ -250,16 +280,6 @@ a{color:#00ffcc;text-decoration:none;}
   text-align:center;
 }
 
-/* ---------- ADVERTENCIA ---------- */
-#warnMsg{
-  position:fixed;
-  bottom:20px;
-  left:260px;
-  font-size:14px;
-  color:#ff4444;
-  width:300px;
-}
-
 /* ---------- RESALTAR 1°,2°,3° ---------- */
 .top1{animation:glowGold 1s infinite alternate;}
 .top2{animation:glowSilver 1s infinite alternate;}
@@ -267,42 +287,18 @@ a{color:#00ffcc;text-decoration:none;}
 @keyframes glowGold{0%{text-shadow:0 0 5px #FFD700;}100%{text-shadow:0 0 20px #FFD700;}}
 @keyframes glowSilver{0%{text-shadow:0 0 5px #C0C0C0;}100%{text-shadow:0 0 20px #C0C0C0;}}
 @keyframes glowBronze{0%{text-shadow:0 0 5px #CD7F32;}100%{text-shadow:0 0 20px #CD7F32;}}
-
-/* ---------- BORRAR RUN PANEL ---------- */
-#deletePanel{
-  display:none;
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#111;
-  border:4px solid white;
-  padding:30px;
-  width:400px;
-  text-align:center;
-  z-index:2000;
-}
-#deletePanel button{
-  margin:10px;
-  padding:12px 20px;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  cursor:pointer;
-}
-#deletePanel #yesDelete{background:green;color:white;}
-#deletePanel #noDelete{background:red;color:white;}
 </style>
 </head>
 <body>
 
 <div class="menu" onclick="toggleMenu()">☰</div>
-
 <div class="menu-panel" id="menuPanel">
   <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
   <button onclick="showImport()">Importar Speedruns</button>
   <button onclick="showDeletePanel()">Borrar Speedruns</button>
   <button onclick="showRules()">REGLAS</button>
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
+  <button onclick="toggleMusicList()">Lista de Música</button>
 </div>
 
 <div class="title-wrapper">
@@ -311,45 +307,27 @@ a{color:#00ffcc;text-decoration:none;}
 </div>
 
 <div class="subtitle">Clasificación</div>
-
 <button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
-
-<!-- CATEGORIAS -->
 <div class="category-panel" id="bigCategory">
   <button onclick="firstCategory('lvl11')">1-1 Level</button>
   <button onclick="firstCategory('any')">Any%</button>
   <button onclick="firstCategory('warpless')">Warpless</button>
-  <button onclick="firstCategory('moonwalk11')">Moonwalk Jump Solo - 1-1</button>
-  <button onclick="firstCategory('moonwalkAny')">Moonwalk Jump Solo - Any%</button>
+  <button onclick="firstCategory('moon11')">Moonwalk Jump Solo - 1-1</button>
+  <button onclick="firstCategory('moonAny')">Moonwalk Jump Solo - Any%</button>
 </div>
 
-<!-- TABLAS -->
-<table id="lvl11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
+<!-- Tablas -->
+<table id="lvl11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="any"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="warpless"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moon11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moonAny"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
 
-<table id="any">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<table id="warpless">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<table id="moonwalk11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<table id="moonwalkAny">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-
-<!-- Importar Panel -->
+<!-- Import Panel -->
 <div class="info-panel" id="importPanel">
 <span class="close-btn" onclick="closePanels()">✕</span>
 <h3>Importar Speedrun</h3>
-<input type="password" id="importPass" placeholder="Contraseña">
-<br><br>
+<input type="password" id="importPass" placeholder="Contraseña"><br><br>
 <input type="text" id="playerName" placeholder="Nombre jugador">
 <input type="number" id="playerTime" placeholder="Tiempo">
 <input type="text" id="playerVideo" placeholder="URL del video">
@@ -357,23 +335,18 @@ a{color:#00ffcc;text-decoration:none;}
   <option value="lvl11">1-1 Level</option>
   <option value="any">Any%</option>
   <option value="warpless">Warpless</option>
-  <option value="moonwalk11">Moonwalk Jump Solo - 1-1</option>
-  <option value="moonwalkAny">Moonwalk Jump Solo - Any%</option>
-</select>
-<br><br>
+  <option value="moon11">Moonwalk Jump Solo - 1-1</option>
+  <option value="moonAny">Moonwalk Jump Solo - Any%</option>
+</select><br><br>
 <button onclick="addSpeedrun()">Agregar Speedrun</button>
 </div>
 
-<div class="info-panel" id="rulesPanel">
-<span class="close-btn" onclick="closePanels()">✕</span>
-1) Video completo<br><br>
-2) Sin editar<br><br>
-3) Inicio y final visibles
-</div>
+<!-- Panel música scrollable -->
+<div id="musicListPanel"></div>
 
 <!-- Mini Player -->
 <div id="miniPlayer">
-  <div id="currentSong">Nuts</div>
+  <div id="currentSong">Cargando...</div>
   <div class="buttonsRow">
     <button onclick="prevSong()">◀</button>
     <button onclick="toggleStop()">⏹</button>
@@ -381,22 +354,7 @@ a{color:#00ffcc;text-decoration:none;}
   </div>
   <div id="trackCounter">1 / 7</div>
 </div>
-
-<!-- Delete Panel -->
-<div id="deletePanel">
-  <p>Para borrar, pon la contraseña:</p>
-  <input type="password" id="deletePass">
-  <br><br>
-  <button onclick="confirmDelete()">Confirmar Contraseña</button>
-  <div id="deleteConfirm" style="display:none;">
-    <p>REALMENTE QUIERES BORRAR ESTE RUN?, NO PODRÁS RECUPERARLO JAMÁS BRO :V</p>
-    <button id="yesDelete" onclick="deleteRun()">SI WE</button>
-    <button id="noDelete" onclick="cancelDelete()">no we era mentira</button>
-  </div>
-</div>
-
 <div id="songName"></div>
-<div id="warnMsg">Advertencia: si no empieza la música trata de ir a las tres rayas y apretar el botón de On/Off dos veces</div>
 
 <iframe id="ytPlayer" width="0" height="0"
 src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
@@ -404,227 +362,75 @@ frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 let ytPlayer;
-let musicOn=true;
-let stopActive=false;
-let playlistIndex=0;
-let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','CxKTbcs1t7M','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+let musicOn = true;
+let stopActive = false;
+let playlistIndex = 0;
+let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','V31PVkwzpEY','KK3KXAECte4','kL8CyVqzmkc'];
+let playlistNames = ['Nuts','Cancion2','Cancion3','Cancion4','Cancion5'];
 
-const menuPanel=document.getElementById("menuPanel");
-const bigCategory=document.getElementById("bigCategory");
-const menuCatBtn=document.getElementById("menuCatBtn");
-const lvl11=document.getElementById("lvl11");
-const any=document.getElementById("any");
-const warpless=document.getElementById("warpless");
-const moonwalk11=document.getElementById("moonwalk11");
-const moonwalkAny=document.getElementById("moonwalkAny");
-const importPanel=document.getElementById("importPanel");
-const rulesPanel=document.getElementById("rulesPanel");
-const songName=document.getElementById("songName");
-const musicBtn=document.getElementById("musicBtn");
-const currentSong=document.getElementById("currentSong");
+const currentSong = document.getElementById('currentSong');
+const songName = document.getElementById('songName');
+const trackCounter = document.getElementById('trackCounter');
+const musicBtn = document.getElementById('musicBtn');
+const musicListPanel = document.getElementById('musicListPanel');
 
-// ---------- Helpers ----------
-function hideAll(){
-  [lvl11,any,warpless,moonwalk11,moonwalkAny].forEach(t=>t.style.display="none");
-  importPanel.style.display="none";
-  rulesPanel.style.display="none";
-}
-
-function toggleMenu(){
-  const open=menuPanel.style.display==="block";
-  if(open){menuPanel.style.display="none"; hideAll(); bigCategory.style.display="none"; menuCatBtn.style.display="none";}
-  else{menuPanel.style.display="block";}
-}
-
-function toggleCategories(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
-function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
-function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id);}
-function showCategory(id){
-  hideAll();
-  const tbl=document.getElementById(id);
-  tbl.style.display="table";
-  sortTable(tbl);
-  menuPanel.style.display="none";
-  bigCategory.style.display="none";
-  tbl.scrollIntoView({behavior:"smooth"});
-}
-
-// ---------------- MÚSICA ----------------
-function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player('ytPlayer',{
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytPlayer', {
     events:{
-      'onReady':()=>{
-        ytPlayer.playVideo(); 
-        updateSongDisplay();
-      },
-      'onStateChange':(event)=>{
-        if(event.data === YT.PlayerState.ENDED){ // Cuando termina la canción
-          nextSongAuto();
-        }
-        updateSongDisplay();
+      'onReady': ()=>{ ytPlayer.playVideo(); updateSongDisplay(); populateMusicList(); },
+      'onStateChange': (e)=>{
+        if(e.data === YT.PlayerState.ENDED) nextSong();
+        else if(e.data === YT.PlayerState.PLAYING) setTimeout(updateSongDisplay,200);
       }
     }
   });
 }
-
-function toggleMusic(){
-  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=false;}
-  else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on";}
-}
-
-function toggleStop(){
-  if(!ytPlayer) return;
-  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true;}
-  else{ ytPlayer.playVideo(); stopActive=false;}
-}
-
 function updateSongDisplay(){
-  if(!ytPlayer || !ytPlayer.getVideoData) return;
-  const data=ytPlayer.getVideoData();
-  const title=data.title || "Canción";
-  songName.innerText="Estás escuchando: "+title;
+  const data = ytPlayer.getVideoData();
+  const title = playlistNames[playlistIndex] || data.title;
+  currentSong.innerText = title;
+  songName.innerText = "Estás escuchando: "+title;
   songName.style.display="block";
   songName.style.animation="fadeInOut 5s forwards";
-  currentSong.innerText=title;
-  document.getElementById('trackCounter').innerText=(playlistIndex+1)+' / '+playlistIds.length;
+  trackCounter.innerText = (playlistIndex+1) + " / "+playlistIds.length;
 }
 
+function toggleMusic(){ 
+  if(!ytPlayer) return;
+  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=true;}
+  else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on"; stopActive=false;}
+}
+function toggleStop(){ 
+  if(!ytPlayer) return;
+  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; }
+  else{ ytPlayer.playVideo(); stopActive=false; }
+}
 function nextSong(){
-  if(playlistIndex<playlistIds.length-1){playlistIndex++; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay();}
+  playlistIndex = (playlistIndex+1)%playlistIds.length;
+  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+  updateSongDisplay();
 }
-
 function prevSong(){
-  if(playlistIndex>0){playlistIndex--; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay();}
-}
-
-// Auto siguiente canción
-function nextSongAuto(){
-  playlistIndex++;
-  if(playlistIndex >= playlistIds.length) playlistIndex=0;
+  playlistIndex = (playlistIndex-1+playlistIds.length)%playlistIds.length;
   ytPlayer.loadVideoById(playlistIds[playlistIndex]);
   updateSongDisplay();
 }
 
-// ---------------- SPEEDRUNS CON LOCALSTORAGE ----------------
-function loadRuns(){
-  const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
-  for(const cat in saved){
-    const table=document.getElementById(cat);
-    saved[cat].forEach(run=>{
-      const row=document.createElement('tr');
-      row.innerHTML=`<td></td>
-                     <td>${run.name}</td>
-                     <td>${run.time.toFixed(2)}</td>
-                     <td>${run.platform}</td>
-                     <td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
-      table.appendChild(row);
-    });
-    sortTable(table);
-  }
+function toggleMusicList(){
+  musicListPanel.style.display = musicListPanel.style.display==="block"?"none":"block";
 }
-
-function saveRuns(){
-  const data={};
-  [lvl11,any,warpless,moonwalk11,moonwalkAny].forEach(table=>{
-    data[table.id]=[...table.rows].slice(1).map(r=>({
-      name:r.cells[1].innerText,
-      time:parseFloat(r.cells[2].innerText),
-      platform:r.cells[3].innerText,
-      video:r.cells[4].querySelector('a') ? r.cells[4].querySelector('a').href : ''
-    }));
+function populateMusicList(){
+  musicListPanel.innerHTML="";
+  playlistNames.forEach((name,i)=>{
+    const btn = document.createElement('button');
+    btn.innerText=name;
+    btn.onclick = ()=>{
+      playlistIndex=i;
+      ytPlayer.loadVideoById(playlistIds[i]);
+      updateSongDisplay();
+    }
+    musicListPanel.appendChild(btn);
   });
-  localStorage.setItem('papuSpeedruns',JSON.stringify(data));
-}
-
-// ---------------- AGREGAR SPEEDRUN ----------------
-function addSpeedrun(){
-  const pass=document.getElementById('importPass').value;
-  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
-  const name=document.getElementById('playerName').value.trim();
-  const time=parseFloat(document.getElementById('playerTime').value);
-  const video=document.getElementById('playerVideo').value.trim();
-  const category=document.getElementById('runCategory').value;
-  if(!name||!time){ alert("Completa todos los campos"); return; }
-
-  const table=document.getElementById(category);
-  const row=document.createElement('tr');
-  row.innerHTML=`<td></td>
-                 <td>${name}</td>
-                 <td>${time.toFixed(2)}</td>
-                 <td>Custom</td>
-                 <td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
-  table.appendChild(row);
-  sortTable(table);
-  saveRuns(); // Guardar cambios en LocalStorage
-
-  document.getElementById('playerName').value="";
-  document.getElementById('playerTime').value="";
-  document.getElementById('playerVideo').value="";
-  importPanel.style.display="none";
-}
-
-// ---------------- BORRAR SPEEDRUN ----------------
-let runToDelete=null;
-
-function showDeletePanel(){
-  document.getElementById('deletePanel').style.display='block';
-  document.getElementById('deleteConfirm').style.display='none';
-  document.getElementById('deletePass').value='';
-  runToDelete=null;
-}
-
-function confirmDelete(){
-  const pass=document.getElementById('deletePass').value;
-  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
-
-  // Selecciona la categoría visible
-  const visibleTable=[lvl11,any,warpless,moonwalk11,moonwalkAny].find(t=>t.style.display==="table");
-  if(!visibleTable){ alert("Primero selecciona una categoría visible"); return; }
-  if(visibleTable.rows.length<=1){ alert("No hay runs para borrar"); return; }
-
-  // Selecciona la primera fila visible (puedes modificar luego para elegir otra)
-  runToDelete=visibleTable.rows[1];
-  document.getElementById('deleteConfirm').style.display='block';
-}
-
-function deleteRun(){
-  if(runToDelete){
-    runToDelete.remove();
-    runToDelete=null;
-    document.getElementById('deletePanel').style.display='none';
-    saveRuns(); // Guardar cambios en LocalStorage
-  }
-}
-
-function cancelDelete(){
-  runToDelete=null;
-  document.getElementById('deletePanel').style.display='none';
-}
-
-// ---------------- ORDENAR TABLAS ----------------
-function sortTable(table){
-  const rows=[...table.rows].slice(1);
-  const valid=rows.filter(r=>r.cells[2].innerText!=="");
-  valid.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
-  valid.forEach((r,i)=>{
-    r.classList.remove("top1","top2","top3");
-    if(i===0) r.classList.add("top1");
-    if(i===1) r.classList.add("top2");
-    if(i===2) r.classList.add("top3");
-    r.cells[0].innerText=i+1;
-    table.appendChild(r);
-  });
-}
-
-// ---------------- ABRIR / CERRAR PANELS ----------------
-function showImport(){ hideAll(); importPanel.style.display='block'; menuPanel.style.display='none'; }
-function showRules(){ hideAll(); rulesPanel.style.display='block'; menuPanel.style.display='none'; }
-function closePanels(){ hideAll(); }
-
-// ---------------- INICIALIZACIÓN ----------------
-window.onload=()=>{
-  loadRuns(); // Cargar runs guardados
-  showCategory('lvl11'); // Mostrar por defecto 1-1 Level
 }
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
