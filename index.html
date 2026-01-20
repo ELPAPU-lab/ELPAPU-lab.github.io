@@ -341,9 +341,8 @@ a{color:#00ffcc;text-decoration:none;}
   </div>
 </div>
 
-<iframe id="ytPlayer" width="0" height="0"
-src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
-frameborder="0" allow="autoplay" allowfullscreen></iframe>
+<!-- IFRAME MINI PLAYER -->
+<iframe id="ytPlayer" width="0" height="0" src="" frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 /* -------------------- LOGROS -------------------- */
@@ -407,9 +406,7 @@ function showLogroInfo(key){
   document.getElementById("infoDesc").innerText = descs[key] || "Sin descripción disponible";
   infoPanel.style.display="block";
 }
-</script>
 
-<script>
 /* -------------------- VARIABLES -------------------- */
 let ytPlayer;
 let musicOn = true;
@@ -425,31 +422,45 @@ const menuCatBtn=document.getElementById("menuCatBtn");
 /* -------------------- MINI PLAYER -------------------- */
 function onYouTubeIframeAPIReady() {
   ytPlayer = new YT.Player('ytPlayer', {
+    height: '0',
+    width: '0',
+    videoId: playlistIds[playlistIndex],
     events: {
-      'onReady': () => { ytPlayer.playVideo(); },
+      'onReady': () => { ytPlayer.playVideo(); updateSongTitle(); },
       'onStateChange': (event) => {
         if(event.data === YT.PlayerState.ENDED){ nextSong(); }
       }
     }
   });
 }
+
+function updateSongTitle(){
+  const id = playlistIds[playlistIndex];
+  document.getElementById("currentSong").innerText = "Reproduciendo: " + id;
+}
+
 function toggleMusic(){
   if(!ytPlayer || !ytPlayer.playVideo) return;
   if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; stopActive=true; document.getElementById("musicBtn").className="off"; }
   else{ ytPlayer.playVideo(); musicOn=true; stopActive=false; document.getElementById("musicBtn").className="on"; }
 }
+
 function toggleStop(){
   if(!ytPlayer || !ytPlayer.playVideo) return;
   if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; }
   else{ ytPlayer.playVideo(); stopActive=false; }
 }
+
 function nextSong(){
   playlistIndex = (playlistIndex + 1) % playlistIds.length;
   ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+  updateSongTitle();
 }
+
 function prevSong(){
   playlistIndex = (playlistIndex - 1 + playlistIds.length) % playlistIds.length;
   ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+  updateSongTitle();
 }
 
 /* -------------------- MENÚ Y CATEGORIAS -------------------- */
@@ -479,6 +490,8 @@ function loadRuns(){
   const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
   for(const cat in saved){
     const table=document.getElementById(cat);
+    table// Limpiar tabla antes de cargar
+    [...table.rows].slice(1).forEach(r => r.remove());
     saved[cat].forEach(run=>{
       const row=document.createElement('tr');
       row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
