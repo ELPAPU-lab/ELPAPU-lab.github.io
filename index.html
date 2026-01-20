@@ -546,33 +546,8 @@ function addSpeedrun(){
   document.getElementById('playerVideo').value="";
   document.getElementById('importPass').value="";
   importPanel.style.display="none";
-
   
   }
-
-function addSpeedrun(){
-  ...
-  checkLogros(time, category);
-}
-
-  function checkLogros(time, category){
-  unlock("primerRun");
-
-  if(category === "lvl11"){
-    if(time < 30) unlock("sub30");
-    if(time < 20) unlock("sub20");
-    if(time < 19) unlock("sub19");
-  }
-
-  if(
-    (category === "lvl11" || category === "moon11") &&
-    time < 20
-  ){
-    unlock("sofa");
-  }
-
-  saveLogros();
-}
 
 function unlock(id){
   if(!LOGROS[id].unlocked){
@@ -581,13 +556,7 @@ function unlock(id){
   }
 }
   
-function checkLogros(time, category){
-  ...
-}
 
-function unlock(id){
-  ...
-}
   
 /* -------------------- Borrar Speedrun -------------------- */
 let runToDelete = null;
