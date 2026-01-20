@@ -5,6 +5,7 @@
 <title>PAPU Speedruns</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body{
   background:black;
   color:white;
@@ -13,6 +14,8 @@ body{
   overflow-x:hidden;
   position:relative;
 }
+
+/* ---------- FONDO ANIMADO NES ---------- */
 body::before{
   content:"";
   position:fixed;
@@ -29,7 +32,8 @@ body::before{
   50%{transform:translate(-50px,50px);}
   100%{transform:translate(0,0);}
 }
-/* MENU */
+
+/* ---------- MENU ---------- */
 .menu{
   position:fixed;
   top:20px;
@@ -65,14 +69,16 @@ body::before{
   transform:scale(1.05) rotate(-1deg);
   box-shadow:0 0 12px white;
 }
-/* CATEGORÍA ACTUAL */
+
+/* ---------- CATEGORÍA ACTUAL ---------- */
 #currentCategory{
   text-align:center;
   font-size:28px;
   margin-top:10px;
   color:#00ff00;
 }
-/* TITULO */
+
+/* ---------- TITULO ---------- */
 .title-wrapper{
   text-align:center;
   margin-top:15vh;
@@ -91,7 +97,8 @@ body::before{
   margin-top:20px;
   font-size:24px;
 }
-/* BOTON CATEGORIAS */
+
+/* ---------- BOTON CATEGORIAS ---------- */
 #categoryMainBtn{
   display:block;
   margin:20px auto 30px auto;
@@ -110,7 +117,8 @@ body::before{
   transform:scale(1.05) rotate(1deg);
   box-shadow:0 0 12px white;
 }
-/* CATEGORY PANEL */
+
+/* ---------- CATEGORY PANEL ---------- */
 .category-panel{
   display:none;
   margin:0 auto 30px auto;
@@ -136,7 +144,8 @@ body::before{
   transform:scale(1.1) rotate(1deg);
   box-shadow:0 0 10px white;
 }
-/* TABLAS */
+
+/* ---------- TABLAS ---------- */
 table{
   width:95%;
   margin:20px auto 50px auto;
@@ -152,7 +161,8 @@ th,td{
 }
 th{background:#222;}
 a{color:#00ffcc;text-decoration:none;}
-/* INFO PANELS */
+
+/* ---------- INFO PANELS ---------- */
 .info-panel{
   display:none;
   margin:60px auto;
@@ -171,7 +181,8 @@ a{color:#00ffcc;text-decoration:none;}
   cursor:pointer;
 }
 .close-btn:hover{color:red;}
-/* MINI PLAYER */
+
+/* ---------- MINI PLAYER ---------- */
 #miniPlayer{
   position:fixed;
   bottom:20px;
@@ -214,7 +225,8 @@ a{color:#00ffcc;text-decoration:none;}
   transform:scale(1.1);
   box-shadow:0 0 10px white;
 }
-/* MINI CONTADOR DE PISTAS */
+
+/* ---------- MINI CONTADOR DE PISTAS ---------- */
 #trackCounter{
   margin-top:10px;
   color:#00ff00;
@@ -222,7 +234,8 @@ a{color:#00ffcc;text-decoration:none;}
   font-size:14px;
   text-align:center;
 }
-/* RESALTAR 1°,2°,3° */
+
+/* ---------- RESALTAR 1°,2°,3° ---------- */
 .top1{animation:glowGold 1s infinite alternate;}
 .top2{animation:glowSilver 1s infinite alternate;}
 .top3{animation:glowBronze 1s infinite alternate;}
@@ -232,14 +245,11 @@ a{color:#00ffcc;text-decoration:none;}
 </style>
 </head>
 <body>
-
-<!-- PANEL LOGROS -->
 <div class="info-panel" id="logrosPanel">
   <span class="close-btn" onclick="closePanels()">✕</span>
   <h3>LOGROS</h3>
 </div>
 
-<!-- MENU -->
 <div class="menu" onclick="toggleMenu()">☰</div>
 <div class="menu-panel" id="menuPanel">
   <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
@@ -316,93 +326,105 @@ a{color:#00ffcc;text-decoration:none;}
   <div id="trackCounter">1 / 7</div>
 </div>
 
-<div id="songName"></div>
-<div id="warnMsg"></div>
-
 <iframe id="ytPlayer" width="0" height="0"
 src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
-/* -------------------- LOGROS -------------------- */
+const importPanel = document.getElementById("importPanel");
+const menuPanel = document.getElementById("menuPanel");
+const logrosPanel = document.getElementById("logrosPanel");
+const rulesPanel = document.getElementById("rulesPanel");
+const currentCategoryDiv = document.getElementById("currentCategory");
+
+function showLogros(){
+  hideAll();
+  menuPanel.style.display="none";
+
+  logrosPanel.style.display="block";
+
+  logrosPanel.innerHTML = '<span class="close-btn" onclick="closePanels()">✕</span><h3>LOGROS</h3>';
+
+  for(const key in LOGROS){
+    const logro = LOGROS[key];
+    const p = document.createElement('p');
+    p.innerText = logro.unlocked ? logro.nombre + " 🏆" : "----------- ❌";
+    logrosPanel.appendChild(p);
+  }
+}
+
 const LOGROS = {
-  primerRun:{nombre:"Primer Run", unlocked:false},
-  sub30:{nombre:"Sub 30", unlocked:false},
-  sub20:{nombre:"Sub 20", unlocked:false},
-  sub19:{nombre:"Sub 19", unlocked:false},
-  pixelPerfect:{nombre:"Pixel Perfect", unlocked:false},
-  grinder:{nombre:"Grinder", unlocked:false},
-  unaMas:{nombre:"Una Más", unlocked:false},
-  sofa:{nombre:"Speedrunner de Sofá", unlocked:false},
-  secreto:{nombre:"???", unlocked:false},
-  pacfan:{nombre:"Pac-Fan", unlocked:false}
+  primerRun: { nombre: "Primer Run", unlocked: false },
+  sub30: { nombre: "Sub 30", unlocked: false },
+  sub20: { nombre: "Sub 20", unlocked: false },
+  sub19: { nombre: "Sub 19", unlocked: false },
+  pixelPerfect: { nombre: "Pixel Perfect", unlocked: false },
+  grinder: { nombre: "Grinder", unlocked: false },
+  unaMas: { nombre: "Una Más", unlocked: false },
+  sofa: { nombre: "Speedrunner de Sofá", unlocked: false },
+  secreto: { nombre: "???", unlocked: false },
+  pacfan: { nombre: "Pac-Fan", unlocked: false }
 };
 
 function loadLogros(){
-  const saved=JSON.parse(localStorage.getItem("papuLogros"));
+  const saved = JSON.parse(localStorage.getItem("papuLogros"));
   if(saved){
     for(const key in LOGROS){
-      if(saved[key]!==undefined) LOGROS[key].unlocked=saved[key];
+      if(saved[key] !== undefined){
+        LOGROS[key].unlocked = saved[key];
+      }
     }
   }
 }
 
 function saveLogros(){
   const data={};
-  for(const key in LOGROS) data[key]=LOGROS[key].unlocked;
-  localStorage.setItem("papuLogros",JSON.stringify(data));
-}
-
-function unlock(id){
-  if(!LOGROS[id].unlocked){
-    LOGROS[id].unlocked=true;
-    alert("🏆 LOGRO DESBLOQUEADO: "+LOGROS[id].nombre);
-    saveLogros();
-  }
-}
-
-function checkLogros(time,category){
-  unlock("primerRun");
-  if(time<30) unlock("sub30");
-  if(time<20) unlock("sub20");
-  if(time<19) unlock("sub19");
-  if((category==="lvl11"||category==="moon11")&&time<20) unlock("sofa");
-  saveLogros();
-}
-
-function showLogros(){
-  hideAll();
-  menuPanel.style.display="none";
-  const panel=document.getElementById("logrosPanel");
-  panel.style.display="block";
-  panel.innerHTML='<span class="close-btn" onclick="closePanels()">✕</span><h3>LOGROS</h3>';
   for(const key in LOGROS){
-    const logro=LOGROS[key];
-    const p=document.createElement("p");
-    p.innerText=logro.unlocked ? logro.nombre+" 🏆" : "----------- ❌";
-    panel.appendChild(p);
+    data[key]=LOGROS[key].unlocked;
   }
+  localStorage.setItem("papuLogros",JSON.stringify(data));
 }
 </script>
 
 <script>
-/* -------------------- VARIABLES -------------------- */
-let ytPlayer,musicOn=true,stopActive=false,playlistIndex=0;
-let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
-const currentSong=document.getElementById('currentSong');
-const songName=document.getElementById('songName');
-const trackCounter=document.getElementById('trackCounter');
-const musicBtn=document.getElementById('musicBtn');
-const menuPanel=document.getElementById("menuPanel");
+/* -------------------- Variables -------------------- */
+let ytPlayer;
+let musicOn = true;
+let stopActive = false;
+let playlistIndex = 0;
+let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+
+const currentSong = document.getElementById('currentSong');
+const songName = document.getElementById('songName');
+const trackCounter = document.getElementById('trackCounter');
+const musicBtn = document.getElementById('musicBtn');
+
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
-const currentCategoryDiv=document.getElementById("currentCategory");
-const importPanel=document.getElementById("importPanel");
 
-/* -------------------- FUNCIONES -------------------- */
-function toggleMenu(){ menuPanel.style.display=menuPanel.style.display==="block"?"none":"block"; }
-function toggleCategories(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
-function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
+/* -------------------- Funciones Mini Player -------------------- */
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytPlayer', {
+    events: {
+      'onReady': () => {
+        ytPlayer.playVideo();
+        // Comentado para que no aparezca "Estás escuchando:"
+        // setTimeout(updateSongDisplay, 500);
+      },
+      'onStateChange': (event) => {
+        if(event.data === YT.PlayerState.ENDED){
+          nextSong();
+        }
+      }
+    }
+  });
+}
+function updateSongDisplay(){ /* Vacio para no mostrar texto */ }
+
+/* -------------------- Menú y Categorías -------------------- */
+function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
+function toggleCategories(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
+function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
 function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
 function showCategory(id){
   hideAll();
@@ -412,14 +434,15 @@ function showCategory(id){
   menuPanel.style.display="none";
   bigCategory.style.display="none";
   tbl.scrollIntoView({behavior:"smooth"});
-  const names={
-    lvl11:"1-1 Level",
-    any:"Any%",
-    warpless:"Warpless",
-    moon11:"Moonwalk Jump Solo - 1-1",
-    moonAny:"Moonwalk Jump Solo - Any%"
+  
+  const names = {
+    lvl11: "1-1 Level",
+    any: "Any%",
+    warpless: "Warpless",
+    moon11: "Moonwalk Jump Solo - 1-1",
+    moonAny: "Moonwalk Jump Solo - Any%"
   };
-  currentCategoryDiv.innerText=names[id]||"";
+  currentCategoryDiv.innerText = names[id] || "";
 }
 function hideAll(){
   [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
@@ -433,7 +456,7 @@ function loadRuns(){
     const table=document.getElementById(cat);
     saved[cat].forEach(run=>{
       const row=document.createElement('tr');
-      row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video?`<a href="${run.video}" target="_blank">VER</a>`:'--'}</td>`;
+      row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
       table.appendChild(row);
     });
     sortTable(table);
@@ -446,11 +469,13 @@ function saveRuns(){
       name:r.cells[1].innerText,
       time:parseFloat(r.cells[2].innerText),
       platform:r.cells[3].innerText,
-      video:r.cells[4].querySelector('a')?r.cells[4].querySelector('a').href:''
+      video:r.cells[4].querySelector('a') ? r.cells[4].querySelector('a').href : ''
     }));
   });
   localStorage.setItem('papuSpeedruns',JSON.stringify(data));
 }
+
+/* -------------------- ADD SPEEDRUN -------------------- */
 function addSpeedrun(){
   const pass=document.getElementById('importPass').value;
   if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
@@ -459,107 +484,101 @@ function addSpeedrun(){
   const video=document.getElementById('playerVideo').value.trim();
   const category=document.getElementById('runCategory').value;
   if(!name||!time){ alert("Completa todos los campos"); return; }
+
   const table=document.getElementById(category);
   const row=document.createElement('tr');
-  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video?`<a href="${video}" target="_blank">VER</a>`:'--'}</td>`;table.appendChild(row);
+  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
+  table.appendChild(row);
   sortTable(table);
   saveRuns();
-
+  
   // Limpiar campos
   document.getElementById('playerName').value="";
   document.getElementById('playerTime').value="";
   document.getElementById('playerVideo').value="";
   document.getElementById('importPass').value="";
   importPanel.style.display="none";
-
-  // DESBLOQUEAR LOGROS AUTOMÁTICO
+  
+  // Revisar logros al agregar run
   checkLogros(time, category);
 }
 
-/* -------------------- BORRAR SPEEDRUNS -------------------- */
-function showDeletePanel(){
-  hideAll();
-  menuPanel.style.display="none";
-  const tables=[...document.querySelectorAll("table")].filter(t=>t.style.display!=="none");
-  if(tables.length===0){ alert("No hay tablas visibles para borrar"); return; }
-  let list="";
-  tables.forEach(tbl=>{
-    [...tbl.rows].slice(1).forEach((r,i)=>{
-      list+=`${i+1}: ${r.cells[1].innerText} - ${r.cells[2].innerText} (${tbl.id})\n`;
-    });
-  });
-  const sel=prompt("Selecciona el número del run a borrar:\n"+list);
-  const index=parseInt(sel)-1;
-  if(isNaN(index)||index<0){ alert("Selección inválida"); return; }
-
-  let rowToDelete;
-  for(const tbl of tables){
-    const rows=[...tbl.rows].slice(1);
-    if(index<rows.length){ rowToDelete=rows[index]; break; }
-    else index-=rows.length;
+/* -------------------- CHECK LOGROS -------------------- */
+function checkLogros(time, category){
+  unlock('primerRun');
+  if(time < 30) unlock('sub30');
+  if(time < 20) unlock('sub20');
+  if(time < 19) unlock('sub19');
+  if((category === "lvl11" || category === "moon11") && time < 20){
+    unlock("sofa");
   }
-  if(!rowToDelete) return;
-  const pass=prompt("Introduce contraseña para borrar:");
-  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
-  if(confirm("¿REALMENTE QUIERES BORRAR ESTE RUN?")){ rowToDelete.remove(); saveRuns(); alert("Run borrado exitosamente"); }
+  saveLogros();
+}
+
+function unlock(id){
+  if(!LOGROS[id].unlocked){
+    LOGROS[id].unlocked = true;
+    alert("🏆 LOGRO DESBLOQUEADO: " + LOGROS[id].nombre);
+  }
+}
+
+/* -------------------- BORRAR SPEEDRUN -------------------- */
+function showDeletePanel(){
+  // Buscar tabla visible
+  const visibleTable = [...document.querySelectorAll("table")].find(t => t.style.display==="table");
+  if(!visibleTable || visibleTable.rows.length<=1){ alert("No hay runs visibles para borrar"); return; }
+  
+  const rows = [...visibleTable.rows].slice(1);
+  const list = rows.map((r,i)=>`${i+1}: ${r.cells[1].innerText} - ${r.cells[2].innerText}`).join("\n");
+  const sel = prompt("Selecciona el número del run a borrar:\n" + list);
+  const index = parseInt(sel)-1;
+  if(isNaN(index) || index<0 || index>=rows.length){ alert("Selección inválida"); return; }
+  
+  const pass = prompt("Introduce contraseña para borrar:");
+  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+
+  const confirmDelete = confirm("REALMENTE QUIERES BORRAR ESTE RUN?, NO PODRÁS RECUPERARLO JAMÁS BRO :V");
+  if(confirmDelete){ 
+    rows[index].remove();
+    saveRuns();
+    alert("Run borrado exitosamente"); 
+  }
 }
 
 /* -------------------- ORDENAR TABLAS -------------------- */
 function sortTable(table){
-  const rows=[...table.rows].slice(1);
-  rows.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+  const rows = [...table.rows].slice(1);
+  rows.sort((a,b)=>parseFloat(a.cells[2].innerText) - parseFloat(b.cells[2].innerText));
   rows.forEach((r,i)=>{
     r.classList.remove("top1","top2","top3");
     if(i===0) r.classList.add("top1");
     if(i===1) r.classList.add("top2");
     if(i===2) r.classList.add("top3");
-    r.cells[0].innerText=i+1;
+    r.cells[0].innerText = i+1;
     table.appendChild(r);
   });
 }
 
-/* -------------------- PANEL Y MENÚ -------------------- */
+/* -------------------- PANELS -------------------- */
 function showImport(){ hideAll(); importPanel.style.display='block'; menuPanel.style.display='none'; }
-function showRules(){ hideAll(); rulesPanel.style.display='block'; menuPanel.style.display='none'; }
+function showRules(){ alert("Contactame en elpapu3388@gmail.com"); }
 function closePanels(){ hideAll(); }
 
-/* -------------------- MINI PLAYER -------------------- */
-function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player('ytPlayer',{
-    events:{
-      'onReady':()=>{ ytPlayer.playVideo(); setTimeout(updateSongDisplay,500); },
-      'onStateChange':(event)=>{ 
-        if(event.data===YT.PlayerState.ENDED){ nextSong(); } 
-        else if(event.data===YT.PlayerState.PLAYING){ setTimeout(updateSongDisplay,200); }
-      }
-    }
-  });
-}
-function updateSongDisplay(){
-  if(!ytPlayer||!ytPlayer.getVideoData) return;
-  const data=ytPlayer.getVideoData();
-  currentSong.innerText=data.title||"Canción";
-  songName.innerText="Estás escuchando: "+currentSong.innerText;
-  songName.style.display="block";
-  songName.style.animation="fadeInOut 5s forwards";
-  trackCounter.innerText=(playlistIndex+1)+" / "+playlistIds.length;
-}
-function toggleMusic(){
-  if(!ytPlayer) return;
-  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=true; }
-  else{ ytPlayer.playVideo(); musicOn=true; musicBtn.className="on"; stopActive=false; }
-}
-function toggleStop(){ if(!ytPlayer) return; if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; } else{ ytPlayer.playVideo(); stopActive=false; } }
-function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500); }
-function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500); }
-
 /* -------------------- INICIALIZACIÓN -------------------- */
-window.onload=()=>{
+window.onload = ()=>{
   loadRuns();
   loadLogros();
   showCategory('lvl11');
 }
+
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
+
+<div class="info-panel" id="rulesPanel">
+  <span class="close-btn" onclick="closePanels()">✕</span>
+  <h3>Contactame</h3>
+  <p>Escribime a: elpapu3388@gmail.com</p>
+</div>
+
 </body>
 </html>
