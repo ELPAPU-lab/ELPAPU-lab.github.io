@@ -2,175 +2,202 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>EL PAPU SPEEDRUNS</title>
-
+<title>PAPU Speedruns</title>
 <style>
-body {
-  margin: 0;
-  background: black;
-  color: white;
-  font-family: monospace;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body{
+  background:black;
+  color:white;
+  margin:0;
+  font-family:'Press Start 2P', monospace;
+  overflow-x:hidden;
+  position:relative;
 }
 
-/* TÍTULO */
-h1 {
-  margin-top: 40px;
-  font-size: 32px;
+/* ---------- FONDO ANIMADO NES ---------- */
+body::before{
+  content:"";
+  position:fixed;
+  top:0;
+  left:0;
+  width:200%;
+  height:200%;
+  background-image:repeating-linear-gradient(45deg,#222 0 1px,#111 1px 2px);
+  z-index:-1;
+  animation:bgMove 20s linear infinite;
+}
+@keyframes bgMove{
+  0%{transform:translate(0,0);}
+  50%{transform:translate(-50px,50px);}
+  100%{transform:translate(0,0);}
 }
 
-/* BOTÓN CATEGORÍAS */
-#categoriasBtn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 2px solid white;
-  background: black;
-  color: red;
-  cursor: pointer;
+/* ---------- MENU ---------- */
+.menu{
+  position:fixed;
+  top:20px;
+  right:30px;
+  font-size:48px;
+  cursor:pointer;
+  z-index:100;
+}
+.menu-panel{
+  display:none;
+  position:fixed;
+  top:90px;
+  right:30px;
+  background:#111;
+  border:4px solid white;
+  padding:20px;
+  width:320px;
+  z-index:100;
+}
+.menu-panel button{
+  width:100%;
+  margin-bottom:12px;
+  padding:14px;
+  font-family:'Press Start 2P';
+  font-size:14px;
+  background:black;
+  color:white;
+  border:3px solid white;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.menu-panel button:hover{
+  transform:scale(1.05) rotate(-1deg);
+  box-shadow:0 0 12px white;
 }
 
-/* HAMBURGUESA */
-#menuBtn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  font-size: 28px;
-  cursor: pointer;
+/* ---------- CATEGORÍA ACTUAL ---------- */
+#currentCategory{
+  text-align:center;
+  font-size:28px;
+  margin-top:10px;
+  color:#00ff00;
 }
 
-/* MENÚ */
-#menu {
-  position: fixed;
-  top: 0;
-  right: -260px;
-  width: 260px;
-  height: 100%;
-  background: #000;
-  border-left: 2px solid white;
-  transition: right 0.3s;
-  padding-top: 60px;
+/* ---------- TITULO ---------- */
+.title-wrapper{
+  text-align:center;
+  margin-top:15vh;
+  font-size:64px;
+}
+.title-line{
+  display:block;
+  animation:slideDown 1s ease forwards;
+}
+@keyframes slideDown{
+  0%{transform:translateY(-100px); opacity:0;}
+  100%{transform:translateY(0); opacity:1;}
+}
+.subtitle{
+  text-align:center;
+  margin-top:20px;
+  font-size:24px;
 }
 
-#menu button {
-  display: block;
-  width: 80%;
-  margin: 10px auto;
-  padding: 10px;
-  background: black;
-  color: white;
-  border: 2px solid white;
-  cursor: pointer;
+/* ---------- BOTON CATEGORIAS ---------- */
+#categoryMainBtn{
+  display:block;
+  margin:20px auto 30px auto;
+  background:black;
+  border:4px solid white;
+  color:red;
+  font-family:'Press Start 2P';
+  font-size:24px;
+  padding:20px;
+  width:70%;
+  text-align:center;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+#categoryMainBtn:hover{
+  transform:scale(1.05) rotate(1deg);
+  box-shadow:0 0 12px white;
 }
 
-/* BOTÓN LOGROS */
-#logrosBtn {
-  color: yellow;
-  border-color: yellow;
-  box-shadow: 0 0 10px yellow;
+/* ---------- CATEGORY PANEL ---------- */
+.category-panel{
+  display:none;
+  margin:0 auto 30px auto;
+  text-align:center;
+  background:#111;
+  border:4px solid white;
+  padding:20px;
+  width:300px;
+}
+.category-panel button{
+  width:90%;
+  margin:10px 0;
+  padding:14px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  background:black;
+  color:white;
+  border:3px solid white;
+  cursor:pointer;
+  transition:transform 0.15s;
+}
+.category-panel button:hover{
+  transform:scale(1.1) rotate(1deg);
+  box-shadow:0 0 10px white;
 }
 
-/* PANEL CATEGORÍAS */
-#categoriasPanel {
-  display: none;
-  margin-top: 30px;
+/* ---------- TABLAS ---------- */
+table{
+  width:95%;
+  margin:20px auto 50px auto;
+  border-collapse:collapse;
+  font-size:16px;
+  display:none;
 }
-
-/* PANEL LOGROS */
-#logrosPanel {
-  display: none;
-  margin-top: 30px;
+th,td{
+  border:3px solid white;
+  padding:12px;
+  text-align:center;
+  position:relative;
 }
-
-/* REPRODUCTOR */
-#musicPlayer {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  border: 2px solid white;
-  padding: 8px;
-}
-
-#musicPlayer button {
-  background: black;
-  color: white;
-  border: 1px solid white;
-  margin: 2px;
-}
+th{background:#222;}
+a{color:#00ffcc;text-decoration:none;}
 </style>
 </head>
 
 <body>
 
-<div id="menuBtn">☰</div>
+<div class="menu" onclick="toggleMenu()">☰</div>
 
-<h1>EL PAPU SPEEDRUNS</h1>
+<div class="menu-panel" id="menuPanel">
+  <button id="menuCatBtn" style="display:none">Categorías</button>
+  <button onclick="showImport()">Importar Speedruns</button>
+  <button onclick="showDeletePanel()">Borrar Speedruns</button>
+  <button onclick="showRules()">REGLAS</button>
 
-<button id="categoriasBtn">Categorías</button>
+  <!-- BOTÓN NUEVO -->
+  <button>Logros</button>
 
-<div id="categoriasPanel">
-  <p>🏁 SMB 1-1</p>
-  <p>🏁 Any%</p>
-  <p>🏁 Moonwalk Jump</p>
+  <button id="musicBtn" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
-<div id="logrosPanel">
-  <p>🏆 Primer Speedrun</p>
-  <p>🏆 Sub 20s</p>
-  <p>🏆 Jugador Retro</p>
+<div id="currentCategory"></div>
+
+<div class="title-wrapper">
+  <span class="title-line">EL PAPU</span>
+  <span class="title-line">SPEEDRUNS</span>
 </div>
 
-<div id="menu">
-  <button onclick="toggleCategorias()">Categorías</button>
-  <button id="logrosBtn" onclick="toggleLogros()">Logros</button>
-  <button onclick="toggleMusic()">Música ON/OFF</button>
-</div>
-
-<div id="musicPlayer">
-  <div>Overworld</div>
-  <button onclick="playMusic()">▶</button>
-  <button onclick="pauseMusic()">⏸</button>
-</div>
-
-<audio id="music" loop>
-  <!-- PONÉ ACÁ TU MP3 -->
-  <source src="overworld.mp3" type="audio/mpeg">
-</audio>
+<div class="subtitle">Clasificación</div>
 
 <script>
-const menu = document.getElementById("menu");
-const categoriasPanel = document.getElementById("categoriasPanel");
-const logrosPanel = document.getElementById("logrosPanel");
-const music = document.getElementById("music");
-
-document.getElementById("menuBtn").onclick = () => {
-  menu.style.right = menu.style.right === "0px" ? "-260px" : "0px";
-};
-
-function toggleCategorias() {
-  categoriasPanel.style.display =
-    categoriasPanel.style.display === "block" ? "none" : "block";
-  logrosPanel.style.display = "none";
+function toggleMenu(){
+  const menu=document.getElementById("menuPanel");
+  menu.style.display = menu.style.display==="block"?"none":"block";
 }
-
-function toggleLogros() {
-  logrosPanel.style.display =
-    logrosPanel.style.display === "block" ? "none" : "block";
-  categoriasPanel.style.display = "none";
-}
-
-function playMusic() {
-  music.play();
-}
-
-function pauseMusic() {
-  music.pause();
-}
-
-function toggleMusic() {
-  if (music.paused) music.play();
-  else music.pause();
-}
+function toggleMusic(){}
+function showImport(){}
+function showDeletePanel(){}
+function showRules(){}
 </script>
 
 </body>
