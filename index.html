@@ -3,120 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <title>PAPU Speedruns</title>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body{
-  margin:0;
   background:black;
   color:white;
+  margin:0;
   font-family:'Press Start 2P', monospace;
+  overflow-x:hidden;
+  position:relative;
 }
 
+/* ---------- FONDO ANIMADO NES ---------- */
+body::before{
+  content:"";
+  position:fixed;
+  top:0;
+  left:0;
+  width:200%;
+  height:200%;
+  background-image:repeating-linear-gradient(45deg,#222 0 1px,#111 1px 2px);
+  z-index:-1;
+  animation:bgMove 20s linear infinite;
+}
+@keyframes bgMove{
+  0%{transform:translate(0,0);}
+  50%{transform:translate(-50px,50px);}
+  100%{transform:translate(0,0);}
+}
+
+/* ---------- MENU ---------- */
 .menu{
   position:fixed;
   top:20px;
   right:30px;
-  font-size:42px;
+  font-size:48px;
   cursor:pointer;
   z-index:100;
 }
-
 .menu-panel{
   display:none;
   position:fixed;
-  top:80px;
+  top:90px;
   right:30px;
+  background:#111;
+  border:4px solid white;
+  padding:20px;
+  width:320px;
+  z-index:100;
+}
+.menu-panel button{
+  width:100%;
+  margin-bottom:12px;
+  padding:14px;
+  font-family:'Press Start 2P';
+  font-size:14px;
+  background:black;
+  color:white;
+  border:3px solid white;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.menu-panel button:hover{
+  transform:scale(1.05) rotate(-1deg);
+  box-shadow:0 0 12px white;
+}
+
+/* ---------- BOTÓN LOGROS ---------- */
+.logros-btn{
+  color:yellow !important;
+  border-color:yellow !important;
+  box-shadow:0 0 12px yellow;
+  animation:logrosGlow 1s infinite alternate;
+}
+@keyframes logrosGlow{
+  0%{box-shadow:0 0 8px yellow;}
+  100%{box-shadow:0 0 20px yellow;}
+}
+
+/* ---------- CATEGORÍA ACTUAL ---------- */
+#currentCategory{
+  text-align:center;
+  font-size:28px;
+  margin-top:10px;
+  color:#00ff00;
+}
+
+/* ---------- TITULO ---------- */
+.title-wrapper{
+  text-align:center;
+  margin-top:15vh;
+  font-size:64px;
+}
+.title-line{
+  display:block;
+  animation:slideDown 1s ease forwards;
+}
+@keyframes slideDown{
+  0%{transform:translateY(-100px); opacity:0;}
+  100%{transform:translateY(0); opacity:1;}
+}
+.subtitle{
+  text-align:center;
+  margin-top:20px;
+  font-size:24px;
+}
+
+/* ---------- BOTON CATEGORIAS ---------- */
+#categoryMainBtn{
+  display:block;
+  margin:20px auto 30px auto;
+  background:black;
+  border:4px solid white;
+  color:red;
+  font-family:'Press Start 2P';
+  font-size:24px;
+  padding:20px;
+  width:70%;
+  text-align:center;
+  cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+#categoryMainBtn:hover{
+  transform:scale(1.05) rotate(1deg);
+  box-shadow:0 0 12px white;
+}
+
+/* ---------- CATEGORY PANEL ---------- */
+.category-panel{
+  display:none;
+  margin:0 auto 30px auto;
+  text-align:center;
   background:#111;
   border:4px solid white;
   padding:20px;
   width:300px;
 }
-
-.menu-panel button{
-  width:100%;
-  margin-bottom:10px;
+.category-panel button{
+  width:90%;
+  margin:10px 0;
   padding:14px;
   font-family:'Press Start 2P';
+  font-size:16px;
   background:black;
   color:white;
   border:3px solid white;
   cursor:pointer;
+  transition:transform 0.15s;
+}
+.category-panel button:hover{
+  transform:scale(1.1) rotate(1deg);
+  box-shadow:0 0 10px white;
 }
 
-.logros-btn{
-  color:#FFD700;
-  border-color:#FFD700;
-  animation:glow 1s infinite alternate;
-}
-
-@keyframes glow{
-  from{box-shadow:0 0 5px #FFD700;}
-  to{box-shadow:0 0 20px #FFD700;}
-}
-
-#currentCategory{
-  text-align:center;
-  margin-top:20px;
-  color:#00ff00;
-  font-size:22px;
-}
-
-.title{
-  text-align:center;
-  margin-top:100px;
-  font-size:48px;
-}
-
-#categoryBtn{
-  display:block;
-  margin:30px auto;
-  padding:20px;
-  font-size:22px;
-  background:black;
-  border:4px solid white;
-  color:red;
-  font-family:'Press Start 2P';
-}
-
-.category-panel{
-  display:none;
-  text-align:center;
-}
-
-.category-panel button{
-  margin:10px;
-  padding:14px;
-  font-family:'Press Start 2P';
-  background:black;
-  color:white;
-  border:3px solid white;
-}
-
+/* ---------- TABLAS ---------- */
 table{
-  display:none;
-  width:90%;
-  margin:30px auto;
+  width:95%;
+  margin:20px auto 50px auto;
   border-collapse:collapse;
+  font-size:16px;
+  display:none;
 }
-
 th,td{
   border:3px solid white;
-  padding:10px;
+  padding:12px;
   text-align:center;
 }
-
-#player{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#111;
-  border:4px solid white;
-  padding:15px;
-  width:240px;
-  text-align:center;
-}
+th{background:#222;}
+a{color:#00ffcc;text-decoration:none;}
 </style>
 </head>
 
@@ -125,102 +180,41 @@ th,td{
 <div class="menu" onclick="toggleMenu()">☰</div>
 
 <div class="menu-panel" id="menuPanel">
-  <button class="logros-btn">🏆 Logros</button>
-  <button onclick="toggleMusic()">Música ON / OFF</button>
+  <button id="menuCatBtn" onclick="toggleCategories()" style="display:none">Categorías</button>
+  <button onclick="showImport()">Importar Speedruns</button>
+  <button onclick="showDeletePanel()">Borrar Speedruns</button>
+  <button onclick="showRules()">REGLAS</button>
+
+  <!-- BOTÓN LOGROS (NUEVO) -->
+  <button class="logros-btn">Logros</button>
+
+  <button id="musicBtn" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
 <div id="currentCategory"></div>
 
-<div class="title">EL PAPU SPEEDRUNS</div>
-
-<button id="categoryBtn" onclick="toggleCategories()">Categorías</button>
-
-<div class="category-panel" id="categories">
-  <button onclick="showCategory('lvl11','1-1 Level')">1-1 Level</button>
-  <button onclick="showCategory('any','Any%')">Any%</button>
-  <button onclick="showCategory('moon11','Moonwalk Jump Solo - 1-1')">Moonwalk 1-1</button>
-  <button onclick="showCategory('moonAny','Moonwalk Jump Solo - Any%')">Moonwalk Any%</button>
+<div class="title-wrapper">
+  <span class="title-line">EL PAPU</span>
+  <span class="title-line">SPEEDRUNS</span>
 </div>
 
-<table id="lvl11"><tr><th>#</th><th>Jugador</th><th>Tiempo</th></tr></table>
-<table id="any"><tr><th>#</th><th>Jugador</th><th>Tiempo</th></tr></table>
-<table id="moon11"><tr><th>#</th><th>Jugador</th><th>Tiempo</th></tr></table>
-<table id="moonAny"><tr><th>#</th><th>Jugador</th><th>Tiempo</th></tr></table>
+<div class="subtitle">Clasificación</div>
 
-<div id="player">
-  <div id="songName">Mario Theme</div>
-  <button onclick="prevSong()">◀</button>
-  <button onclick="toggleMusic()">⏯</button>
-  <button onclick="nextSong()">▶</button>
+<button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
+
+<div class="category-panel" id="bigCategory">
+  <button onclick="firstCategory('lvl11')">1-1 Level</button>
+  <button onclick="firstCategory('any')">Any%</button>
+  <button onclick="firstCategory('warpless')">Warpless</button>
+  <button onclick="firstCategory('moon11')">Moonwalk Jump Solo - 1-1</button>
+  <button onclick="firstCategory('moonAny')">Moonwalk Jump Solo - Any%</button>
 </div>
-
-<audio id="audio"></audio>
 
 <script>
-/* ---------- MENU ---------- */
 function toggleMenu(){
-  menuPanel.style.display =
-    menuPanel.style.display === "block" ? "none" : "block";
+  const m=document.getElementById("menuPanel");
+  m.style.display = m.style.display==="block" ? "none" : "block";
 }
-
-/* ---------- CATEGORÍAS ---------- */
-function toggleCategories(){
-  categories.style.display =
-    categories.style.display === "block" ? "none" : "block";
-}
-
-function showCategory(id,name){
-  document.querySelectorAll("table").forEach(t=>t.style.display="none");
-  document.getElementById(id).style.display="table";
-  currentCategory.textContent = name;
-  categories.style.display="none";
-}
-
-/* ---------- MÚSICA ---------- */
-const songs = [
-  {name:"Overworld", src:"https://files.catbox.moe/8r8e0c.mp3"},
-  {name:"Underground", src:"https://files.catbox.moe/2r2h7a.mp3"},
-  {name:"Castle", src:"https://files.catbox.moe/5sdqj4.mp3"}
-];
-
-let index = 0;
-let playing = false;
-
-const audio = document.getElementById("audio");
-const songName = document.getElementById("songName");
-
-function loadSong(){
-  audio.src = songs[index].src;
-  songName.textContent = songs[index].name;
-}
-
-function toggleMusic(){
-  if(!playing){
-    audio.play();
-    playing = true;
-  }else{
-    audio.pause();
-    playing = false;
-  }
-}
-
-function nextSong(){
-  index = (index + 1) % songs.length;
-  loadSong();
-  audio.play();
-  playing = true;
-}
-
-function prevSong(){
-  index = (index - 1 + songs.length) % songs.length;
-  loadSong();
-  audio.play();
-  playing = true;
-}
-
-audio.addEventListener("ended", nextSong);
-
-loadSong();
 </script>
 
 </body>
