@@ -536,6 +536,8 @@ function addSpeedrun(){
   const category=document.getElementById('runCategory').value;
   if(!name||!time){ alert("Completa todos los campos"); return; }
 
+checkLogros(time, category);
+  
   const table=document.getElementById(category);
   const row=document.createElement('tr');
   row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
