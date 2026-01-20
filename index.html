@@ -70,6 +70,14 @@ body::before{
   box-shadow:0 0 12px white;
 }
 
+/* ---------- CATEGORÍA ACTUAL ---------- */
+#currentCategory{
+  text-align:center;
+  font-size:28px;
+  margin-top:10px;
+  color:#00ff00;
+}
+
 /* ---------- TITULO ---------- */
 .title-wrapper{
   text-align:center;
@@ -270,6 +278,9 @@ a{color:#00ffcc;text-decoration:none;}
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
+<!-- NUEVO DIV PARA CATEGORÍA ACTUAL -->
+<div id="currentCategory"></div>
+
 <div class="title-wrapper">
   <span class="title-line">EL PAPU</span>
   <span class="title-line">SPEEDRUNS</span>
@@ -302,7 +313,7 @@ a{color:#00ffcc;text-decoration:none;}
 <tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
 </table>
 
-<!-- Importar Speedrun Panel -->
+<!-- IMPORTAR SPEEDRUN PANEL -->
 <div class="info-panel" id="importPanel">
 <span class="close-btn" onclick="closePanels()">✕</span>
 <h3>Importar Speedrun</h3>
@@ -322,7 +333,7 @@ a{color:#00ffcc;text-decoration:none;}
 <button onclick="addSpeedrun()">Agregar Speedrun</button>
 </div>
 
-<!-- Mini Player -->
+<!-- MINI PLAYER -->
 <div id="miniPlayer">
   <div id="currentSong">Cargando...</div>
   <div class="buttonsRow">
@@ -356,6 +367,7 @@ const musicBtn = document.getElementById('musicBtn');
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
+const currentCategoryDiv = document.getElementById("currentCategory");
 
 /* -------------------- Funciones Mini Player -------------------- */
 function onYouTubeIframeAPIReady() {
@@ -419,6 +431,16 @@ function showCategory(id){
   menuPanel.style.display="none";
   bigCategory.style.display="none";
   tbl.scrollIntoView({behavior:"smooth"});
+  
+  // Actualizar nombre de categoría
+  const names = {
+    lvl11: "1-1 Level",
+    any: "Any%",
+    warpless: "Warpless",
+    moon11: "Moonwalk Jump Solo - 1-1",
+    moonAny: "Moonwalk Jump Solo - Any%"
+  };
+  currentCategoryDiv.innerText = names[id] || "";
 }
 function hideAll(){ [ ...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); }
 
@@ -465,9 +487,11 @@ function addSpeedrun(){
   sortTable(table);
   saveRuns();
 
+  // Limpiar campos
   document.getElementById('playerName').value="";
   document.getElementById('playerTime').value="";
   document.getElementById('playerVideo').value="";
+  document.getElementById('importPass').value="";
   importPanel.style.display="none";
 }
 
