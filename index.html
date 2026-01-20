@@ -15,7 +15,7 @@ body{
   position:relative;
 }
 
-/* ---------- FONDO ANIMADO NES ---------- */
+/* FONDO ANIMADO NES */
 body::before{
   content:"";
   position:fixed;
@@ -33,7 +33,7 @@ body::before{
   100%{transform:translate(0,0);}
 }
 
-/* ---------- MENU ---------- */
+/* MENU */
 .menu{
   position:fixed;
   top:20px;
@@ -70,7 +70,7 @@ body::before{
   box-shadow:0 0 12px white;
 }
 
-/* ---------- CATEGORÍA ACTUAL ---------- */
+/* CATEGORÍA ACTUAL */
 #currentCategory{
   text-align:center;
   font-size:28px;
@@ -78,7 +78,7 @@ body::before{
   color:#00ff00;
 }
 
-/* ---------- TITULO ---------- */
+/* TITULO */
 .title-wrapper{
   text-align:center;
   margin-top:15vh;
@@ -98,7 +98,7 @@ body::before{
   font-size:24px;
 }
 
-/* ---------- BOTON CATEGORIAS ---------- */
+/* BOTON CATEGORIAS */
 #categoryMainBtn{
   display:block;
   margin:20px auto 30px auto;
@@ -118,7 +118,7 @@ body::before{
   box-shadow:0 0 12px white;
 }
 
-/* ---------- CATEGORY PANEL ---------- */
+/* CATEGORY PANEL */
 .category-panel{
   display:none;
   margin:0 auto 30px auto;
@@ -145,7 +145,7 @@ body::before{
   box-shadow:0 0 10px white;
 }
 
-/* ---------- TABLAS ---------- */
+/* TABLAS */
 table{
   width:95%;
   margin:20px auto 50px auto;
@@ -162,7 +162,7 @@ th,td{
 th{background:#222;}
 a{color:#00ffcc;text-decoration:none;}
 
-/* ---------- INFO PANELS ---------- */
+/* INFO PANELS */
 .info-panel{
   display:none;
   margin:60px auto;
@@ -182,7 +182,7 @@ a{color:#00ffcc;text-decoration:none;}
 }
 .close-btn:hover{color:red;}
 
-/* ---------- BOTONES LOGROS ---------- */
+/* BOTONES LOGROS */
 #logrosList button{
   width:80%;
   margin:8px 0;
@@ -198,7 +198,7 @@ a{color:#00ffcc;text-decoration:none;}
   box-shadow:0 0 8px white;
 }
 
-/* ---------- MINI PLAYER ---------- */
+/* MINI PLAYER */
 #miniPlayer{
   position:fixed;
   bottom:20px;
@@ -221,71 +221,7 @@ a{color:#00ffcc;text-decoration:none;}
   font-size:18px;
   text-align:center;
 }
-#miniPlayer .buttonsRow{
-  display:flex;
-  justify-content:space-around;
-  width:100%;
-}
-#miniPlayer .buttonsRow button{
-  background:black;
-  color:white;
-  border:3px solid white;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  cursor:pointer;
-  padding:10px 14px;
-  width:30%;
-  transition:0.2s;
-}
-#miniPlayer .buttonsRow button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 10px white;
-}
-
-/* ---------- RESALTAR 1°,2°,3° ---------- */
-.top1{animation:glowGold 1s infinite alternate;}
-.top2{animation:glowSilver 1s infinite alternate;}
-.top3{animation:glowBronze 1s infinite alternate;}
-@keyframes glowGold{0%{text-shadow:0 0 5px #FFD700;}100%{text-shadow:0 0 20px #FFD700;}}
-@keyframes glowSilver{0%{text-shadow:0 0 5px #C0C0C0;}100%{text-shadow:0 0 20px #C0C0C0;}}
-@keyframes glowBronze{0%{text-shadow:0 0 5px #CD7F32;}100%{text-shadow:0 0 20px #CD7F32;}}
-</style>
-</head>
-<body>
-
-<!-- PANEL LOGROS -->
-<div class="info-panel" id="logrosPanel">
-  <span class="close-btn" onclick="closePanels()">✕</span>
-  <h3>LOGROS</h3>
-  <div id="logrosList"></div>
-</div>
-
-<!-- PANEL INFO LOGRO -->
-<div class="info-panel" id="logroInfoPanel">
-  <span class="close-btn" onclick="closePanels()">✕</span>
-  <h3 id="infoTitle">Título del logro</h3>
-  <p id="infoDesc">Aquí va la info de cómo conseguirlo</p>
-</div>
-
-<div class="menu" onclick="toggleMenu()">☰</div>
-<div class="menu-panel" id="menuPanel">
-  <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
-  <button onclick="showImport()">Importar Speedruns</button>
-  <button onclick="showDeletePanel()">Borrar Speedruns</button>
-  <button onclick="showRules()">Contactame</button>
-  <button onclick="showLogros()">Logros</button>
-  <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
-</div>
-
-<div id="currentCategory"></div>
-
-<div class="title-wrapper">
-  <span class="title-line">EL PAPU</span>
-  <span class="title-line">SPEEDRUNS</span>
-</div>
-
-<div class="subtitle">Clasificación</div>
-<button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
+#miniPlayer .<button id="categoryMainBtn" onclick="toggleBigCategory()">Categorías</button>
 <div class="category-panel" id="bigCategory">
   <button onclick="firstCategory('lvl11')">1-1 Level</button>
   <button onclick="firstCategory('any')">Any%</button>
@@ -294,46 +230,34 @@ a{color:#00ffcc;text-decoration:none;}
   <button onclick="firstCategory('moonAny')">Moonwalk Jump Solo - Any%</button>
 </div>
 
-<!-- Tablas -->
-<table id="lvl11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="any">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="warpless">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="moon11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="moonAny">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
+<!-- TABLAS -->
+<table id="lvl11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="any"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="warpless"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moon11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moonAny"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
 
-<!-- IMPORTAR PANEL -->
+<!-- IMPORTAR SPEEDRUN -->
 <div class="info-panel" id="importPanel">
-<span class="close-btn" onclick="closePanels()">✕</span>
-<h3>Importar Speedrun</h3>
-<input type="password" id="importPass" placeholder="Contraseña">
-<br><br>
-<input type="text" id="playerName" placeholder="Nombre jugador">
-<input type="number" id="playerTime" placeholder="Tiempo">
-<input type="text" id="playerVideo" placeholder="URL del video">
-<select id="runCategory">
-  <option value="lvl11">1-1 Level</option>
-  <option value="any">Any%</option>
-  <option value="warpless">Warpless</option>
-  <option value="moon11">Moonwalk Jump Solo - 1-1</option>
-  <option value="moonAny">Moonwalk Jump Solo - Any%</option>
-</select>
-<br><br>
-<button onclick="addSpeedrun()">Agregar Speedrun</button>
+  <span class="close-btn" onclick="closePanels()">✕</span>
+  <h3>Importar Speedrun</h3>
+  <input type="password" id="importPass" placeholder="Contraseña"><br><br>
+  <input type="text" id="playerName" placeholder="Nombre jugador">
+  <input type="number" id="playerTime" placeholder="Tiempo">
+  <input type="text" id="playerVideo" placeholder="URL único del video">
+  <select id="runCategory">
+    <option value="lvl11">1-1 Level</option>
+    <option value="any">Any%</option>
+    <option value="warpless">Warpless</option>
+    <option value="moon11">Moonwalk Jump Solo - 1-1</option>
+    <option value="moonAny">Moonwalk Jump Solo - Any%</option>
+  </select><br><br>
+  <button onclick="addSpeedrun()">Agregar Speedrun</button>
 </div>
 
 <!-- MINI PLAYER -->
 <div id="miniPlayer">
-  <div id="currentSong">Cargando...</div>
+  <div id="currentSong"></div>
   <div class="buttonsRow">
     <button onclick="prevSong()">◀</button>
     <button onclick="toggleStop()">⏹</button>
@@ -341,138 +265,67 @@ a{color:#00ffcc;text-decoration:none;}
   </div>
 </div>
 
-<iframe id="ytPlayer" width="0" height="0"
-src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
-frameborder="0" allow="autoplay" allowfullscreen></iframe>
-
-<script>
-/* -------------------- LOGROS -------------------- */
-const LOGROS = {
-  primerRun: { nombre: "Primer Run", unlocked: false },
-  sub30: { nombre: "Sub 30", unlocked: false },
-  sub20: { nombre: "Sub 20", unlocked: false },
-  sub19: { nombre: "Sub 19", unlocked: false },
-  grinder: { nombre: "GRANDE DIEGO", unlocked: false },
-  secreto: { nombre: "???", unlocked: false },
-  pacfan: { nombre: "Pac-Fan", unlocked: false }
-};
-
-function loadLogros(){
-  const saved = JSON.parse(localStorage.getItem("papuLogros"));
-  if(saved){
-    for(const key in LOGROS){
-      if(saved[key] !== undefined){
-        LOGROS[key].unlocked = saved[key];
-      }
-    }
-  }
-}
-
-function saveLogros(){
-  const data = {};
-  for(const key in LOGROS){
-    data[key] = LOGROS[key].unlocked;
-  }
-  localStorage.setItem("papuLogros", JSON.stringify(data));
-}
-
-function showLogros(){
-  hideAll();
-  menuPanel.style.display="none";
-  const list = document.getElementById("logrosList");
-  list.innerHTML="";
-  for(const key in LOGROS){
-    const btn = document.createElement("button");
-    btn.innerText = LOGROS[key].unlocked ? LOGROS[key].nombre : "-----------";
-    btn.onclick = ()=>showLogroInfo(key);
-    list.appendChild(btn);
-  }
-  document.getElementById("logrosPanel").style.display="block";
-}
-
-function showLogroInfo(key){
-  const infoPanel = document.getElementById("logroInfoPanel");
-  document.getElementById("infoTitle").innerText = LOGROS[key].nombre;
-  
-  const descs = {
-    primerRun: "Haz tu primer run en cualquier categoría.",
-    sub30: "Completa un run en menos de 30 segundos.",
-    sub20: "Completa un run en menos de 20 segundos.",
-    sub19: "Completa un run en menos de 19 segundos.",
-    grinder: "Agrega 10 runs en cualquier categoría.",
-    secreto: "???",
-    pacfan: "Completa un run relacionado con Pac-Man."
-  };
-
-  document.getElementById("infoDesc").innerText = descs[key] || "Sin descripción disponible";
-  infoPanel.style.display="block";
-}
-</script>
+<iframe id="ytPlayer" width="0" height="0" src="https://www.youtube.com/embed/NTa6Xbzfq1U?enablejsapi=1" frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 /* -------------------- VARIABLES -------------------- */
-let ytPlayer;
-let musicOn = true;
-let stopActive = false;
-let playlistIndex = 0;
-let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+let ytPlayer, musicOn=true, stopActive=false;
+let playlistIndex=2; // empieza 3ra canción
+const playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+const currentSongDiv=document.getElementById("currentSong");
 
-const currentCategoryDiv = document.getElementById("currentCategory");
-const menuPanel=document.getElementById("menuPanel");
-const bigCategory=document.getElementById("bigCategory");
-const menuCatBtn=document.getElementById("menuCatBtn");
+/* -------------------- LOGROS -------------------- */
+const LOGROS={
+  primerRun: {nombre:"Primer Run", unlocked:false, desc:"Haz tu primer run en cualquier categoría."},
+  sub30: {nombre:"Sub 30", unlocked:false, desc:"Completa un run en menos de 30 segundos."},
+  sub20: {nombre:"Sub 20", unlocked:false, desc:"Completa un run en menos de 20 segundos."},
+  sub19: {nombre:"Sub 19", unlocked:false, desc:"Completa un run en menos de 19 segundos."},
+  grinder: {nombre:"Lento Tortuga", unlocked:false, desc:"Juega varias veces para desbloquear este logro."}
+};
 
-/* -------------------- MINI PLAYER -------------------- */
-function onYouTubeIframeAPIReady() {
-  ytPlayer = new YT.Player('ytPlayer', {
-    events: {
-      'onReady': () => { ytPlayer.playVideo(); },
-      'onStateChange': (event) => {
-        if(event.data === YT.PlayerState.ENDED){ nextSong(); }
-      }
+/* -------------------- PLAYER -------------------- */
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('ytPlayer',{
+    events:{
+      'onReady':()=>{
+        ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+        ytPlayer.playVideo();
+        setTimeout(updateCurrentSong,500);
+      },
+      'onStateChange':(e)=>{ if(e.data===YT.PlayerState.ENDED) nextSong(); }
     }
   });
 }
+function updateCurrentSong(){
+  if(!ytPlayer||!ytPlayer.getVideoData) return;
+  const data=ytPlayer.getVideoData();
+  if(data.title) currentSongDiv.innerText=data.title;
+}
 function toggleMusic(){
-  if(!ytPlayer || !ytPlayer.playVideo) return;
+  if(!ytPlayer) return;
   if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; stopActive=true; document.getElementById("musicBtn").className="off"; }
-  else{ ytPlayer.playVideo(); musicOn=true; stopActive=false; document.getElementById("musicBtn").className="on"; }
+  else{ ytPlayer.playVideo(); musicOn=true; stopActive=false; updateCurrentSong(); }
 }
-function toggleStop(){
-  if(!ytPlayer || !ytPlayer.playVideo) return;
-  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; }
-  else{ ytPlayer.playVideo(); stopActive=false; }
-}
-function nextSong(){
-  playlistIndex = (playlistIndex + 1) % playlistIds.length;
-  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
-}
-function prevSong(){
-  playlistIndex = (playlistIndex - 1 + playlistIds.length) % playlistIds.length;
-  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
-}
+function toggleStop(){ if(!ytPlayer) return; if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; } else{ ytPlayer.playVideo(); stopActive=false; updateCurrentSong(); } }
+function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); ytPlayer.playVideo(); updateCurrentSong(); }
+function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); ytPlayer.playVideo(); updateCurrentSong(); }
 
 /* -------------------- MENÚ Y CATEGORIAS -------------------- */
-function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
-function toggleCategories(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
-function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
-function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
+const currentCategoryDiv=document.getElementById("currentCategory");
+const menuPanel=document.getElementById("menuPanel");
+const bigCategory=document.getElementById("bigCategory");
+function toggleMenu(){ menuPanel.style.display=menuPanel.style.display==="block"?"none":"block"; }
+function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
+function firstCategory(id){ bigCategory.style.display="none"; showCategory(id); }
 function showCategory(id){
   hideAll();
-  const tbl=document.getElementById(id);
-  tbl.style.display="table";
+  const tbl=document.getElementById(id); tbl.style.display="table";
   sortTable(tbl);
   menuPanel.style.display="none";
-  bigCategory.style.display="none";
-  tbl.scrollIntoView({behavior:"smooth"});
-  
-  const names = { lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%" };
-  currentCategoryDiv.innerText = names[id] || "";
+  const names={ lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%" };
+  currentCategoryDiv.innerText=names[id]||"";
 }
-function hideAll(){
-  [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
-  [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none");
-}
+function hideAll(){ [...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none"); }
 
 /* -------------------- SPEEDRUNS -------------------- */
 function loadRuns(){
@@ -481,13 +334,12 @@ function loadRuns(){
     const table=document.getElementById(cat);
     saved[cat].forEach(run=>{
       const row=document.createElement('tr');
-      row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
+      row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video?`<a href="${run.video}" target="_blank">VER</a>`:'--'}</td>`;
       table.appendChild(row);
     });
     sortTable(table);
   }
 }
-
 function saveRuns(){
   const data={};
   [...document.querySelectorAll("table")].forEach(table=>{
@@ -509,18 +361,16 @@ function addSpeedrun(){
   const time=parseFloat(document.getElementById('playerTime').value);
   const video=document.getElementById('playerVideo').value.trim();
   const category=document.getElementById('runCategory').value;
-  if(!name||isNaN(time)){ alert("Completa todos los campos correctamente"); return; }
-
+  if(!name||isNaN(time)||!video){ alert("Completa todos los campos y añade un video único"); return; }
+  const allVideos=[...document.querySelectorAll("table")].flatMap(t=>[...t.rows].slice(1).map(r=>r.cells[4].querySelector('a')?.href)).filter(Boolean);
+  if(allVideos.includes(video)){ alert("Esta URL ya ha sido agregada"); return; }
   const table=document.getElementById(category);
   const row=document.createElement('tr');
-  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
+  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td><a href="${video}" target="_blank">VER</a></td>`;
   table.appendChild(row);
   sortTable(table);
   saveRuns();
-  
   checkLogros(time, category);
-
-  // Limpiar campos
   document.getElementById('playerName').value="";
   document.getElementById('playerTime').value="";
   document.getElementById('playerVideo').value="";
@@ -528,48 +378,21 @@ function addSpeedrun(){
   document.getElementById('importPanel').style.display="none";
 }
 
-/* -------------------- LOGROS -------------------- */
-function checkLogros(time, category){
-  unlock('primerRun');
-  if(time < 30) unlock('sub30');
-  if(time < 20) unlock('sub20');
-  if(time < 19) unlock('sub19');
-  // Grinder / GRANDE DIEGO: por ejemplo al agregar 10 runs
-  const totalRuns = [...document.querySelectorAll("table")].reduce((acc,t)=>acc+t.rows.length-1,0);
-  if(totalRuns>=10) unlock('grinder');
-  saveLogros();
-}
-
-function unlock(id){
-  if(!LOGROS[id].unlocked){
-    LOGROS[id].unlocked = true;
-    alert("🏆 LOGRO DESBLOQUEADO: " + LOGROS[id].nombre);
-  }
-}
-
 /* -------------------- BORRAR SPEEDRUN -------------------- */
 function showDeletePanel(){
   const visibleTable=[...document.querySelectorAll("table")].find(t=>t.style.display==="table");
   if(!visibleTable || visibleTable.rows.length<=1){ alert("No hay runs visibles para borrar"); return; }
-
   const rows=[...visibleTable.rows].slice(1);
   const list=rows.map((r,i)=>`${i+1}: ${r.cells[1].innerText} - ${r.cells[2].innerText}`).join("\n");
   const sel=prompt("Selecciona el número del run a borrar:\n"+list);
   const index=parseInt(sel)-1;
-  if(isNaN(index) || index<0 || index>=rows.length){ alert("Selección inválida"); return; }
-
-  const pass = prompt("Introduce contraseña para borrar:");
-  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
-
-  const confirmDelete = confirm("¿REALMENTE QUIERES BORRAR ESTE RUN?");
-  if(confirmDelete){ 
-    rows[index].remove();
-    saveRuns();
-    alert("Run borrado exitosamente"); 
-  }
+  if(isNaN(index)||index<0||index>=rows.length){alert("Selección inválida"); return;}
+  const pass=prompt("Introduce contraseña para borrar:");
+  if(pass!=="ELPAPUESPRO"){alert("Contraseña incorrecta"); return;}
+  if(confirm("¿REALMENTE QUIERES BORRAR ESTE RUN?")){rows[index].remove(); saveRuns(); alert("Run borrado exitosamente");}
 }
 
-/* -------------------- ORDENAR TABLAS -------------------- */
+/* -------------------- ORDENAR TABLA -------------------- */
 function sortTable(table){
   const rows=[...table.rows].slice(1);
   rows.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
@@ -583,24 +406,57 @@ function sortTable(table){
   });
 }
 
-/* -------------------- PANELS -------------------- */
-function showImport(){ hideAll(); document.getElementById('importPanel').style.display='block'; menuPanel.style.display='none'; }
-function showRules(){ alert("Contactame en: elpapu3388@gmail.com"); }
-function closePanels(){ hideAll(); }
+/* -------------------- LOGROS -------------------- */
+function loadLogros(){
+  const unlocked=JSON.parse(localStorage.getItem('papuLogros')||'{}');
+  for(const key in unlocked) if(LOGROS[key]) LOGROS[key].unlocked=unlocked[key];
+}
+function saveLogros(){ localStorage.setItem('papuLogros', JSON.stringify(Object.fromEntries(Object.entries(LOGROS).map(([k,v])=>[k,v.unlocked])))); }
+function checkLogros(time, category){
+  if(!LOGROS.primerRun.unlocked) LOGROS.primerRun.unlocked=true;
+  if(time<30) LOGROS.sub30.unlocked=true;
+  if(time<20) LOGROS.sub20.unlocked=true;
+  if(time<19) LOGROS.sub19.unlocked=true;
+  LOGROS.grinder.unlocked=true;
+  saveLogros();
+}
+
+/* -------------------- PANEL LOGROS -------------------- */
+function showLogros(){
+  hideAll(); menuPanel.style.display="none";
+  const list=document.getElementById("logrosList"); list.innerHTML="";
+  for(const key in LOGROS){
+    const btn=document.createElement("button");
+    btn.innerText=LOGROS[key].unlocked?LOGROS[key].nombre:"-----------";
+    btn.onclick=()=>showLogroInfo(key);
+    list.appendChild(btn);
+  }
+  document.getElementById("logrosPanel").style.display="block";
+}
+function showLogroInfo(key){
+  const infoPanel=document.getElementById("logroInfoPanel");
+  document.getElementById("infoTitle").innerText=LOGROS[key].nombre;
+  document.getElementById("infoDesc").innerText=LOGROS[key].desc || "Sin descripción disponible";
+  infoPanel.style.display="block";
+}
+
+/* -------------------- PANEL IMPORTAR -------------------- */
+function showImport(){ hideAll(); menuPanel.style.display="none"; document.getElementById("importPanel").style.display="block"; }
+
+/* -------------------- OTROS -------------------- */
+function closePanels(){ [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none"); }
 
 /* -------------------- INICIALIZACION -------------------- */
-window.onload = ()=>{
+window.onload=()=>{
   loadRuns();
   loadLogros();
   showCategory('lvl11');
-}
+  if(typeof YT==='undefined'){
+    const tag=document.createElement('script');
+    tag.src="https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+  } else { onYouTubeIframeAPIReady(); }
+};
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
-
-<div class="info-panel" id="rulesPanel">
-  <span class="close-btn" onclick="closePanels()">✕</span>
-  <h3>Contactame</h3>
-  <p>Escribime a: elpapu3388@gmail.com</p>
-</div>
 </body>
 </html>
