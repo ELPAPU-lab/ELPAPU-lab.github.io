@@ -5,6 +5,7 @@
 <title>PAPU Speedruns</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body{
   background:black;
   color:white;
@@ -268,12 +269,12 @@ a{color:#00ffcc;text-decoration:none;}
 
 <div class="menu" onclick="toggleMenu()">☰</div>
 <div class="menu-panel" id="menuPanel">
-  <button id="menuCatBtn" onclick="toggleCategories()">Categorías</button>
+  <button id="menuCatBtn" class="on" onclick="toggleCategories()" style="display:none">Categorías</button>
   <button onclick="showImport()">Importar Speedruns</button>
   <button onclick="showDeletePanel()">Borrar Speedruns</button>
   <button onclick="showRules()">Contactame</button>
   <button onclick="showLogros()">Logros</button>
-  <button id="musicBtn" onclick="toggleMusic()">Música ON/OFF</button>
+  <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
 </div>
 
 <div id="currentCategory"></div>
@@ -294,11 +295,21 @@ a{color:#00ffcc;text-decoration:none;}
 </div>
 
 <!-- Tablas -->
-<table id="lvl11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
-<table id="any"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
-<table id="warpless"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
-<table id="moon11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
-<table id="moonAny"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="lvl11">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+</table>
+<table id="any">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+</table>
+<table id="warpless">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+</table>
+<table id="moon11">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+</table>
+<table id="moonAny">
+<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
+</table>
 
 <!-- IMPORTAR PANEL -->
 <div class="info-panel" id="importPanel">
@@ -330,194 +341,261 @@ a{color:#00ffcc;text-decoration:none;}
   </div>
 </div>
 
-<iframe id="ytPlayer" width="0" height="0" src="" frameborder="0" allow="autoplay"></iframe>
+<iframe id="ytPlayer" width="0" height="0"
+src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
+frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
-<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-document.addEventListener('DOMContentLoaded',()=>{
-  const LOGROS = {
-    primerRun:{nombre:"Primer Run", unlocked:false},
-    sub30:{nombre:"Sub 30", unlocked:false},
-    sub20:{nombre:"Sub 20", unlocked:false},
-    sub19:{nombre:"Sub 19", unlocked:false},
-    grinder:{nombre:"GRANDE DIEGO", unlocked:false},
-    secreto:{nombre:"???", unlocked:false},
-    pacfan:{nombre:"Pac-Fan", unlocked:false}
-  };
+/* -------------------- LOGROS -------------------- */
+const LOGROS = {
+  primerRun: { nombre: "Primer Run", unlocked: false },
+  sub30: { nombre: "Sub 30", unlocked: false },
+  sub20: { nombre: "Sub 20", unlocked: false },
+  sub19: { nombre: "Sub 19", unlocked: false },
+  grinder: { nombre: "GRANDE DIEGO", unlocked: false },
+  secreto: { nombre: "???", unlocked: false },
+  pacfan: { nombre: "Pac-Fan", unlocked: false }
+};
 
-  let ytPlayer, musicOn=true, stopActive=false, playlistIndex=0;
-  let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M'];
-
-  const currentCategoryDiv=document.getElementById("currentCategory");
-  const menuPanel=document.getElementById("menuPanel");
-  const bigCategory=document.getElementById("bigCategory");
-
-  function loadLogros(){
-    const saved = JSON.parse(localStorage.getItem("papuLogros"));
-    if(saved) for(const k in LOGROS) if(saved[k]!==undefined) LOGROS[k].unlocked=saved[k];
-  }
-  function saveLogros(){
-    const data={}; for(const k in LOGROS) data[k]=LOGROS[k].unlocked; localStorage.setItem("papuLogros",JSON.stringify(data));
-  }
-  function showLogros(){
-    hideAll(); menuPanel.style.display="none";
-    const list=document.getElementById("logrosList"); list.innerHTML="";
-    for(const k in LOGROS){
-      const btn=document.createElement("button");
-      btn.innerText = LOGROS[k].unlocked ? LOGROS[k].nombre : "-----------";
-      btn.onclick=()=>showLogroInfo(k);
-      list.appendChild(btn);
-    }
-    document.getElementById("logrosPanel").style.display="block";
-  }
-  function showLogroInfo(k){
-    document.getElementById("infoTitle").innerText=LOGROS[k].nombre;
-    const descs = {
-      primerRun:"Haz tu primer run en cualquier categoría.",
-      sub30:"Completa un run en menos de 30 segundos.",
-      sub20:"Completa un run en menos de 20 segundos.",
-      sub19:"Completa un run en menos de 19 segundos.",
-      grinder:"Agrega 10 runs en cualquier categoría.",
-      secreto:"???",
-      pacfan:"Completa un run relacionado con Pac-Man."
-    };
-    document.getElementById("infoDesc").innerText=descs[k]||"Sin descripción disponible";
-    document.getElementById("logroInfoPanel").style.display="block";
-  }
-
-  function hideAll(){
-    [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
-    [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none");
-  }
-
-  function toggleMenu(){menuPanel.style.display = menuPanel.style.display==="block"?"none":"block";}
-  function toggleCategories(){bigCategory.style.display = bigCategory.style.display==="block"?"none":"block";}
-  function toggleBigCategory(){bigCategory.style.display = bigCategory.style.display==="block"?"none":"block";}
-  function firstCategory(id){bigCategory.style.display="none"; showCategory(id);}
-  function showCategory(id){
-    hideAll();
-    const tbl=document.getElementById(id);
-    tbl.style.display="table"; sortTable(tbl);
-    menuPanel.style.display="none"; bigCategory.style.display="none";
-    tbl.scrollIntoView({behavior:"smooth"});
-    const names={ lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%"};
-    currentCategoryDiv.innerText = names[id]||"";
-  }
-
-  function loadRuns(){
-    const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
-    for(const cat in saved){
-      const table=document.getElementById(cat);
-      [...table.rows].slice(1).forEach(r=>r.remove());
-      saved[cat].forEach(run=>{
-        const row=document.createElement('tr');
-        row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
-        table.appendChild(row);
-      });
-      sortTable(table);
-    }
-  }
-
-  function saveRuns(){
-    const data={};
-    [...document.querySelectorAll("table")].forEach(table=>{
-      data[table.id]=[...table.rows].slice(1).map(r=>({
-        name:r.cells[1].innerText,
-        time:parseFloat(r.cells[2].innerText),
-        platform:r.cells[3].innerText,
-        video:r.cells[4].querySelector('a')?r.cells[4].querySelector('a').href:''
-      }));
-    });
-    localStorage.setItem('papuSpeedruns',JSON.stringify(data));
-  }
-
-  function addSpeedrun(){
-    const pass=document.getElementById('importPass').value;
-    if(pass!=="ELPAPUESPRO"){alert("Contraseña incorrecta");return;}
-    const name=document.getElementById('playerName').value.trim();
-    const time=parseFloat(document.getElementById('playerTime').value);
-    const video=document.getElementById('playerVideo').value.trim();
-    const category=document.getElementById('runCategory').value;
-    if(!name||isNaN(time)){alert("Completa todos los campos correctamente");return;}
-    const table=document.getElementById(category);
-    const row=document.createElement('tr');
-    row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
-    table.appendChild(row); sortTable(table); saveRuns();
-    checkLogros(time);
-    document.getElementById('playerName').value=""; document.getElementById('playerTime').value="";
-    document.getElementById('playerVideo').value=""; document.getElementById('importPass').value="";
-    document.getElementById('importPanel').style.display="none";
-  }
-
-  function checkLogros(time){
-    unlock('primerRun');
-    if(time < 30) unlock('sub30');
-    if(time < 20) unlock('sub20');
-    if(time < 19) unlock('sub19');
-    const totalRuns=[...document.querySelectorAll("table")].reduce((acc,t)=>acc+t.rows.length-1,0);
-    if(totalRuns>=10) unlock('grinder');
-    saveLogros();
-  }
-
-  function unlock(id){
-    if(!LOGROS[id].unlocked){
-      LOGROS[id].unlocked=true;
-      alert("🏆 LOGRO DESBLOQUEADO: "+LOGROS[id].nombre);
-    }
-  }
-
-  function showImport(){ hideAll(); document.getElementById('importPanel').style.display='block'; menuPanel.style.display='none'; }
-  function showDeletePanel(){
-    const visibleTable=[...document.querySelectorAll("table")].find(t=>t.style.display==="table");
-    if(!visibleTable || visibleTable.rows.length<=1){ alert("No hay runs visibles para borrar"); return; }
-    const rows=[...visibleTable.rows].slice(1);
-    const list=rows.map((r,i)=>`${i+1}: ${r.cells[1].innerText} - ${r.cells[2].innerText}`).join("\n");
-    const sel=prompt("Selecciona el número del run a borrar:\n"+list);
-    const index=parseInt(sel)-1;
-    if(isNaN(index) || index<0 || index>=rows.length){ alert("Selección inválida"); return; }
-    const pass = prompt("Introduce contraseña para borrar:");
-    if(pass!=="ELPAPUESPRO"){alert("Contraseña incorrecta"); return;}
-    if(confirm("¿REALMENTE QUIERES BORRAR ESTE RUN?")){ rows[index].remove(); saveRuns(); alert("Run borrado exitosamente"); }
-  }
-
-  function sortTable(table){
-    const rows=[...table.rows].slice(1);
-    rows.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
-    rows.forEach((r,i)=>{
-      r.classList.remove("top1","top2","top3");
-      if(i===0) r.classList.add("top1");
-      if(i===1) r.classList.add("top2");
-      if(i===2) r.classList.add("top3");
-      r.cells[0].innerText=i+1;
-      table.appendChild(r);
-    });
-  }
-
-  function showRules(){ alert("Contactame en: elpapu3388@gmail.com"); }
-  function closePanels(){ hideAll(); }
-
-  // -------------------- MINI PLAYER --------------------
-  window.onYouTubeIframeAPIReady = ()=>{
-    ytPlayer = new YT.Player('ytPlayer',{
-      height:'0', width:'0', videoId:playlistIds[playlistIndex],
-      events:{
-        'onReady':()=>{ ytPlayer.playVideo(); updateSongTitle(); },
-        'onStateChange':(e)=>{ if(e.data===YT.PlayerState.ENDED) nextSong(); }
+function loadLogros(){
+  const saved = JSON.parse(localStorage.getItem("papuLogros"));
+  if(saved){
+    for(const key in LOGROS){
+      if(saved[key] !== undefined){
+        LOGROS[key].unlocked = saved[key];
       }
-    });
+    }
+  }
+}
+
+function saveLogros(){
+  const data = {};
+  for(const key in LOGROS){
+    data[key] = LOGROS[key].unlocked;
+  }
+  localStorage.setItem("papuLogros", JSON.stringify(data));
+}
+
+function showLogros(){
+  hideAll();
+  menuPanel.style.display="none";
+  const list = document.getElementById("logrosList");
+  list.innerHTML="";
+  for(const key in LOGROS){
+    const btn = document.createElement("button");
+    btn.innerText = LOGROS[key].unlocked ? LOGROS[key].nombre : "-----------";
+    btn.onclick = ()=>showLogroInfo(key);
+    list.appendChild(btn);
+  }
+  document.getElementById("logrosPanel").style.display="block";
+}
+
+function showLogroInfo(key){
+  const infoPanel = document.getElementById("logroInfoPanel");
+  document.getElementById("infoTitle").innerText = LOGROS[key].nombre;
+  
+  const descs = {
+    primerRun: "Haz tu primer run en cualquier categoría.",
+    sub30: "Completa un run en menos de 30 segundos.",
+    sub20: "Completa un run en menos de 20 segundos.",
+    sub19: "Completa un run en menos de 19 segundos.",
+    grinder: "Agrega 10 runs en cualquier categoría.",
+    secreto: "???",
+    pacfan: "Completa un run relacionado con Pac-Man."
   };
 
-  function updateSongTitle(){ document.getElementById("currentSong").innerText = "Reproduciendo: "+playlistIds[playlistIndex]; }
-  function toggleMusic(){ if(!ytPlayer) return; if(musicOn){ytPlayer.pauseVideo(); musicOn=false;} else{ytPlayer.playVideo(); musicOn=true;} }
-  function toggleStop(){ if(!ytPlayer) return; if(!stopActive){ytPlayer.pauseVideo(); stopActive=true;} else{ytPlayer.playVideo(); stopActive=false;} }
-  function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongTitle(); }
-  function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongTitle(); }
-
-  // Inicialización
-  loadRuns(); loadLogros(); showCategory('lvl11');
-
-});
+  document.getElementById("infoDesc").innerText = descs[key] || "Sin descripción disponible";
+  infoPanel.style.display="block";
+}
 </script>
+
+<script>
+/* -------------------- VARIABLES -------------------- */
+let ytPlayer;
+let musicOn = true;
+let stopActive = false;
+let playlistIndex = 0;
+let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+
+const currentCategoryDiv = document.getElementById("currentCategory");
+const menuPanel=document.getElementById("menuPanel");
+const bigCategory=document.getElementById("bigCategory");
+const menuCatBtn=document.getElementById("menuCatBtn");
+
+/* -------------------- MINI PLAYER -------------------- */
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytPlayer', {
+    events: {
+      'onReady': () => { ytPlayer.playVideo(); },
+      'onStateChange': (event) => {
+        if(event.data === YT.PlayerState.ENDED){ nextSong(); }
+      }
+    }
+  });
+}
+function toggleMusic(){
+  if(!ytPlayer || !ytPlayer.playVideo) return;
+  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; stopActive=true; document.getElementById("musicBtn").className="off"; }
+  else{ ytPlayer.playVideo(); musicOn=true; stopActive=false; document.getElementById("musicBtn").className="on"; }
+}
+function toggleStop(){
+  if(!ytPlayer || !ytPlayer.playVideo) return;
+  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; }
+  else{ ytPlayer.playVideo(); stopActive=false; }
+}
+function nextSong(){
+  playlistIndex = (playlistIndex + 1) % playlistIds.length;
+  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+}
+function prevSong(){
+  playlistIndex = (playlistIndex - 1 + playlistIds.length) % playlistIds.length;
+  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+}
+
+/* -------------------- MENÚ Y CATEGORIAS -------------------- */
+function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
+function toggleCategories(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
+function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
+function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
+function showCategory(id){
+  hideAll();
+  const tbl=document.getElementById(id);
+  tbl.style.display="table";
+  sortTable(tbl);
+  menuPanel.style.display="none";
+  bigCategory.style.display="none";
+  tbl.scrollIntoView({behavior:"smooth"});
+  
+  const names = { lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%" };
+  currentCategoryDiv.innerText = names[id] || "";
+}
+function hideAll(){
+  [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
+  [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none");
+}
+
+/* -------------------- SPEEDRUNS -------------------- */
+function loadRuns(){
+  const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
+  for(const cat in saved){
+    const table=document.getElementById(cat);
+    saved[cat].forEach(run=>{
+      const row=document.createElement('tr');
+      row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
+      table.appendChild(row);
+    });
+    sortTable(table);
+  }
+}
+
+function saveRuns(){
+  const data={};
+  [...document.querySelectorAll("table")].forEach(table=>{
+    data[table.id]=[...table.rows].slice(1).map(r=>({
+      name:r.cells[1].innerText,
+      time:parseFloat(r.cells[2].innerText),
+      platform:r.cells[3].innerText,
+      video:r.cells[4].querySelector('a') ? r.cells[4].querySelector('a').href : ''
+    }));
+  });
+  localStorage.setItem('papuSpeedruns',JSON.stringify(data));
+}
+
+/* -------------------- IMPORTAR SPEEDRUN -------------------- */
+function addSpeedrun(){
+  const pass=document.getElementById('importPass').value;
+  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+  const name=document.getElementById('playerName').value.trim();
+  const time=parseFloat(document.getElementById('playerTime').value);
+  const video=document.getElementById('playerVideo').value.trim();
+  const category=document.getElementById('runCategory').value;
+  if(!name||isNaN(time)){ alert("Completa todos los campos correctamente"); return; }
+
+  const table=document.getElementById(category);
+  const row=document.createElement('tr');
+  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
+  table.appendChild(row);
+  sortTable(table);
+  saveRuns();
+  
+  checkLogros(time, category);
+
+  // Limpiar campos
+  document.getElementById('playerName').value="";
+  document.getElementById('playerTime').value="";
+  document.getElementById('playerVideo').value="";
+  document.getElementById('importPass').value="";
+  document.getElementById('importPanel').style.display="none";
+}
+
+/* -------------------- LOGROS -------------------- */
+function checkLogros(time, category){
+  unlock('primerRun');
+  if(time < 30) unlock('sub30');
+  if(time < 20) unlock('sub20');
+  if(time < 19) unlock('sub19');
+  // Grinder / GRANDE DIEGO: por ejemplo al agregar 10 runs
+  const totalRuns = [...document.querySelectorAll("table")].reduce((acc,t)=>acc+t.rows.length-1,0);
+  if(totalRuns>=10) unlock('grinder');
+  saveLogros();
+}
+
+function unlock(id){
+  if(!LOGROS[id].unlocked){
+    LOGROS[id].unlocked = true;
+    alert("🏆 LOGRO DESBLOQUEADO: " + LOGROS[id].nombre);
+  }
+}
+
+/* -------------------- BORRAR SPEEDRUN -------------------- */
+function showDeletePanel(){
+  const visibleTable=[...document.querySelectorAll("table")].find(t=>t.style.display==="table");
+  if(!visibleTable || visibleTable.rows.length<=1){ alert("No hay runs visibles para borrar"); return; }
+
+  const rows=[...visibleTable.rows].slice(1);
+  const list=rows.map((r,i)=>`${i+1}: ${r.cells[1].innerText} - ${r.cells[2].innerText}`).join("\n");
+  const sel=prompt("Selecciona el número del run a borrar:\n"+list);
+  const index=parseInt(sel)-1;
+  if(isNaN(index) || index<0 || index>=rows.length){ alert("Selección inválida"); return; }
+
+  const pass = prompt("Introduce contraseña para borrar:");
+  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+
+  const confirmDelete = confirm("¿REALMENTE QUIERES BORRAR ESTE RUN?");
+  if(confirmDelete){ 
+    rows[index].remove();
+    saveRuns();
+    alert("Run borrado exitosamente"); 
+  }
+}
+
+/* -------------------- ORDENAR TABLAS -------------------- */
+function sortTable(table){
+  const rows=[...table.rows].slice(1);
+  rows.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+  rows.forEach((r,i)=>{
+    r.classList.remove("top1","top2","top3");
+    if(i===0) r.classList.add("top1");
+    if(i===1) r.classList.add("top2");
+    if(i===2) r.classList.add("top3");
+    r.cells[0].innerText=i+1;
+    table.appendChild(r);
+  });
+}
+
+/* -------------------- PANELS -------------------- */
+function showImport(){ hideAll(); document.getElementById('importPanel').style.display='block'; menuPanel.style.display='none'; }
+function showRules(){ alert("Contactame en: elpapu3388@gmail.com"); }
+function closePanels(){ hideAll(); }
+
+/* -------------------- INICIALIZACION -------------------- */
+window.onload = ()=>{
+  loadRuns();
+  loadLogros();
+  showCategory('lvl11');
+}
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <div class="info-panel" id="rulesPanel">
   <span class="close-btn" onclick="closePanels()">✕</span>
