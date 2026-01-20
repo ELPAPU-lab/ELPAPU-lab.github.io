@@ -539,14 +539,15 @@ function addSpeedrun(){
   table.appendChild(row);
   sortTable(table);
   saveRuns();
-
+  
   // Limpiar campos
   document.getElementById('playerName').value="";
   document.getElementById('playerTime').value="";
   document.getElementById('playerVideo').value="";
   document.getElementById('importPass').value="";
   importPanel.style.display="none";
-  
+
+  checkLogros(time, category);
   }
 
 function unlock(id){
@@ -606,8 +607,10 @@ function closePanels(){ hideAll(); }
 /* -------------------- Inicialización -------------------- */
 window.onload = ()=>{
   loadRuns();
+  loadLogros();
   showCategory('lvl11');
-}
+  }
+
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
