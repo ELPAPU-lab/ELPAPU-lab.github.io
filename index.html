@@ -363,7 +363,7 @@ function showLogros(){
   document.getElementById("logrosPanel").style.display = "block";
   menuPanel.style.display = "none";
 }
-}
+
 </script>
 
 <script>
@@ -457,8 +457,10 @@ function showCategory(id){
   };
   currentCategoryDiv.innerText = names[id] || "";
 }
-function hideAll(){ [ ...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); }
-
+function hideAll(){
+  [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
+  [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none");
+  }
 /* -------------------- Speedruns -------------------- */
 function loadRuns(){
   const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
