@@ -268,6 +268,11 @@ a{color:#00ffcc;text-decoration:none;}
 </style>
 </head>
 <body>
+<div class="info-panel" id="logrosPanel">
+  <span class="close-btn" onclick="closePanels()">✕</span>
+  <h3>LOGROS</h3>
+  <p>Aquí irán tus logros</p>
+</div>
 
 <div class="menu" onclick="toggleMenu()">☰</div>
 <div class="menu-panel" id="menuPanel">
@@ -354,7 +359,10 @@ frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 function showLogros(){
-  alert("Sección Logros (en construcción)");
+  hideAll();
+  document.getElementById("logrosPanel").style.display = "block";
+  menuPanel.style.display = "none";
+}
 }
 </script>
 
