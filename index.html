@@ -1,3 +1,5 @@
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -114,7 +116,7 @@ a{color:#00ffcc;text-decoration:none;}
 
 <!-- MINI PLAYER -->
 <div id="miniPlayer">
-  <div id="currentSong">Cargando...</div>
+  <div id="currentSong">🎵 Cargando...</div>
   <div class="buttonsRow">
     <button onclick="prevSong()">◀</button>
     <button onclick="toggleStop()">⏹</button>
@@ -122,13 +124,13 @@ a{color:#00ffcc;text-decoration:none;}
   </div>
 </div>
 
-<div id="ytPlayerContainer"></div>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js"></script>
+<!-- YOUTUBE -->
+<script src="https://www.youtube.com/iframe_api"></script>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
-
-// ----------- FIREBASE CONFIG -----------
+<script>
 const firebaseConfig = {
   apiKey: "TU_API_KEY",
   authDomain: "TU_PROYECTO.firebaseapp.com",
@@ -138,42 +140,30 @@ const firebaseConfig = {
   messagingSenderId: "TU_ID",
   appId: "TU_APP_ID"
 };
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-// ----------- VARIABLES -----------
 let ytPlayer;
-let playlistIndex = 0;
-const playlist = [
-  {id:'Rrx0F1TzQ0M', name:'Canción 3'}, // tercera canción primero
-  {id:'NTa6Xbzfq1U', name:'Canción 1'},
-  {id:'7tTVYfgDf6g', name:'Canción 2'}
+let playlistIndex=0;
+const playlist=[
+  {id:'Rrx0F1TzQ0M', name:'Canción 1'},
+  {id:'NTa6Xbzfq1U', name:'Canción 2'},
+  {id:'7tTVYfgDf6g', name:'Canción 3'} // tercera canción primero
 ];
 
-const LOGROS = {
-  primerRun: { nombre: "Primer Run", unlocked: false },
-  sub30: { nombre: "Sub 30", unlocked: false },
-  sub20: { nombre: "Sub 20", unlocked: false },
-  sub19: { nombre: "Sub 19", unlocked: false },
-  grinder: { nombre: "GRANDE DIEGO", unlocked: false },
-  secreto: { nombre: "???", unlocked: false },
-  pacfan: { nombre: "Pac-Fan", unlocked: false },
-  speedrunner: { nombre: "Speedrunner", unlocked: false }
-};
-
-// ----------- MINI PLAYER -----------
 function onYouTubeIframeAPIReady(){
-  ytPlayer = new YT.Player('ytPlayerContainer',{
+  ytPlayer = new YT.Player('miniPlayer', {
     height:'0', width:'0',
     videoId: playlist[playlistIndex].id,
     events:{
-      'onReady': e=>{ e.target.playVideo(); updateSongTitle(); },
-      'onStateChange': e=>{ if(e.data===YT.PlayerState.ENDED){ nextSong(); } }
+      'onReady': ()=>{ ytPlayer.playVideo(); updateSongTitle(); },
+      'onStateChange': e=>{ if(e.data===YT.PlayerState.ENDED) nextSong(); }
     }
   });
 }
+
 function updateSongTitle(){
-  document.getElementById("currentSong").innerText="🎵 "+playlist[playlistIndex].name;
+  document.getElementById("currentSong").innerText = "🎵 " + playlist[playlistIndex].name;
 }
 function nextSong(){
   playlistIndex=(playlistIndex+1)%playlist.length;
@@ -186,48 +176,47 @@ function prevSong(){
   updateSongTitle();
 }
 function toggleStop(){
-  if(ytPlayer.getPlayerState()===1) ytPlayer.pauseVideo();
-  else ytPlayer.playVideo();
+  const state=ytPlayer.getPlayerState();
+  if(state===1) ytPlayer.pauseVideo(); else ytPlayer.playVideo();
 }
 function toggleMusic(){ toggleStop(); }
 
-// ----------- MENÚ Y CATEGORÍAS -----------
-const currentCategoryDiv = document.getElementById("currentCategory");
+// --- MENÚS ---
+const currentCategoryDiv=document.getElementById("currentCategory");
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
-function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
-function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
+function toggleMenu(){ menuPanel.style.display=(menuPanel.style.display==="block")?"none":"block"; }
+function toggleBigCategory(){ bigCategory.style.display=(bigCategory.style.display==="block")?"none":"block"; }
 function firstCategory(id){ bigCategory.style.display="none"; showCategory(id); }
 function showCategory(id){
   hideAll();
   const tbl=document.getElementById(id);
   tbl.style.display="table";
   listenSpeedruns(id);
-  const names = { lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%" };
+  const names = {lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%"};
   currentCategoryDiv.innerText = names[id] || "";
   tbl.scrollIntoView({behavior:"smooth"});
 }
 function hideAll(){ [...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none"); }
 
-// ----------- FIREBASE SPEEDRUNS -----------
+// --- FIREBASE SPEEDRUNS ---
 function listenSpeedruns(category){
   const table=document.getElementById(category);
-  const speedrunRef = ref(db,'speedruns/'+category);
-  onValue(speedrunRef, snapshot=>{
-    table.innerHTML = `<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th><th>Borrar</th></tr>`;
-    const data = snapshot.val();
+  const refCat=db.ref('speedruns/'+category);
+  refCat.on('value', snapshot=>{
+    table.innerHTML=`<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th><th>Borrar</th></tr>`;
+    const data=snapshot.val();
     if(!data) return;
-    const runs = Object.entries(data).map(([key,r])=>({key, name:r.name, time:parseFloat(r.time), video:r.video||''}));
-    runs.sort((a,b)=>a.time-b.time);
+    const keys=Object.keys(data);
+    const runs = keys.map(k=>({key:k,...data[k]}));
+    runs.sort((a,b)=>parseFloat(a.time)-parseFloat(b.time));
     runs.forEach((run,i)=>{
       const row=document.createElement('tr');
-      row.innerHTML=`<td>${i+1}</td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>Custom</td><td>${run.video?`<a href="${run.video}" target="_blank">VER</a>`:'--'}</td><td><button onclick="deleteRun('${category}','${run.key}')">❌</button></td>`;
+      row.innerHTML=`<td>${i+1}</td><td>${run.name}</td><td>${parseFloat(run.time).toFixed(2)}</td><td>Custom</td><td>${run.video?`<a href="${run.video}" target="_blank">VER</a>`:'--'}</td><td><button onclick="deleteRun('${category}','${run.key}')">🗑️</button></td>`;
       table.appendChild(row);
     });
   });
 }
-
-// ----------- AGREGAR Y BORRAR RUNS -----------
 function addSpeedrun(){
   const pass=document.getElementById('importPass').value;
   if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
@@ -235,41 +224,36 @@ function addSpeedrun(){
   const time=parseFloat(document.getElementById('playerTime').value);
   const video=document.getElementById('playerVideo').value.trim();
   const category=document.getElementById('runCategory').value;
-  if(!name || isNaN(time)){ alert("Completa todos los campos correctamente"); return; }
-  push(ref(db,'speedruns/'+category),{name,time,video});
-  checkLogros(time);
+  if(!name||isNaN(time)){ alert("Completa todos los campos correctamente"); return; }
+  db.ref('speedruns/'+category).push({name,time,video});
   document.getElementById('playerName').value=""; document.getElementById('playerTime').value=""; document.getElementById('playerVideo').value=""; document.getElementById('importPass').value=""; document.getElementById('importPanel').style.display="none";
 }
-
 function deleteRun(category,key){
-  const pass = prompt("Contraseña para borrar:");
-  if(pass !== "ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
-  remove(ref(db,'speedruns/'+category+'/'+key));
+  const pass=prompt("Introduce contraseña para borrar:");
+  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+  db.ref('speedruns/'+category+'/'+key).remove();
 }
 
-// ----------- LOGROS -----------
-function loadLogros(){
-  const saved=JSON.parse(localStorage.getItem("papuLogros"));
-  if(saved) for(const k in LOGROS) if(saved[k]!==undefined) LOGROS[k].unlocked=saved[k];
-}
+// --- PANELES ---
+function showImport(){ hideAll(); document.getElementById('importPanel').style.display='block'; menuPanel.style.display='none'; }
+function showRules(){ alert("Contactame en: elpapu3388@gmail.com"); }
+function closePanels(){ hideAll(); }
+
+// --- LOGROS ---
+const LOGROS={
+  primerRun:{nombre:"Primer Run",unlocked:false},
+  sub30:{nombre:"Sub 30",unlocked:false},
+  sub20:{nombre:"Sub 20",unlocked:false},
+  sub19:{nombre:"Sub 19",unlocked:false},
+  grinder:{nombre:"GRANDE DIEGO",unlocked:false},
+  secreto:{nombre:"???",unlocked:false},
+  pacfan:{nombre:"Pac-Fan",unlocked:false},
+  speedrunner:{nombre:"Speedrunner",unlocked:false}
+};
+function loadLogros(){ const saved=JSON.parse(localStorage.getItem("papuLogros")); if(saved) for(const k in LOGROS) if(saved[k]!==undefined) LOGROS[k].unlocked=saved[k]; }
 function saveLogros(){ localStorage.setItem("papuLogros",JSON.stringify(LOGROS)); }
-function showLogros(){
-  hideAll(); menuPanel.style.display="none";
-  const list=document.getElementById("logrosList"); list.innerHTML="";
-  for(const key in LOGROS){
-    const btn=document.createElement("button");
-    btn.innerText=LOGROS[key].unlocked?LOGROS[key].nombre:"-----------";
-    btn.onclick=()=>showLogroInfo(key); list.appendChild(btn);
-  }
-  document.getElementById("logrosPanel").style.display="block";
-}
-function showLogroInfo(key){
-  document.getElementById("logroInfoPanel").style.display="block";
-  document.getElementById("infoTitle").innerText=LOGROS[key].nombre;
-  const descs={primerRun:"Haz tu primer run.",sub30:"Completa un run 20-30s.",sub20:"Entre 18.30-19.99s.",sub19:"Menos de 19s.",grinder:"Agrega 10 runs.",secreto:"???",pacfan:"Run Pac-Man",speedrunner:"1-1 18-19s y Any% <5min."};
-  document.getElementById("infoDesc").innerText=descs[key];
-}
-function checkLogros(time){
+function showLogros(){ hideAll(); menuPanel.style.display="none"; const list=document.getElementById("logrosList"); list.innerHTML=""; for(const key in LOGROS){ const btn=document.createElement("button"); btn.innerText=LOGROS[key].unlocked?LOGROS[key].nombre:"-----------"; btn.onclick=()=>showLogroInfo(key); list.appendChild(btn);} document.getElementById("logrosPanel").style.display="block"; }
+function showLogroInfo(key){ hideAll(); document.getElementById("logroInfoPanel").style.display="block"; document.getElementById("infoTitle").innerText=LOGROS[key].nombre; const descs={primerRun:"Haz tu primer run.",sub30:"Completa un run en 20-30s.",sub20:"Completa un run entre 18.30-19.99s.",sub19:"Completa un run <19s.",grinder:"Agrega 10 runs.",secreto:"???",pacfan:"Completa un run relacionado con Pac-Man.",speedrunner:"1-1 entre 18-19s y Any% <5min."}; document.getElementById("infoDesc").innerText=descs[key];function checkLogros(time){
   if(!LOGROS.primerRun.unlocked) LOGROS.primerRun.unlocked = true;
   if(time >= 20 && time <= 30) LOGROS.sub30.unlocked = true;
   if(time >= 18.3 && time <= 19.99) LOGROS.sub20.unlocked = true;
@@ -277,20 +261,19 @@ function checkLogros(time){
   saveLogros();
 }
 
-// ----------- PANELES -----------
-function showImport(){ hideAll(); document.getElementById('importPanel').style.display='block'; menuPanel.style.display='none'; }
-function showRules(){ alert("Contactame en: elpapu3388@gmail.com"); }
-function closePanels(){ hideAll(); }
+// ----------- BORRAR PANEL RÁPIDO (opcional) -----------
+function showDeletePanel(){
+  const visibleTable = [...document.querySelectorAll("table")].find(t=>t.style.display==="table");
+  if(!visibleTable || visibleTable.rows.length<=1){ alert("No hay runs visibles para borrar"); return; }
+  alert("Usa los botones 🗑️ al lado de cada run para borrar."); 
+}
 
 // ----------- INICIALIZACION -----------
 window.onload = ()=>{
   loadLogros();
-  showCategory('lvl11'); // mostrar categoría inicial
+  showCategory('lvl11'); // categoría inicial
 };
 </script>
-
-<!-- YOUTUBE IFRAME API -->
-<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
