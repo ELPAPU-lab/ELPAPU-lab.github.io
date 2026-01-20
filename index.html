@@ -311,6 +311,7 @@ a{color:#00ffcc;text-decoration:none;}
 <iframe id="ytPlayer" width="0" height="0" src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1" frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
+/* -------------------- Variables -------------------- */
 let ytPlayer;
 let musicOn = true;
 let stopActive = false;
@@ -346,8 +347,8 @@ function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlaye
 function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay(); }
 
 function togglePlaylist(){
-  if(playlistPanel.style.display==='block'){ playlistPanel.style.display='none'; }
-  else{ playlistPanel.style.display='block'; renderPlaylist(); }
+  playlistPanel.style.display = playlistPanel.style.display==='block' ? 'none' : 'block';
+  if(playlistPanel.style.display==='block'){ renderPlaylist(); }
 }
 
 function renderPlaylist(){
@@ -367,8 +368,6 @@ function renderPlaylist(){
     playlistSongsDiv.appendChild(btn);
   });
 }
-
-/* -------------------- Resto de tus funciones de categorías y speedruns se mantienen -------------------- */
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
