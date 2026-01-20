@@ -14,8 +14,6 @@ body{
   overflow-x:hidden;
   position:relative;
 }
-
-/* ---------- FONDO ANIMADO NES ---------- */
 body::before{
   content:"";
   position:fixed;
@@ -32,210 +30,43 @@ body::before{
   50%{transform:translate(-50px,50px);}
   100%{transform:translate(0,0);}
 }
-
-/* ---------- MENU ---------- */
 .menu{
-  position:fixed;
-  top:20px;
-  right:30px;
-  font-size:48px;
-  cursor:pointer;
-  z-index:100;
+  position:fixed; top:20px; right:30px; font-size:48px; cursor:pointer; z-index:100;
 }
 .menu-panel{
-  display:none;
-  position:fixed;
-  top:90px;
-  right:30px;
-  background:#111;
-  border:4px solid white;
-  padding:20px;
-  width:320px;
-  z-index:100;
+  display:none; position:fixed; top:90px; right:30px; background:#111; border:4px solid white; padding:20px; width:320px; z-index:100;
 }
 .menu-panel button{
-  width:100%;
-  margin-bottom:12px;
-  padding:14px;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  background:black;
-  color:white;
-  border:3px solid white;
-  cursor:pointer;
-  transition:transform 0.15s, box-shadow 0.15s;
+  width:100%; margin-bottom:12px; padding:14px; font-family:'Press Start 2P'; font-size:14px; background:black; color:white; border:3px solid white; cursor:pointer; transition:transform 0.15s, box-shadow 0.15s;
 }
 .menu-panel button:hover{
-  transform:scale(1.05) rotate(-1deg);
-  box-shadow:0 0 12px white;
+  transform:scale(1.05) rotate(-1deg); box-shadow:0 0 12px white;
 }
-
-/* ---------- CATEGORÍA ACTUAL ---------- */
 #currentCategory{
-  text-align:center;
-  font-size:28px;
-  margin-top:10px;
-  color:#00ff00;
+  text-align:center; font-size:28px; margin-top:10px; color:#00ff00;
 }
-
-/* ---------- TITULO ---------- */
-.title-wrapper{
-  text-align:center;
-  margin-top:15vh;
-  font-size:64px;
-}
-.title-line{
-  display:block;
-  animation:slideDown 1s ease forwards;
-}
-@keyframes slideDown{
-  0%{transform:translateY(-100px); opacity:0;}
-  100%{transform:translateY(0); opacity:1;}
-}
-.subtitle{
-  text-align:center;
-  margin-top:20px;
-  font-size:24px;
-}
-
-/* ---------- BOTON CATEGORIAS ---------- */
-#categoryMainBtn{
-  display:block;
-  margin:20px auto 30px auto;
-  background:black;
-  border:4px solid white;
-  color:red;
-  font-family:'Press Start 2P';
-  font-size:24px;
-  padding:20px;
-  width:70%;
-  text-align:center;
-  cursor:pointer;
-  transition:transform 0.15s, box-shadow 0.15s;
-}
-#categoryMainBtn:hover{
-  transform:scale(1.05) rotate(1deg);
-  box-shadow:0 0 12px white;
-}
-
-/* ---------- CATEGORY PANEL ---------- */
-.category-panel{
-  display:none;
-  margin:0 auto 30px auto;
-  text-align:center;
-  background:#111;
-  border:4px solid white;
-  padding:20px;
-  width:300px;
-}
-.category-panel button{
-  width:90%;
-  margin:10px 0;
-  padding:14px;
-  font-family:'Press Start 2P';
-  font-size:16px;
-  background:black;
-  color:white;
-  border:3px solid white;
-  cursor:pointer;
-  transition:transform 0.15s;
-}
-.category-panel button:hover{
-  transform:scale(1.1) rotate(1deg);
-  box-shadow:0 0 10px white;
-}
-
-/* ---------- TABLAS ---------- */
-table{
-  width:95%;
-  margin:20px auto 50px auto;
-  border-collapse:collapse;
-  font-size:16px;
-  display:none;
-}
-th,td{
-  border:3px solid white;
-  padding:12px;
-  text-align:center;
-  position:relative;
-}
+.title-wrapper{text-align:center; margin-top:15vh; font-size:64px;}
+.title-line{display:block; animation:slideDown 1s ease forwards;}
+@keyframes slideDown{0%{transform:translateY(-100px); opacity:0;}100%{transform:translateY(0); opacity:1;}}
+.subtitle{text-align:center; margin-top:20px; font-size:24px;}
+#categoryMainBtn{display:block; margin:20px auto 30px auto; background:black; border:4px solid white; color:red; font-family:'Press Start 2P'; font-size:24px; padding:20px; width:70%; text-align:center; cursor:pointer; transition:transform 0.15s, box-shadow 0.15s;}
+#categoryMainBtn:hover{transform:scale(1.05) rotate(1deg); box-shadow:0 0 12px white;}
+.category-panel{display:none; margin:0 auto 30px auto; text-align:center; background:#111; border:4px solid white; padding:20px; width:300px;}
+.category-panel button{width:90%; margin:10px 0; padding:14px; font-family:'Press Start 2P'; font-size:16px; background:black; color:white; border:3px solid white; cursor:pointer; transition:transform 0.15s;}
+.category-panel button:hover{transform:scale(1.1) rotate(1deg); box-shadow:0 0 10px white;}
+table{width:95%; margin:20px auto 50px auto; border-collapse:collapse; font-size:16px; display:none;}
+th,td{border:3px solid white; padding:12px; text-align:center; position:relative;}
 th{background:#222;}
 a{color:#00ffcc;text-decoration:none;}
-
-/* ---------- INFO PANELS ---------- */
-.info-panel{
-  display:none;
-  margin:60px auto;
-  background:#111;
-  border:4px solid white;
-  padding:30px;
-  width:80%;
-  text-align:center;
-  position:relative;
-}
-.close-btn{
-  position:absolute;
-  top:12px;
-  right:16px;
-  font-size:24px;
-  cursor:pointer;
-}
+.info-panel{display:none; margin:60px auto; background:#111; border:4px solid white; padding:30px; width:80%; text-align:center; position:relative;}
+.close-btn{position:absolute; top:12px; right:16px; font-size:24px; cursor:pointer;}
 .close-btn:hover{color:red;}
-
-/* ---------- MINI PLAYER ---------- */
-#miniPlayer{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#111;
-  border:4px solid white;
-  width:220px;
-  height:220px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  z-index:1000;
-  padding:10px;
-}
-#miniPlayer #currentSong{
-  color:#00ff00;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  text-align:center;
-}
-#miniPlayer .buttonsRow{
-  display:flex;
-  justify-content:space-around;
-  width:100%;
-}
-#miniPlayer .buttonsRow button{
-  background:black;
-  color:white;
-  border:3px solid white;
-  font-family:'Press Start 2P';
-  font-size:18px;
-  cursor:pointer;
-  padding:10px 14px;
-  width:30%;
-  transition:0.2s;
-}
-#miniPlayer .buttonsRow button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 10px white;
-}
-
-/* ---------- MINI CONTADOR DE PISTAS ---------- */
-#trackCounter{
-  margin-top:10px;
-  color:#00ff00;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  text-align:center;
-}
-
-/* ---------- RESALTAR 1°,2°,3° ---------- */
+#miniPlayer{position:fixed; bottom:20px; right:20px; background:#111; border:4px solid white; width:220px; height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; z-index:1000; padding:10px;}
+#miniPlayer #currentSong{color:#00ff00; font-family:'Press Start 2P'; font-size:18px; text-align:center;}
+#miniPlayer .buttonsRow{display:flex; justify-content:space-around; width:100%;}
+#miniPlayer .buttonsRow button{background:black; color:white; border:3px solid white; font-family:'Press Start 2P'; font-size:18px; cursor:pointer; padding:10px 14px; width:30%; transition:0.2s;}
+#miniPlayer .buttonsRow button:hover{transform:scale(1.1); box-shadow:0 0 10px white;}
+#trackCounter{margin-top:10px; color:#00ff00; font-family:'Press Start 2P'; font-size:14px; text-align:center;}
 .top1{animation:glowGold 1s infinite alternate;}
 .top2{animation:glowSilver 1s infinite alternate;}
 .top3{animation:glowBronze 1s infinite alternate;}
@@ -305,7 +136,7 @@ a{color:#00ffcc;text-decoration:none;}
     <button onclick="toggleStop()">⏹</button>
     <button onclick="nextSong()">▶</button>
   </div>
-  <div id="trackCounter">1 / 10</div>
+  <div id="trackCounter">1 / 11</div>
 </div>
 
 <iframe id="ytPlayer" width="0" height="0"
@@ -313,54 +144,84 @@ src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
-let ytPlayer;
-let musicOn = true;
-let stopActive = false;
-let playlistIndex = 0;
-let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
-const currentSong = document.getElementById('currentSong');
-const trackCounter = document.getElementById('trackCounter');
-const musicBtn = document.getElementById('musicBtn');
+let ytPlayer, musicOn=true, stopActive=false, playlistIndex=0;
+let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+const currentSong=document.getElementById('currentSong');
+const trackCounter=document.getElementById('trackCounter');
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
 const currentCategoryDiv = document.getElementById("currentCategory");
 
-/* -------------------- Funciones Mini Player -------------------- */
-function onYouTubeIframeAPIReady() {
-  ytPlayer = new YT.Player('ytPlayer', {
-    events: {
-      'onReady': () => { ytPlayer.playVideo(); setTimeout(updateSongDisplay, 500); },
-      'onStateChange': (event) => { if(event.data === YT.PlayerState.ENDED){ nextSong(); } else if(event.data === YT.PlayerState.PLAYING){ setTimeout(updateSongDisplay,200); } }
-    }
+/* -------------------- Mini Player -------------------- */
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('ytPlayer',{
+    events:{'onReady':()=>{ytPlayer.playVideo(); setTimeout(updateSongDisplay,500);},
+      'onStateChange':(e)=>{if(e.data===YT.PlayerState.ENDED){nextSong();}else if(e.data===YT.PlayerState.PLAYING){setTimeout(updateSongDisplay,200);}}}
   });
 }
 function updateSongDisplay(){
   if(!ytPlayer || !ytPlayer.getVideoData) return;
-  const data = ytPlayer.getVideoData();
-  currentSong.innerText = data.title || "Canción";
-  trackCounter.innerText = (playlistIndex+1) + " / " + playlistIds.length;
+  const data=ytPlayer.getVideoData();
+  currentSong.innerText=data.title||"Canción";
+  trackCounter.innerText=(playlistIndex+1)+" / "+playlistIds.length;
 }
-function toggleMusic(){ if(!ytPlayer) return; if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; musicBtn.className="off"; stopActive=true; } else { ytPlayer.playVideo(); musicOn=true; musicBtn.className="on"; stopActive=false; } }
-function toggleStop(){ if(!ytPlayer) return; if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; } else { ytPlayer.playVideo(); stopActive=false; } }
-function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500); }
-function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500); }
+function toggleMusic(){ if(!ytPlayer)return; if(musicOn){ytPlayer.pauseVideo(); musicOn=false; stopActive=true;} else{ytPlayer.playVideo(); musicOn=true; stopActive=false;} }
+function toggleStop(){ if(!ytPlayer)return; if(!stopActive){ytPlayer.pauseVideo(); stopActive=true;} else{ytPlayer.playVideo(); stopActive=false;} }
+function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500);}
+function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); setTimeout(updateSongDisplay,500);}
 
-/* -------------------- Menú y Categorías -------------------- */
+/* -------------------- Menú -------------------- */
 function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
 function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
-function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
-function showCategory(id){
-  [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
-  const tbl=document.getElementById(id);
-  tbl.style.display="table";
-  sortTable(tbl);
-  menuPanel.style.display="none";
-  currentCategoryDiv.innerText = {"lvl11":"1-1 Level","any":"Any%","warpless":"Warpless","moon11":"Moonwalk Jump Solo - 1-1","moonAny":"Moonwalk Jump Solo - Any%"}[id] || "";
+function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id);}
+function showCategory(id){[...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); document.getElementById(id).style.display="table"; currentCategoryDiv.innerText={"lvl11":"1-1 Level","any":"Any%","warpless":"Warpless","moon11":"Moonwalk Jump Solo - 1-1","moonAny":"Moonwalk Jump Solo - Any%"}[id]||""; loadRuns();}
+
+/* -------------------- Speedruns -------------------- */
+function saveRuns(){ const data={}; [...document.querySelectorAll("table")].forEach(t=>{ data[t.id]=[...t.rows].slice(1).map(r=>({name:r.cells[1].innerText,time:parseFloat(r.cells[2].innerText),platform:r.cells[3].innerText,video:r.cells[4].querySelector('a')?r.cells[4].querySelector('a').href:''})); }); localStorage.setItem('papuSpeedruns',JSON.stringify(data)); }
+function loadRuns(){ const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}'); for(const cat in saved){ const table=document.getElementById(cat); saved[cat].forEach(run=>{ const row=document.createElement('tr'); row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video?`<a href="${run.video}" target="_blank">VER</a>`:'--'}</td>`; table.appendChild(row); }); sortTable(table); } }
+function sortTable(table){ const rows=[...table.rows].slice(1); rows.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText)); rows.forEach((r,i)=>{ r.classList.remove("top1","top2","top3"); if(i===0) r.classList.add("top1"); if(i===1) r.classList.add("top2"); if(i===2) r.classList.add("top3"); r.cells[0].innerText=i+1; table.appendChild(r); }); }
+
+/* -------------------- Importar -------------------- */
+function showImport(){ [...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); importPanel.style.display='block'; menuPanel.style.display='none'; }
+function addSpeedrun(){
+  const pass=document.getElementById('importPass').value;
+  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+  const name=document.getElementById('playerName').value.trim();
+  const time=parseFloat(document.getElementById('playerTime').value);
+  const video=document.getElementById('playerVideo').value.trim();
+  const category=document.getElementById('runCategory').value;
+  if(!name||!time){ alert("Completa todos los campos"); return; }
+  const table=document.getElementById(category);
+  const row=document.createElement('tr');
+  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video?`<a href="${video}" target="_blank">VER</a>`:'--'}</td>`;
+  table.appendChild(row);
+  sortTable(table); saveRuns();
+  document.getElementById('playerName').value=""; document.getElementById('playerTime').value=""; document.getElementById('playerVideo').value=""; document.getElementById('importPass').value="";
+  importPanel.style.display="none";
 }
 
+/* -------------------- Borrar -------------------- */
+function showDeletePanel(){
+  const visibleTable=[...document.querySelectorAll("table")].find(t=>t.style.display==="table");
+  if(!visibleTable||visibleTable.rows.length<=1){ alert("No hay runs visibles"); return; }
+  const rows=[...visibleTable.rows].slice(1);
+  const list=rows.map((r,i)=>`${i+1}: ${r.cells[1].innerText} - ${r.cells[2].innerText}`).join("\n");
+  const sel=prompt("Selecciona el número del run a borrar:\n"+list);
+  const index=parseInt(sel)-1;
+  if(isNaN(index)||index<0||index>=rows.length){ alert("Selección inválida"); return; }
+  const runToDelete=rows[index];
+  const pass=prompt("Introduce contraseña para borrar:");
+  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
+  const confirmDelete=confirm("REALMENTE QUIERES BORRAR ESTE RUN?, NO PODRÁS RECUPERARLO JAMÁS BRO :V");
+  if(confirmDelete){ runToDelete.remove(); saveRuns(); alert("Run borrado exitosamente"); }
+}
+
+/* -------------------- Panels -------------------- */
+function closePanels(){ [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display='none'); }
+
 /* -------------------- Inicialización -------------------- */
-window.onload = ()=>{ showCategory('lvl11'); }
+window.onload=()=>{ showCategory('lvl11'); }
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
