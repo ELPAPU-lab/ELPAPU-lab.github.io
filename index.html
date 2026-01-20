@@ -19,7 +19,7 @@ body{
   cursor:pointer;
 }
 
-/* PANEL MENÚ */
+/* MENÚ */
 #menuPanel{
   position:fixed;
   top:0;
@@ -41,19 +41,45 @@ body{
   cursor:pointer;
 }
 
-/* PANELES */
+/* CONTENIDO */
 .panel{
-  display:none;
   padding:20px;
-  animation:fade 0.3s ease;
 }
 
-@keyframes fade{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
+/* LOGROS OVERLAY */
+#achievementsOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
 }
 
-h2{margin-top:0}
+#achievementsBox{
+  background:#151515;
+  width:90%;
+  max-width:400px;
+  padding:20px;
+  border-radius:10px;
+  animation:pop 0.3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+#achievementsBox h2{
+  margin-top:0;
+}
+
+.closeBtn{
+  float:right;
+  cursor:pointer;
+  font-size:18px;
+}
 </style>
 </head>
 
@@ -63,65 +89,49 @@ h2{margin-top:0}
 
 <!-- MENÚ -->
 <div id="menuPanel">
-  <button onclick="showHome()">Inicio</button>
-  <button onclick="showRuns()">Speedruns</button>
-  <button onclick="showAchievements()">Logros</button>
+  <button>Inicio</button>
+  <button>Speedruns</button>
+  <button onclick="openAchievements()">Logros</button>
 </div>
 
-<!-- INICIO -->
-<div id="homePanel" class="panel" style="display:block">
-  <h2>Inicio</h2>
-  <p>Bienvenido al tracker de speedruns.</p>
+<!-- CONTENIDO NORMAL -->
+<div class="panel">
+  <h2>Speedrun Tracker</h2>
+  <p>Todo sigue igual, esto es el contenido principal.</p>
 </div>
 
-<!-- SPEEDRUNS -->
-<div id="runsPanel" class="panel">
-  <h2>Speedruns</h2>
-  <p>Aquí irían tus runs importados.</p>
-</div>
-
-<!-- LOGROS -->
-<div id="achievementsPanel" class="panel">
-  <h2>🏆 Logros</h2>
-  <ul>
-    <li>🥉 Primer Speedrun importado</li>
-    <li>🥈 Romper los 20s en 1-1</li>
-    <li>🥇 Sub 18 en 1-1</li>
-    <li>👟 Primer Moonwalk Jump</li>
-  </ul>
+<!-- LOGROS (SOLO VISUAL) -->
+<div id="achievementsOverlay">
+  <div id="achievementsBox">
+    <span class="closeBtn" onclick="closeAchievements()">✖</span>
+    <h2>🏆 Logros</h2>
+    <ul>
+      <li>🥉 Primer speedrun importado</li>
+      <li>🥈 Sub 20 en 1-1</li>
+      <li>🥇 Sub 18 en 1-1</li>
+      <li>👟 Moonwalk Jump realizado</li>
+    </ul>
+  </div>
 </div>
 
 <script>
-const menuPanel = document.getElementById("menuPanel");
+const menu = document.getElementById("menuPanel");
+const achievements = document.getElementById("achievementsOverlay");
 
 function toggleMenu(){
-  menuPanel.style.transform =
-    menuPanel.style.transform === "translateX(0%)"
+  menu.style.transform =
+    menu.style.transform === "translateX(0%)"
     ? "translateX(-100%)"
     : "translateX(0%)";
 }
 
-function hideAll(){
-  document.querySelectorAll(".panel")
-    .forEach(p => p.style.display="none");
+function openAchievements(){
+  achievements.style.display = "flex";
+  menu.style.transform = "translateX(-100%)";
 }
 
-function showHome(){
-  hideAll();
-  document.getElementById("homePanel").style.display="block";
-  menuPanel.style.transform="translateX(-100%)";
-}
-
-function showRuns(){
-  hideAll();
-  document.getElementById("runsPanel").style.display="block";
-  menuPanel.style.transform="translateX(-100%)";
-}
-
-function showAchievements(){
-  hideAll();
-  document.getElementById("achievementsPanel").style.display="block";
-  menuPanel.style.transform="translateX(-100%)";
+function closeAchievements(){
+  achievements.style.display = "none";
 }
 </script>
 
