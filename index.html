@@ -359,7 +359,7 @@ frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 const importPanel = document.getElementById("importPanel");
-const rulesPanel = document.getElementById("rulesPanel"); // o crea un div
+// const rulesPanel = document.getElementById("rulesPanel");crea un div
   
   function showLogros(){
   hideAll();
@@ -551,10 +551,19 @@ function addSpeedrun(){
   importPanel.style.display="none";
   
 function checkLogros(time, category){
+  // Primer run desbloqueado
   unlock('primerRun');
+
+  // Desbloqueos por tiempo
   if(time < 30) unlock('sub30');
   if(time < 20) unlock('sub20');
   if(time < 19) unlock('sub19');
+
+  // Desbloqueos específicos
+  if((category === "lvl11" || category === "moon11") && time < 20){
+    unlock("sofa");
+  }
+
   saveLogros();
 }
 
@@ -563,6 +572,7 @@ function unlock(id){
     LOGROS[id].unlocked = true;
     alert("🏆 LOGRO DESBLOQUEADO: " + LOGROS[id].nombre);
   }
+}
 /* -------------------- Borrar Speedrun -------------------- */
 let runToDelete = null;
 
@@ -613,8 +623,8 @@ window.onload = ()=>{
   loadRuns();
   loadLogros();
   showCategory('lvl11');
-  }
-
+}
+  
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
