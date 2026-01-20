@@ -182,6 +182,29 @@ a{color:#00ffcc;text-decoration:none;}
 }
 .close-btn:hover{color:red;}
 
+/* ---------- CUADRO MÚSICA ARRIBA ---------- */
+#songName{
+  display:none;
+  position:fixed;
+  top:20px;
+  right:30px;
+  background:#222;
+  color:#00ff00;
+  border:4px solid white;
+  padding:20px;
+  font-family:'Press Start 2P';
+  font-size:16px;
+  z-index:1000;
+  opacity:0;
+  animation:fadeInOut 5s forwards;
+}
+@keyframes fadeInOut{
+  0%{opacity:0;transform:translateY(-20px);}
+  10%{opacity:1;transform:translateY(0);}
+  90%{opacity:1;transform:translateY(0);}
+  100%{opacity:0;transform:translateY(-20px);}
+}
+
 /* ---------- MINI PLAYER ---------- */
 #miniPlayer{
   position:fixed;
@@ -235,40 +258,6 @@ a{color:#00ffcc;text-decoration:none;}
   text-align:center;
 }
 
-/* ---------- LISTA DE MÚSICA ---------- */
-#musicListPanel{
-  display:none;
-  position:fixed;
-  top:calc(100% - 300px);
-  right:20px;
-  width:240px;
-  max-height:300px;
-  background:#111;
-  border:4px solid white;
-  overflow-y:auto;
-  padding:10px;
-  z-index:1001;
-}
-#musicListPanel button{
-  width:100%;
-  margin:6px 0;
-  padding:6px;
-  font-family:'Press Start 2P';
-  font-size:14px;
-  background:black;
-  color:white;
-  border:2px solid white;
-  cursor:pointer;
-}
-#musicListPanel button:hover{background:#222;}
-#musicListPanel .closeMusicList{
-  position:absolute;
-  top:4px;
-  right:4px;
-  font-size:18px;
-  cursor:pointer;
-}
-
 /* ---------- RESALTAR 1°,2°,3° ---------- */
 .top1{animation:glowGold 1s infinite alternate;}
 .top2{animation:glowSilver 1s infinite alternate;}
@@ -276,6 +265,14 @@ a{color:#00ffcc;text-decoration:none;}
 @keyframes glowGold{0%{text-shadow:0 0 5px #FFD700;}100%{text-shadow:0 0 20px #FFD700;}}
 @keyframes glowSilver{0%{text-shadow:0 0 5px #C0C0C0;}100%{text-shadow:0 0 20px #C0C0C0;}}
 @keyframes glowBronze{0%{text-shadow:0 0 5px #CD7F32;}100%{text-shadow:0 0 20px #CD7F32;}}
+
+/* ---------- MODAL BORRAR ---------- */
+#deleteModal{
+  display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:#111; border:4px solid white; padding:30px; width:350px; z-index:2000; text-align:center;
+}
+#deleteModal .close-btn{position:absolute; top:12px; right:16px; font-size:24px; cursor:pointer;}
+#deleteModal .close-btn:hover{color:red;}
 </style>
 </head>
 <body>
@@ -287,7 +284,6 @@ a{color:#00ffcc;text-decoration:none;}
   <button onclick="showDeletePanel()">Borrar Speedruns</button>
   <button onclick="showRules()">REGLAS</button>
   <button id="musicBtn" class="on" onclick="toggleMusic()">Música ON/OFF</button>
-  <button onclick="toggleMusicList()">Lista de Música</button>
 </div>
 
 <div id="currentCategory"></div>
@@ -307,24 +303,13 @@ a{color:#00ffcc;text-decoration:none;}
   <button onclick="firstCategory('moonAny')">Moonwalk Jump Solo - Any%</button>
 </div>
 
-<!-- Tablas -->
-<table id="lvl11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="any">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="warpless">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="moon11">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
-<table id="moonAny">
-<tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr>
-</table>
+<table id="lvl11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="any"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="warpless"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moon11"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
+<table id="moonAny"><tr><th>Puesto</th><th>Jugador</th><th>Tiempo</th><th>Plataforma</th><th>Video</th></tr></table>
 
-<!-- Import Panel -->
+<!-- IMPORTAR SPEEDRUN PANEL -->
 <div class="info-panel" id="importPanel">
 <span class="close-btn" onclick="closePanels()">✕</span>
 <h3>Importar Speedrun</h3>
@@ -342,7 +327,17 @@ a{color:#00ffcc;text-decoration:none;}
 <button onclick="addSpeedrun()">Agregar Speedrun</button>
 </div>
 
-<!-- Mini Player -->
+<!-- MODAL BORRAR -->
+<div id="deleteModal">
+  <span class="close-btn" onclick="closeDeleteModal()">✕</span>
+  <h3>Borrar Speedrun</h3>
+  <select id="deleteSelect" style="width:90%; margin:10px 0; padding:10px; font-family:'Press Start 2P'; font-size:14px;"></select>
+  <input type="password" id="deletePass" placeholder="Contraseña" style="width:90%; margin:10px 0; padding:10px; font-family:'Press Start 2P'; font-size:14px;">
+  <div id="deleteMsg" style="color:red; font-size:14px; margin-bottom:10px;"></div>
+  <button onclick="deleteRun()" style="width:80%; padding:12px; font-family:'Press Start 2P'; font-size:16px; border:3px solid white; background:black; color:white; cursor:pointer;">Borrar Run</button>
+</div>
+
+<!-- MINI PLAYER -->
 <div id="miniPlayer">
   <div id="currentSong">Cargando...</div>
   <div class="buttonsRow">
@@ -350,127 +345,172 @@ a{color:#00ffcc;text-decoration:none;}
     <button onclick="toggleStop()">⏹</button>
     <button onclick="nextSong()">▶</button>
   </div>
-  <div id="trackCounter">1 / 7</div>
+  <div id="trackCounter">1 / 11</div>
 </div>
 
-<!-- Lista Música -->
-<div id="musicListPanel">
-  <span class="closeMusicList" onclick="toggleMusicList()">X</span>
+<!-- BOTÓN LISTA DE MÚSICA Y PANEL -->
+<button id="musicListBtn" style="
+  position:fixed;
+  bottom:260px;
+  right:20px;
+  width:220px;
+  padding:12px;
+  font-family:'Press Start 2P';
+  font-size:14px;
+  background:#111;
+  color:white;
+  border:4px solid white;
+  cursor:pointer;
+  z-index:1000;">Lista de Música</button>
+
+<div id="musicListPanel" style="
+  display:none;
+  position:fixed;
+  bottom:300px;
+  right:20px;
+  width:240px;
+  max-height:300px;
+  background:#111;
+  border:4px solid white;
+  overflow-y:auto;
+  z-index:1000;
+  padding:10px;
+  font-family:'Press Start 2P';
+  font-size:14px;">
+  <span id="closeMusicList" style="
+    display:block;
+    text-align:right;
+    font-size:18px;
+    cursor:pointer;
+    margin-bottom:10px;">✕</span>
+  <div id="musicItems"></div>
 </div>
 
-<iframe id="ytPlayer" width="0" height="0"
-src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
-frameborder="0" allow="autoplay" allowfullscreen></iframe>
+<div id="songName"></div>
+<iframe id="ytPlayer" width="0" height="0" src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1" frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
 let ytPlayer;
 let musicOn = true;
 let stopActive = false;
 let playlistIndex = 0;
-let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+const playlist = [
+  {id:'NTa6Xbzfq1U', name:'Super Mario Bros Theme'},
+  {id:'7tTVYfgDf6g', name:'Overworld Music'},
+  {id:'Rrx0F1TzQ0M', name:'Underground Theme'},
+  {id:'7hG-96NiMXU', name:'Underwater Theme'},
+  {id:'3GqWF2a-fo8', name:'Castle Theme'},
+  {id:'3H220odl1D4', name:'Star Theme'},
+  {id:'EMUh6vPjBXc', name:'Bonus Stage'},
+  {id:'VXdCEKIQiGE', name:'Game Over'},
+  {id:'KK3KXAECte4', name:'Ending Theme'},
+  {id:'kL8CyVqzmkc', name:'Pipe Bonus'},
+  {id:'osPq9Yb8xm8', name:'Boss Fight'}
+];
 
 const currentSong = document.getElementById('currentSong');
+const songName = document.getElementById('songName');
 const trackCounter = document.getElementById('trackCounter');
-const musicListPanel = document.getElementById('musicListPanel');
 
-function onYouTubeIframeAPIReady() {
-  ytPlayer = new YT.Player('ytPlayer', {
-    events: {
-      'onReady': () => { ytPlayer.playVideo(); updateSongDisplay(); buildMusicList(); },
-      'onStateChange': (e) => { if(e.data===YT.PlayerState.ENDED) nextSong(); else updateSongDisplay(); }
+const musicListBtn = document.getElementById("musicListBtn");
+const musicListPanel = document.getElementById("musicListPanel");
+const closeMusicList = document.getElementById("closeMusicList");
+const musicItemsDiv = document.getElementById("musicItems");
+
+musicListBtn.onclick = ()=>{ musicListPanel.style.display = musicListPanel.style.display==='block'?'none':'block'; };
+closeMusicList.onclick = ()=>{ musicListPanel.style.display='none'; };
+
+function onYouTubeIframeAPIReady(){
+  ytPlayer = new YT.Player('ytPlayer',{
+    events:{
+      'onReady':()=>{ ytPlayer.playVideo(); setTimeout(updateSongDisplay,500); loadMusicList(); },
+      'onStateChange':(e)=>{ if(e.data===YT.PlayerState.ENDED) nextSong(); else if(e.data===YT.PlayerState.PLAYING) setTimeout(updateSongDisplay,200);}
     }
   });
 }
 
-function updateSongDisplay(){
-  if(!ytPlayer) return;
-  currentSong.innerText = ytPlayer.getVideoData().title || "Canción";
-  trackCounter.innerText = (playlistIndex+1) + " / " + playlistIds.length;
-}
-
-function toggleMusic(){ if(!ytPlayer) return; musicOn ? ytPlayer.pauseVideo() : ytPlayer.playVideo(); musicOn=!musicOn; }
-function toggleStop(){ if(!ytPlayer) return; stopActive ? ytPlayer.playVideo() : ytPlayer.pauseVideo(); stopActive=!stopActive; }
-function nextSong(){ playlistIndex = (playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay(); }
-function prevSong(){ playlistIndex = (playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); updateSongDisplay(); }
-
-function toggleMusicList(){ musicListPanel.style.display = musicListPanel.style.display==="block"?"none":"block"; }
-
-function buildMusicList(){
-  musicListPanel.innerHTML='<span class="closeMusicList" onclick="toggleMusicList()">X</span>';
-  playlistIds.forEach((id,i)=>{
-    const btn=document.createElement('button');
-    btn.innerText='Canción '+(i+1);
-    btn.onclick=()=>{ playlistIndex=i; ytPlayer.loadVideoById(id); updateSongDisplay(); };
-    musicListPanel.appendChild(btn);
+function loadMusicList(){
+  musicItemsDiv.innerHTML = '';
+  playlist.forEach((song,index)=>{
+    const btn = document.createElement("button");
+    btn.innerText = song.name;
+    btn.style.cssText = "width:100%; margin:4px 0; padding:8px; background:black; color:white; border:3px solid white; cursor:pointer;";
+    btn.onclick = ()=>{
+      playlistIndex = index;
+      ytPlayer.loadVideoById(song.id);
+      updateSongDisplay();
+      musicListPanel.style.display='none';
+    };
+    musicItemsDiv.appendChild(btn);
   });
 }
 
-/* -------------------- Categorías y speedruns -------------------- */
+function updateSongDisplay(){
+  if(!ytPlayer||!ytPlayer.getVideoData) return;
+  const data = ytPlayer.getVideoData();
+  const title = data.title || playlist[playlistIndex].name;
+  currentSong.innerText = title;
+  songName.innerText = title;
+  songName.style.display="block";
+  songName.style.animation="fadeInOut 5s forwards";
+  trackCounter.innerText = (playlistIndex+1)+" / "+playlist.length;
+}
+
+function toggleMusic(){if(!ytPlayer)return; if(musicOn){ytPlayer.pauseVideo();musicOn=false;stopActive=true;}else{ytPlayer.playVideo();musicOn=true;stopActive=false;}}
+function toggleStop(){if(!ytPlayer)return;if(!stopActive){ytPlayer.pauseVideo();stopActive=true;}else{ytPlayer.playVideo();stopActive=false;}}
+function nextSong(){playlistIndex=(playlistIndex+1)%playlist.length; ytPlayer.loadVideoById(playlist[playlistIndex].id); setTimeout(updateSongDisplay,500);}
+function prevSong(){playlistIndex=(playlistIndex-1+playlist.length)%playlist.length; yt.player.loadVideoById(playlist[playlistIndex].id); setTimeout(updateSongDisplay,500);}
+
+/* -------------------- MENÚ Y CATEGORIAS -------------------- */
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
 const currentCategoryDiv = document.getElementById("currentCategory");
+let currentDeleteTable = null;
 
-function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
-function toggleCategories(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
-function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
-function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
+function toggleMenu(){menuPanel.style.display=menuPanel.style.display==="block"?"none":"block";}
+function toggleCategories(){bigCategory.style.display=bigCategory.style.display==="block"?"none":"block";}
+function toggleBigCategory(){bigCategory.style.display=bigCategory.style.display==="block"?"none":"block";}
+function firstCategory(id){bigCategory.style.display="none";menuCatBtn.style.display="block";showCategory(id);}
 function showCategory(id){
   hideAll();
-  const tbl=document.getElementById(id);
-  tbl.style.display="table";
-  sortTable(tbl);
-  menuPanel.style.display="none";
-  bigCategory.style.display="none";
+  const tbl=document.getElementById(id); tbl.style.display="table"; sortTable(tbl); menuPanel.style.display="none"; bigCategory.style.display="none";
   tbl.scrollIntoView({behavior:"smooth"});
-  const names = {lvl11:"1-1 Level",any:"Any%",warpless:"Warpless",moon11:"Moonwalk Jump Solo - 1-1",moonAny:"Moonwalk Jump Solo - Any%"};
-  currentCategoryDiv.innerText = names[id] || "";
+  const names={lvl11:"1-1 Level",any:"Any%",warpless:"Warpless",moon11:"Moonwalk Jump Solo - 1-1",moonAny:"Moonwalk Jump Solo - Any%"};
+  currentCategoryDiv.innerText=names[id]||"";
 }
-function hideAll(){ [ ...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); }
+function hideAll(){[...document.querySelectorAll("table")].forEach(t=>t.style.display="none");}
 
-function loadRuns(){
-  const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
-  for(const cat in saved){
-    const table=document.getElementById(cat);
-    saved[cat].forEach(run=>{
-      const row=document.createElement('tr');
-      row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
-      table.appendChild(row);
-    });
-    sortTable(table);
-  }
-}
-
-function saveRuns(){
-  const data={};
-  [...document.querySelectorAll("table")].forEach(table=>{
+/* -------------------- SPEEDRUNS -------------------- */
+function loadRuns(){const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');for(const cat in saved){const table=document.getElementById(cat);saved[cat].forEach(run=>{const row=document.createElement('tr');row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video?`<a href="${run.video}" target="_blank">VER</a>`:'--'}</td>`;table.appendChild(row);});sortTable(table);}}
+function saveRuns(){const data={};[...document.querySelectorAll("table")].forEach(table=>{
     data[table.id]=[...table.rows].slice(1).map(r=>({
       name:r.cells[1].innerText,
       time:parseFloat(r.cells[2].innerText),
       platform:r.cells[3].innerText,
-      video:r.cells[4].querySelector('a') ? r.cells[4].querySelector('a').href : ''
+      video:r.cells[4].querySelector('a')? r.cells[4].querySelector('a').href : ''
     }));
   });
-  localStorage.setItem('papuSpeedruns',JSON.stringify(data));
+  localStorage.setItem('papuSpeedruns', JSON.stringify(data));
 }
 
+/* -------------------- Importar Speedrun -------------------- */
 function addSpeedrun(){
   const pass=document.getElementById('importPass').value;
-  if(pass!=="ELPAPUESPRO") return;
+  if(pass!=="ELPAPUESPRO"){ alert("Contraseña incorrecta"); return; }
   const name=document.getElementById('playerName').value.trim();
   const time=parseFloat(document.getElementById('playerTime').value);
   const video=document.getElementById('playerVideo').value.trim();
   const category=document.getElementById('runCategory').value;
-  if(!name||!time) return;
+  if(!name||!time){ alert("Completa todos los campos"); return; }
 
   const table=document.getElementById(category);
   const row=document.createElement('tr');
-  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
+  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video?`<a href="${video}" target="_blank">VER</a>`:'--'}</td>`;
   table.appendChild(row);
   sortTable(table);
   saveRuns();
 
-  // Limpiar campos
   document.getElementById('playerName').value="";
   document.getElementById('playerTime').value="";
   document.getElementById('playerVideo').value="";
@@ -478,66 +518,63 @@ function addSpeedrun(){
   importPanel.style.display="none";
 }
 
-/* -------------------- Borrar Speedrun con modal -------------------- */
-let currentDeleteTable = null;
-
+/* -------------------- Borrar Speedrun -------------------- */
 function showDeletePanel(){
-  currentDeleteTable = [...document.querySelectorAll("table")].find(t => t.style.display==="table");
-  if(!currentDeleteTable || currentDeleteTable.rows.length<=1) return;
-
+  hideAll();
+  const visibleTable=[...document.querySelectorAll("table")].find(t=>t.style.display==="table");
+  if(!visibleTable || visibleTable.rows.length<=1){ alert("No hay runs visibles para borrar"); return; }
+  currentDeleteTable = visibleTable;
+  const rows=[...visibleTable.rows].slice(1);
   const deleteSelect = document.getElementById("deleteSelect");
-  deleteSelect.innerHTML = "";
-  [...currentDeleteTable.rows].slice(1).forEach((r,i)=>{
-    const opt = document.createElement("option");
+  deleteSelect.innerHTML="";
+  rows.forEach((r,i)=>{
+    const opt=document.createElement("option");
     opt.value=i;
-    opt.textContent = `${r.cells[1].innerText} - ${r.cells[2].innerText}`;
+    opt.text=`${i+1}: ${r.cells[1].innerText} - ${r.cells[2].innerText}`;
     deleteSelect.appendChild(opt);
   });
-
   document.getElementById("deletePass").value="";
   document.getElementById("deleteMsg").innerText="";
   document.getElementById("deleteModal").style.display="block";
 }
 
 function deleteRun(){
-  const index = parseInt(document.getElementById("deleteSelect").value);
-  const pass = document.getElementById("deletePass").value;
-  if(pass !== "ELPAPUESPRO"){
-    document.getElementById("deleteMsg").innerText = "Contraseña incorrecta!";
-    return;
-  }
-  const row = currentDeleteTable.rows[index+1]; // +1 por header
-  row.style.animation = "flashRed 0.5s ease";
-  setTimeout(()=>{
-    row.remove();
-    sortTable(currentDeleteTable);
-    saveRuns();
-    document.getElementById("deleteModal").style.display="none";
-  }, 500);
+  const index=parseInt(document.getElementById("deleteSelect").value);
+  const pass=document.getElementById("deletePass").value;
+  const msg=document.getElementById("deleteMsg");
+  if(pass!=="ELPAPUESPRO"){ msg.innerText="Contraseña incorrecta"; return; }
+  const row=currentDeleteTable.rows[index+1];
+  row.remove();
+  saveRuns();
+  closeDeleteModal();
 }
 
-function closeDeleteModal(){ document.getElementById("deleteModal").style.display="none"; }
+function closeDeleteModal(){
+  document.getElementById("deleteModal").style.display="none";
+  currentDeleteTable=null;
+}
 
-/* -------------------- Ordenar Tablas -------------------- */
+/* -------------------- ORDENAR TABLAS -------------------- */
 function sortTable(table){
-  const rows = [...table.rows].slice(1);
-  rows.sort((a,b)=>parseFloat(a.cells[2].innerText) - parseFloat(b.cells[2].innerText));
+  const rows=[...table.rows].slice(1);
+  rows.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
   rows.forEach((r,i)=>{
     r.classList.remove("top1","top2","top3");
     if(i===0) r.classList.add("top1");
     if(i===1) r.classList.add("top2");
     if(i===2) r.classList.add("top3");
-    r.cells[0].innerText = i+1;
+    r.cells[0].innerText=i+1;
     table.appendChild(r);
   });
 }
 
-/* -------------------- Panels -------------------- */
+/* -------------------- PANELS -------------------- */
 function showImport(){ hideAll(); importPanel.style.display='block'; menuPanel.style.display='none'; }
+function showRules(){ hideAll(); alert("Reglas: Completa tu speedrun correctamente."); }
 function closePanels(){ hideAll(); }
 
-/* -------------------- Inicialización -------------------- */
-window.onload = ()=>{
+/* -------------------- INICIALIZACIÓN -------------------- */
+window.onload=()=>{
   loadRuns();
   showCategory('lvl11');
 }
