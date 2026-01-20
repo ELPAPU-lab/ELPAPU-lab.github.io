@@ -333,7 +333,7 @@ a{color:#00ffcc;text-decoration:none;}
 
 <!-- MINI PLAYER -->
 <div id="miniPlayer">
-  <div id="currentSong">Cargando...</div>
+  <div id="currentSong"></div>
   <div class="buttonsRow">
     <button onclick="prevSong()">◀</button>
     <button onclick="toggleStop()">⏹</button>
@@ -342,7 +342,7 @@ a{color:#00ffcc;text-decoration:none;}
 </div>
 
 <iframe id="ytPlayer" width="0" height="0"
-src="https://www.youtube.com/embed/NTa6Xbzfq1U?autoplay=1&enablejsapi=1"
+src="https://www.youtube.com/embed/NTa6Xbzfq1U?enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
@@ -359,21 +359,13 @@ const LOGROS = {
 
 function loadLogros(){
   const saved = JSON.parse(localStorage.getItem("papuLogros"));
-  if(saved){
-    for(const key in LOGROS){
-      if(saved[key] !== undefined){
-        LOGROS[key].unlocked = saved[key];
-      }
-    }
-  }
+  if(saved) for(const key in LOGROS) if(saved[key]!==undefined) LOGROS[key].unlocked = saved[key];
 }
 
 function saveLogros(){
-  const data = {};
-  for(const key in LOGROS){
-    data[key] = LOGROS[key].unlocked;
-  }
-  localStorage.setItem("papuLogros", JSON.stringify(data));
+  const data={};
+  for(const key in LOGROS) data[key]=LOGROS[key].unlocked;
+  localStorage.setItem("papuLogros",JSON.stringify(data));
 }
 
 function showLogros(){
@@ -393,7 +385,6 @@ function showLogros(){
 function showLogroInfo(key){
   const infoPanel = document.getElementById("logroInfoPanel");
   document.getElementById("infoTitle").innerText = LOGROS[key].nombre;
-  
   const descs = {
     primerRun: "Haz tu primer run en cualquier categoría.",
     sub30: "Completa un run en menos de 30 segundos.",
@@ -403,84 +394,61 @@ function showLogroInfo(key){
     secreto: "???",
     pacfan: "Completa un run relacionado con Pac-Man."
   };
-
   document.getElementById("infoDesc").innerText = descs[key] || "Sin descripción disponible";
   infoPanel.style.display="block";
 }
-</script>
 
-<script>
-/* -------------------- VARIABLES -------------------- */
+/* -------------------- VARIABLES PLAYER -------------------- */
 let ytPlayer;
-let musicOn = true;
-let stopActive = false;
-let playlistIndex = 0;
-let playlistIds = ['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+let musicOn=true;
+let stopActive=false;
+let playlistIndex=2; // empieza en 3ra cancion
+let playlistIds=['NTa6Xbzfq1U','7tTVYfgDf6g','Rrx0F1TzQ0M','7hG-96NiMXU','3GqWF2a-fo8','3H220odl1D4','EMUh6vPjBXc','VXdCEKIQiGE','KK3KXAECte4','kL8CyVqzmkc','osPq9Yb8xm8'];
+const currentSongDiv=document.getElementById("currentSong");
 
-const currentCategoryDiv = document.getElementById("currentCategory");
+/* -------------------- PLAYER -------------------- */
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('ytPlayer',{
+    events:{
+      'onReady':()=>{
+        ytPlayer.loadVideoById(playlistIds[playlistIndex]);
+        ytPlayer.playVideo();
+        updateCurrentSong();
+      },
+      'onStateChange':(e)=>{ if(e.data===YT.PlayerState.ENDED) nextSong(); }
+    }
+  });
+}
+function updateCurrentSong(){
+  if(!ytPlayer||!ytPlayer.getVideoData) return;
+  const data=ytPlayer.getVideoData();
+  if(data.title) currentSongDiv.innerText=data.title;
+}
+function toggleMusic(){ if(!ytPlayer) return; if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; stopActive=true; document.getElementById("musicBtn").className="off"; } else{ ytPlayer.playVideo(); musicOn=true; stopActive=false; document.getElementById("musicBtn").className="on"; updateCurrentSong(); } }
+function toggleStop(){ if(!ytPlayer) return; if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; } else{ ytPlayer.playVideo(); stopActive=false; updateCurrentSong(); } }
+function nextSong(){ playlistIndex=(playlistIndex+1)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); ytPlayer.playVideo(); updateCurrentSong(); }
+function prevSong(){ playlistIndex=(playlistIndex-1+playlistIds.length)%playlistIds.length; ytPlayer.loadVideoById(playlistIds[playlistIndex]); ytPlayer.playVideo(); updateCurrentSong(); }
+
+/* -------------------- MENÚ, CATEGORIAS Y SPEEDRUNS -------------------- */
+const currentCategoryDiv=document.getElementById("currentCategory");
 const menuPanel=document.getElementById("menuPanel");
 const bigCategory=document.getElementById("bigCategory");
 const menuCatBtn=document.getElementById("menuCatBtn");
 
-/* -------------------- MINI PLAYER -------------------- */
-function onYouTubeIframeAPIReady() {
-  ytPlayer = new YT.Player('ytPlayer', {
-    events: {
-      'onReady': () => { ytPlayer.playVideo(); },
-      'onStateChange': (event) => {
-        if(event.data === YT.PlayerState.ENDED){ nextSong(); }
-      }
-    }
-  });
-}
-function toggleMusic(){
-  if(!ytPlayer || !ytPlayer.playVideo) return;
-  if(musicOn){ ytPlayer.pauseVideo(); musicOn=false; stopActive=true; document.getElementById("musicBtn").className="off"; }
-  else{ ytPlayer.playVideo(); musicOn=true; stopActive=false; document.getElementById("musicBtn").className="on"; }
-}
-function toggleStop(){
-  if(!ytPlayer || !ytPlayer.playVideo) return;
-  if(!stopActive){ ytPlayer.pauseVideo(); stopActive=true; }
-  else{ ytPlayer.playVideo(); stopActive=false; }
-}
-function nextSong(){
-  playlistIndex = (playlistIndex + 1) % playlistIds.length;
-  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
-}
-function prevSong(){
-  playlistIndex = (playlistIndex - 1 + playlistIds.length) % playlistIds.length;
-  ytPlayer.loadVideoById(playlistIds[playlistIndex]);
-}
-
-/* -------------------- MENÚ Y CATEGORIAS -------------------- */
-function toggleMenu(){ menuPanel.style.display = menuPanel.style.display==="block"?"none":"block"; }
-function toggleCategories(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
-function toggleBigCategory(){ bigCategory.style.display = bigCategory.style.display==="block"?"none":"block"; }
+function toggleMenu(){ menuPanel.style.display=menuPanel.style.display==="block"?"none":"block"; }
+function toggleCategories(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
+function toggleBigCategory(){ bigCategory.style.display=bigCategory.style.display==="block"?"none":"block"; }
 function firstCategory(id){ bigCategory.style.display="none"; menuCatBtn.style.display="block"; showCategory(id); }
 function showCategory(id){
   hideAll();
-  const tbl=document.getElementById(id);
-  tbl.style.display="table";
-  sortTable(tbl);
-  menuPanel.style.display="none";
-  bigCategory.style.display="none";
-  tbl.scrollIntoView({behavior:"smooth"});
-  
-  const names = { lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%" };
-  currentCategoryDiv.innerText = names[id] || "";
+  const tbl=document.getElementById(id); tbl.style.display="table"; sortTable(tbl); menuPanel.style.display="none"; bigCategory.style.display="none"; tbl.scrollIntoView({behavior:"smooth"});
+  const names={ lvl11:"1-1 Level", any:"Any%", warpless:"Warpless", moon11:"Moonwalk Jump Solo - 1-1", moonAny:"Moonwalk Jump Solo - Any%" };
+  currentCategoryDiv.innerText=names[id]||"";
 }
-function hideAll(){
-  [...document.querySelectorAll("table")].forEach(t=>t.style.display="none");
-  [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none");
-}
+function hideAll(){ [...document.querySelectorAll("table")].forEach(t=>t.style.display="none"); [...document.querySelectorAll(".info-panel")].forEach(p=>p.style.display="none"); }
 
 /* -------------------- SPEEDRUNS -------------------- */
-function loadRuns(){
-  const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}');
-  for(const cat in saved){
-    const table=document.getElementById(cat);
-    saved[cat].forEach(run=>{
-      const row=document.createElement('tr');
+function loadRuns(){ const saved=JSON.parse(localStorage.getItem('papuSpeedruns')||'{}'); for(const cat in saved){ const table=document.getElementById(cat); saved[cat].forEach(run=>{ const row=document.createElement('tr');
       row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
       table.appendChild(row);
     });
@@ -517,7 +485,7 @@ function addSpeedrun(){
   table.appendChild(row);
   sortTable(table);
   saveRuns();
-  
+
   checkLogros(time, category);
 
   // Limpiar campos
@@ -534,15 +502,17 @@ function checkLogros(time, category){
   if(time < 30) unlock('sub30');
   if(time < 20) unlock('sub20');
   if(time < 19) unlock('sub19');
-  // Grinder / GRANDE DIEGO: por ejemplo al agregar 10 runs
-  const totalRuns = [...document.querySelectorAll("table")].reduce((acc,t)=>acc+t.rows.length-1,0);
+
+  // GRANDE DIEGO: al agregar 10 runs
+  const totalRuns=[...document.querySelectorAll("table")].reduce((acc,t)=>acc+t.rows.length-1,0);
   if(totalRuns>=10) unlock('grinder');
+  
   saveLogros();
 }
 
 function unlock(id){
   if(!LOGROS[id].unlocked){
-    LOGROS[id].unlocked = true;
+    LOGROS[id].unlocked=true;
     alert("🏆 LOGRO DESBLOQUEADO: " + LOGROS[id].nombre);
   }
 }
@@ -593,9 +563,15 @@ window.onload = ()=>{
   loadRuns();
   loadLogros();
   showCategory('lvl11');
+
+  // iniciar música tercera canción
+  if(typeof YT==='undefined'){
+    const tag=document.createElement('script');
+    tag.src="https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+  }else{ onYouTubeIframeAPIReady(); }
 }
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
 
 <div class="info-panel" id="rulesPanel">
   <span class="close-btn" onclick="closePanels()">✕</span>
