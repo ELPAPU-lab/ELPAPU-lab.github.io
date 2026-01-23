@@ -346,7 +346,15 @@ src="https://www.youtube.com/embed/Rrx0F1TzQ0M?autoplay=1&enablejsapi=1"
 frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
 <script>
-/* -------------------- LOGROS -------------------- */
+
+  function formatTime(seconds){
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  const ms = Math.floor((seconds - Math.floor(seconds)) * 100);
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(2,'0')}`;
+  }
+  
+  /* -------------------- LOGROS -------------------- */
 const LOGROS = {
   primerRun: { nombre: "Primer Run", unlocked: false },
   sub30: { nombre: "Sub 30", unlocked: false },
@@ -480,7 +488,7 @@ function loadRuns(){
   for(const cat in saved){
     const table=document.getElementById(cat);
     saved[cat].forEach(run=>{
-      const row=document.createElement('tr');row.innerHTML=`<td></td><td>${run.name}</td><td>${run.time.toFixed(2)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
+      const row=document.createElement('tr');row.innerHTML=`<td></td><td>${run.name}</td><td data-seconds="${run.time}">${formatTime(run.time)}</td><td>${run.platform}</td><td>${run.video ? `<a href="${run.video}" target="_blank">VER</a>` : '--'}</td>`;
       table.appendChild(row);
     });
     sortTable(table);
@@ -492,7 +500,7 @@ function saveRuns(){
   [...document.querySelectorAll("table")].forEach(table=>{
     data[table.id]=[...table.rows].slice(1).map(r=>({
       name:r.cells[1].innerText,
-      time:parseFloat(r.cells[2].innerText),
+      time:parseFloat(r.cells[2].dataset.seconds),
       platform:r.cells[3].innerText,
       video:r.cells[4].querySelector('a') ? r.cells[4].querySelector('a').href : ''
     }));
@@ -512,7 +520,7 @@ function addSpeedrun(){
 
   const table=document.getElementById(category);
   const row=document.createElement('tr');
-  row.innerHTML=`<td></td><td>${name}</td><td>${time.toFixed(2)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
+  row.innerHTML=`<td></td><td>${name}</td><td data-seconds="${time}">${formatTime(time)}</td><td>Custom</td><td>${video ? `<a href="${video}" target="_blank">VER</a>` : '--'}</td>`;
   table.appendChild(row);
   sortTable(table);
   saveRuns();
@@ -545,8 +553,8 @@ function checkLogros(time, category){
   if(totalRuns>=10) unlock('grinder');
 
   // Speedrunner: 1-1 Level entre 19-18 y Any% < 5 min
-  const lvl11Best = [...document.getElementById('lvl11').rows].slice(1).map(r=>parseFloat(r.cells[2].innerText)).sort((a,b)=>a-b)[0] || Infinity;
-  const anyBest = [...document.getElementById('any').rows].slice(1).map(r=>parseFloat(r.cells[2].innerText)).sort((a,b)=>a-b)[0] || Infinity;
+  const lvl11Best = [...document.getElementById('lvl11').rows].slice(1).map(r=>parseFloat(r.cells[2].dataset.seconds)).sort((a,b)=>a-b)[0] || Infinity;
+  const anyBest = [...document.getElementById('any').rows].slice(1).map(r=>parseFloat(r.cells[2].dataset.seconds)).sort((a,b)=>a-b)[0] || Infinity;
   if(lvl11Best >= 18 && lvl11Best <=19 && anyBest < 300) unlock('speedrunner');
 
   saveLogros();
@@ -584,7 +592,7 @@ function showDeletePanel(){
 /* -------------------- ORDENAR TABLAS -------------------- */
 function sortTable(table){
   const rows=[...table.rows].slice(1);
-  rows.sort((a,b)=>parseFloat(a.cells[2].innerText)-parseFloat(b.cells[2].innerText));
+  rows.sort((a,b)=>a.cells[2].dataset.seconds - b.cells[2].dataset.seconds);
   rows.forEach((r,i)=>{
     r.classList.remove("top1","top2","top3");
     if(i===0) r.classList.add("top1");
